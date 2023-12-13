@@ -147,7 +147,6 @@ func generate_dungeon():
 	
 	#vertex group distance matrix calculation
 	for vg_index in range(0,vertex_groups.size()):
-		var vg = vertex_groups[vg_index]
 		var cur_vg_center = vertex_group_centers[vg_index]
 		var cur_vg_dists = []
 		for vert_index in range(0,vertex_group_centers.size()):

@@ -32,7 +32,7 @@ func animate_in_verticies(rooms:Array[DungeonVert]):
 		var final_radius = rm.circle_radius
 		rm.circle_radius = 0
 		current_tween.tween_property(rm, "circle_radius", final_radius,1).set_delay(in_delay)
-		in_delay += 0.02
+		in_delay += 0.03
 
 
 func animate_in_edges(edges:Array[DungeonEdge]):
