@@ -95,3 +95,7 @@ func get_other_vertex(other: DungeonVert) -> DungeonVert:
 
 func _draw():
 	draw_line(draw_pos1,draw_pos2,fill_color,line_width)
+	var edge_dir = room1.pos.direction_to(room2.pos).normalized()
+	var border_line_offset = Vector2(edge_dir.y, edge_dir.x * -1) * (line_width * 0.5)
+	draw_line(draw_pos1 + border_line_offset, draw_pos2 + border_line_offset, border_color, border_width)
+	draw_line(draw_pos1 + border_line_offset * -1, draw_pos2 + border_line_offset * -1, border_color, border_width)
