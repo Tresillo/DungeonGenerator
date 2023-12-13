@@ -47,6 +47,9 @@ var dungeon_edges: Array[DungeonEdge] = []
 var room_distance_matrix = []
 
 var vertex_groups = []
+var disp_vertex_group_centers: Array[DungeonVert] = []
+var vertex_group_centers = []
+var vertex_group_distance_matrix = []
 
 func _init(area_coord1: Vector2, area_coord2: Vector2, number_of_rooms: int):
 	crd1 = area_coord1
@@ -78,6 +81,7 @@ func generate_dungeon():
 			dist_array.append(room.pos.distance_to(room_array[rm_index].pos))
 		room_distance_matrix.append(dist_array)
 	
+#region Step 4: Initial Edge Connection
 	#Step 4
 	for room_index in range(0, room_distance_matrix.size()):
 		var sorted_dist_array = room_distance_matrix[room_index].duplicate()
@@ -118,16 +122,41 @@ func generate_dungeon():
 	
 	if graph_animator != null:
 		graph_animator.animate_in_edges(dungeon_edges)
+#endregion
 	
-	#Step 5a
+	#Step 5
 	var bfs_rooms = room_array.duplicate()
 	while bfs_rooms.size() > 0:
 		bfs_rooms = BFS(bfs_rooms)
 	
 	if graph_animator != null:
-		print(str(vertex_groups))
 		graph_animator.animate_vertex_groups(vertex_groups)
 	
+	#Step 6
+	for vg in vertex_groups:
+		var vg_poses = vg.map(func(vert): return vert.pos)
+		var group_average_position = (vg_poses.reduce(func(accum, num): return num + accum, Vector2(0,0))) / vg.size()
+		vertex_group_centers.append(group_average_position)
+		
+		var new_display_vertex = DungeonVert.new(group_average_position)
+		add_child(new_display_vertex)
+		new_display_vertex.circle_radius = 16.0
+		new_display_vertex.fill_color = Color(Color.DEEP_PINK, 0.25)
+		new_display_vertex.border_color = Color(Color.NAVY_BLUE, 0.25)
+		disp_vertex_group_centers.append(new_display_vertex)
+	
+	#vertex group distance matrix calculation
+	for vg_index in range(0,vertex_groups.size()):
+		var vg = vertex_groups[vg_index]
+		var cur_vg_center = vertex_group_centers[vg_index]
+		var cur_vg_dists = []
+		for vert_index in range(0,vertex_group_centers.size()):
+			cur_vg_dists.append(cur_vg_center.distance_to(vertex_group_centers[vert_index]))
+		
+		vertex_group_distance_matrix.append(cur_vg_dists.duplicate())
+	
+	if graph_animator != null:
+		graph_animator.animate_in_verticies(disp_vertex_group_centers)
 
 #Breadth First Search algorithm for step 5 of dungeon generation
 func BFS(bfs_rooms: Array[DungeonVert]) -> Array[DungeonVert]:
