@@ -5,39 +5,54 @@ class_name DungeonEdge
 var room1: DungeonVert:
 	set(val):
 		room1 = val
+		draw_pos1 = room1.pos
 	get:
 		return room1
 var room2: DungeonVert:
 	set(val):
 		room2 = val
+		draw_pos2 = room2.pos
 	get:
 		return room2
 
 var draw_pos1: Vector2:
 	set(val):
 		draw_pos1 = val
-	get:
 		queue_redraw()
+	get:
 		return draw_pos1
 var draw_pos2: Vector2:
 	set(val):
 		draw_pos2 = val
-	get:
 		queue_redraw()
+	get:
 		return draw_pos2
 
-var draw_color: Color = Color.MIDNIGHT_BLUE:
+@export_category("Visibility Porperties")
+@export var line_width: float = 4.0:
 	set(val):
-		draw_color = val
-	get:
+		line_width = val
 		queue_redraw()
-		return draw_color
-var draw_width: int = 3:
+	get:
+		return line_width
+@export var border_width: float = 2.0:
 	set(val):
-		draw_width = val
-	get:
+		border_width = val
 		queue_redraw()
-		return draw_width
+	get:
+		return border_width
+@export_color_no_alpha var fill_color: Color = Color.DIM_GRAY:
+	set(val):
+		fill_color = val
+		queue_redraw()
+	get:
+		return fill_color
+@export_color_no_alpha var border_color: Color = Color.DARK_BLUE:
+	set(val):
+		border_color = val
+		queue_redraw()
+	get:
+		return border_color
 
 func _init(room_1: DungeonVert, room_2: DungeonVert):
 	room1 = room_1
@@ -79,6 +94,4 @@ func get_other_vertex(other: DungeonVert) -> DungeonVert:
 
 
 func _draw():
-	draw_line(draw_pos1,draw_pos2,draw_color,draw_width)
-
-
+	draw_line(draw_pos1,draw_pos2,fill_color,line_width)

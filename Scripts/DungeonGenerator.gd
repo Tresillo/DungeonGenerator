@@ -44,7 +44,7 @@ var graph_animator: GraphAnimator = null
 
 var room_array: Array[DungeonVert]
 var room_distance_matrix = []
-var dungeon_edges
+var dungeon_edges: Array[DungeonEdge] = []
 
 func _init(area_coord1: Vector2, area_coord2: Vector2, number_of_rooms: int):
 	crd1 = area_coord1
@@ -77,7 +77,6 @@ func generate_dungeon():
 		room_distance_matrix.append(dist_array)
 	
 	#Step 4
-	var init_added_edges: Array[DungeonEdge] = []
 	for room_index in range(0, room_distance_matrix.size()):
 		var sorted_dist_array = room_distance_matrix[room_index].duplicate()
 		#sort in ascending order
@@ -103,14 +102,20 @@ func generate_dungeon():
 		
 		if not closest_room_1 == null:
 			var new_edge = DungeonEdge.new(cur_room, closest_room_1)
+			add_child(new_edge)
 			cur_room.connected_edges.append(new_edge)
 			closest_room_1.connected_edges.append(new_edge)
-			init_added_edges.append(new_edge)
+			dungeon_edges.append(new_edge)
 		
 		if not closest_room_2 == null:
 			var new_edge = DungeonEdge.new(cur_room, closest_room_2)
+			add_child(new_edge)
 			cur_room.connected_edges.append(new_edge)
 			closest_room_2.connected_edges.append(new_edge)
-			init_added_edges.append(new_edge)
+			dungeon_edges.append(new_edge)
 	
-	graph_animator.animate_in_edges(init_added_edges)
+	graph_animator.animate_in_edges(dungeon_edges)
+
+#func _process(delta):
+	#if dungeon_edges.size() > 0:
+		#print(str(dungeon_edges[0]) + " || " + str(dungeon_edges[0].get_length()))

@@ -49,7 +49,9 @@ func _ready():
 func new_graph():
 	var temp_children = get_children()
 	if temp_children.size() > 0:
-		call_deferred("queue_free", temp_children)
+		print(temp_children)
+		for tmp_chld in temp_children:
+			tmp_chld.call_deferred("queue_free")
 	dungeon_gen = DungeonGenerator.new(area_coord1,area_coord2,num_of_vertexes)
 	add_child(dungeon_gen)
 	
