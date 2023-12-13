@@ -54,15 +54,13 @@ func animate_vertex_groups(groups: Array):
 		color_index_tracker += 1
 		if color_index_tracker >= color_display_array.size():
 			color_index_tracker = 0
-		
-		current_tween.chain().tween_interval(0.01)
 
 
 func animate_vertex_colors_arbitrary(vert: Array, col: Color):
 	check_tween()
 	
 	for v in vert:
-		current_tween.tween_property(v, "fill_color",col,1)
+		current_tween.tween_property(v, "fill_color",col,0.5)
 
 
 func check_tween():

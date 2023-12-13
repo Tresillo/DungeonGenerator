@@ -125,6 +125,7 @@ func generate_dungeon():
 		bfs_rooms = BFS(bfs_rooms)
 	
 	if graph_animator != null:
+		print(str(vertex_groups))
 		graph_animator.animate_vertex_groups(vertex_groups)
 	
 
@@ -146,14 +147,17 @@ func BFS(bfs_rooms: Array[DungeonVert]) -> Array[DungeonVert]:
 		visited_array.append(current_room)
 		#Find the connections to new room
 		var cur_room_connections = current_room.get_connected_verticies()
-		#add connected rooms that arent already traverssed, or in the traversal queue
+		#print(str(cur_room_connections))
+		#add connected rooms that arent already visited, or in the traversal queue
 		for con in cur_room_connections:
-			if visited_array.find(con) == -1 and traversal_queue.find(con) == -1 and rooms_to_find.find(con) > -1:
-				traversal_queue.append(con)
+			if rooms_to_find.find(con) > -1:
 				rooms_to_find.remove_at(rooms_to_find.find(con))
+				if visited_array.find(con) == -1 and traversal_queue.find(con) == -1:
+					traversal_queue.append(con)
+	
 	
 	#Add all traversed verticies to their own vertex group
-	vertex_groups.append(visited_array)
+	vertex_groups.append(visited_array.duplicate())
 	
 	return rooms_to_find
 	
