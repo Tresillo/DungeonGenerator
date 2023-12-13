@@ -46,6 +46,10 @@ func _init(vertex_position):
 	queue_redraw()
 
 
+func get_connected_verticies() -> Array[DungeonVert]:
+	return connected_edges.map(func(edge): return edge.get_other_vertex(self))
+
+
 func _draw():
 	draw_circle(pos, circle_radius, fill_color)
 	draw_arc(pos, circle_radius, 0, 2*PI, 20, border_color, border_width)

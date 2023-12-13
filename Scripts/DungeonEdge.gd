@@ -29,13 +29,13 @@ var draw_pos2: Vector2:
 		return draw_pos2
 
 @export_category("Visibility Porperties")
-@export var line_width: float = 4.0:
+@export var line_width: float = 5.0:
 	set(val):
 		line_width = val
 		queue_redraw()
 	get:
 		return line_width
-@export var border_width: float = 2.0:
+@export var border_width: float = 3.0:
 	set(val):
 		border_width = val
 		queue_redraw()
