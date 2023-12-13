@@ -116,17 +116,23 @@ func generate_dungeon():
 			closest_room_2.connected_edges.append(new_edge)
 			dungeon_edges.append(new_edge)
 	
-	graph_animator.animate_in_edges(dungeon_edges)
+	if graph_animator != null:
+		graph_animator.animate_in_edges(dungeon_edges)
 	
 	#Step 5a
-	BFS(room_array)
+	var bfs_rooms = room_array.duplicate()
+	while bfs_rooms.size() > 0:
+		bfs_rooms = BFS(bfs_rooms)
+	
+	if graph_animator != null:
+		graph_animator.animate_vertex_groups(vertex_groups)
 	
 
 #Breadth First Search algorithm for step 5 of dungeon generation
-func BFS(bsp_rooms: Array[DungeonVert]) -> Array[DungeonVert]:
+func BFS(bfs_rooms: Array[DungeonVert]) -> Array[DungeonVert]:
 	var traversal_queue:Array[DungeonVert] = []
 	var visited_array:Array[DungeonVert] = []
-	var rooms_to_find: Array[DungeonVert] = bsp_rooms.duplicate()
+	var rooms_to_find: Array[DungeonVert] = bfs_rooms.duplicate()
 	
 	#start at arbitrary room
 	var current_room = rooms_to_find.pop_back()
@@ -142,10 +148,11 @@ func BFS(bsp_rooms: Array[DungeonVert]) -> Array[DungeonVert]:
 		var cur_room_connections = current_room.get_connected_verticies()
 		#add connected rooms that arent already traverssed, or in the traversal queue
 		for con in cur_room_connections:
-			if visited_array.find(con) == -1 and traversal_queue.find(con) == -1:
+			if visited_array.find(con) == -1 and traversal_queue.find(con) == -1 and rooms_to_find.find(con) > -1:
 				traversal_queue.append(con)
 				rooms_to_find.remove_at(rooms_to_find.find(con))
 	
+	#Add all traversed verticies to their own vertex group
 	vertex_groups.append(visited_array)
 	
 	return rooms_to_find

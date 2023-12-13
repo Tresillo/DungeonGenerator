@@ -46,8 +46,8 @@ func _init(vertex_position):
 	queue_redraw()
 
 
-func get_connected_verticies() -> Array[DungeonVert]:
-	return connected_edges.map(func(edge): return edge.get_other_vertex(self))
+func get_connected_verticies() -> Array:
+	return connected_edges.map(func(edge) -> DungeonVert: return edge.get_other_vertex(self))
 
 
 func _draw():
