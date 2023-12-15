@@ -129,41 +129,43 @@ func generate_dungeon():
 	if graph_animator != null:
 		graph_animator.animate_vertex_groups(vertex_groups)
 	
-	#Step 6
-	for vg in vertex_groups:
-		var vg_poses = vg.map(func(vert): return vert.pos)
-		var group_average_position = (vg_poses.reduce(func(accum, num): return num + accum, Vector2(0,0))) / vg.size()
-		vertex_group_centers.append(group_average_position)
-		
-		var new_display_vertex = DungeonVert.new(group_average_position)
-		#custom colors for vertex group centers
-		new_display_vertex.circle_radius = 16.0
-		new_display_vertex.fill_color = Color(Color.DEEP_PINK, 0.25)
-		new_display_vertex.border_color = Color(Color.NAVY_BLUE, 0.25)
-		disp_vertex_group_centers.append(new_display_vertex)
-	
-	# if not all verticies are connected, connect them
-	print(vertex_groups.size())
-	
-	# Step 6a
-	#vertex group distance matrix calculation
-	for vg_index in range(0,vertex_groups.size()):
-		var cur_vg_center = vertex_group_centers[vg_index]
-		var cur_vg_dists = []
-		for vert_index in range(0,vertex_group_centers.size()):
-			cur_vg_dists.append(cur_vg_center.distance_to(vertex_group_centers[vert_index]))
-		
-		vertex_group_distance_matrix.append(cur_vg_dists.duplicate())
-	
-	if graph_animator != null:
-		graph_animator.animate_in_verticies(disp_vertex_group_centers)
-	
 	#use closest to arbitrary group
 	#midpoint by averaging both point's components together
 	
 	print("attempt Loop")
 	while vertex_groups.size() > 1:
+		
+		#Step 6e (its confusing I know)
+		disp_vertex_group_centers = []
+		vertex_group_centers = []
+		vertex_group_distance_matrix = []
+		for vg in vertex_groups:
+			var vg_poses = vg.map(func(vert): return vert.pos)
+			var group_average_position = (vg_poses.reduce(func(accum, num): return num + accum, Vector2(0,0))) / vg.size()
+			vertex_group_centers.append(group_average_position)
+			
+			var new_display_vertex = DungeonVert.new(group_average_position)
+			#custom colors for vertex group centers
+			new_display_vertex.circle_radius = 16.0
+			new_display_vertex.fill_color = Color(Color.DEEP_PINK, 0.25)
+			new_display_vertex.border_color = Color(Color.NAVY_BLUE, 0.25)
+			disp_vertex_group_centers.append(new_display_vertex)
+		
+		# if not all verticies are connected, connect them
 		print(vertex_groups.size())
+		if graph_animator != null:
+			graph_animator.animate_in_verticies(disp_vertex_group_centers)
+		
+		# Step 6a
+		#vertex group distance matrix calculation
+		for vg_index in range(0,vertex_groups.size()):
+			var cur_vg_center = vertex_group_centers[vg_index]
+			var cur_vg_dists = []
+			for vert_index in range(0,vertex_group_centers.size()):
+				cur_vg_dists.append(cur_vg_center.distance_to(vertex_group_centers[vert_index]))
+			
+			vertex_group_distance_matrix.append(cur_vg_dists.duplicate())
+		
 		#index closest to group 0
 		var sorted_group_dist_array = vertex_group_distance_matrix[0].duplicate()
 		#sort in ascending order
@@ -229,10 +231,9 @@ func generate_dungeon():
 		
 		if graph_animator != null:
 			graph_animator.animate_vertex_groups(vertex_groups)
+			graph_animator.animate_out_dungeon_objects(disp_vertex_group_centers)
 	
 	print(vertex_groups.size())
-	if graph_animator != null:
-		graph_animator.animate_out_dungeon_objects(disp_vertex_group_centers)
 
 #Breadth First Search algorithm for step 5 of dungeon generation
 func BFS(bfs_rooms: Array[DungeonVert]) -> Array[DungeonVert]:

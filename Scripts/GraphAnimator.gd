@@ -84,6 +84,7 @@ func check_tween():
 		current_tween = get_tree().create_tween().bind_node(self)\
 				.set_trans(Tween.TRANS_SINE)\
 				.set_parallel(true)
+		current_tween.connect("finished", func(): print("ANIMATION FINISHED"))
 	
 	if not current_tween == null:
 		current_tween.chain().tween_interval(0.1)
