@@ -240,8 +240,11 @@ func generate_dungeon():
 	if graph_animator != null:
 		graph_animator.animate_object_colors_arbitrary(mst, Color.DARK_ORANGE)
 	
+	# Step 8
+	
 
 #Breadth First Search algorithm for step 5 of dungeon generation
+#Determining all reachable verticies from a given vertex
 func BFS(bfs_rooms: Array[DungeonVert]) -> Array[DungeonVert]:
 	var traversal_queue:Array[DungeonVert] = []
 	var visited_array:Array[DungeonVert] = []
@@ -271,6 +274,43 @@ func BFS(bfs_rooms: Array[DungeonVert]) -> Array[DungeonVert]:
 	vertex_groups.append(visited_array.duplicate())
 	
 	return rooms_to_find
+
+
+#Breadth First Search algorithm for step 8 of dungeon generation
+#Find the vertex with the longest distance from a given vertex
+func BFS_max_length(bfs_rooms: Array[DungeonVert], start_room_index: int) -> int:
+	var traversal_queue:Array[DungeonVert] = []
+	var visited_array:Array[DungeonVert] = []
+	var rooms_to_find: Array[DungeonVert] = bfs_rooms.duplicate()
+	
+	var furthest_room: DungeonVert
+	var furthest_room_index: int
+	
+	#start at arbitrary room
+	var current_room = rooms_to_find[start_room_index]
+	rooms_to_find.remove_at(start_room_index)
+	visited_array.append(current_room)
+	traversal_queue.append_array(current_room.get_connected_verticies())
+	
+	#Traverse through queue
+	while traversal_queue.size() > 0:
+		#Go to next room in traversal queue
+		current_room = traversal_queue.pop_front()
+		visited_array.append(current_room)
+		#Find the connections to new room
+		var cur_room_connections = current_room.get_connected_verticies()
+		#add connected rooms that arent already visited, or in the traversal queue
+		for con in cur_room_connections:
+			if rooms_to_find.find(con) > -1:
+				rooms_to_find.remove_at(rooms_to_find.find(con))
+				if visited_array.find(con) == -1 and traversal_queue.find(con) == -1:
+					traversal_queue.append(con)
+	
+	
+	#Add all traversed verticies to their own vertex group
+	vertex_groups.append(visited_array.duplicate())
+	
+	return furthest_room_index
 
 
 #Prims algorithm for steps 7 and 8
