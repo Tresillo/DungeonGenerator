@@ -2,8 +2,7 @@ extends Node2D
 
 class_name DungeonGenerator
 
-###########################################
-#	DUNGEON GENERATOR ALGORITHM - DRAFT 1
+##	DUNGEON GENERATOR ALGORITHM - DRAFT 1
 #
 #	1.  Randomly Generate each room.
 #	2.  Store each center point of each room as a dungeon vertex.
@@ -132,7 +131,6 @@ func generate_dungeon():
 	#use closest to arbitrary group
 	#midpoint by averaging both point's components together
 	
-	print("attempt Loop")
 	while vertex_groups.size() > 1:
 		
 		#Step 6e (its confusing I know)
@@ -152,7 +150,6 @@ func generate_dungeon():
 			disp_vertex_group_centers.append(new_display_vertex)
 		
 		# if not all verticies are connected, connect them
-		print(vertex_groups.size())
 		if graph_animator != null:
 			graph_animator.animate_in_verticies(disp_vertex_group_centers)
 		
@@ -183,7 +180,6 @@ func generate_dungeon():
 				(close_vg1_center.x + close_vg2_center.x)*0.5,
 				(close_vg1_center.y + close_vg2_center.y)*0.5)
 		
-		print(close_vg_midpoint)
 		var close_vg_midpoint_room = DungeonVert.new(close_vg_midpoint)
 		
 		if graph_animator != null:
@@ -214,7 +210,6 @@ func generate_dungeon():
 		
 		# Step 6e
 		var group_connecting_edge = DungeonEdge.new(closest_to_new_vert_1, closest_to_new_vert_2)
-		print(group_connecting_edge)
 		closest_to_new_vert_1.connected_edges.append(group_connecting_edge)
 		closest_to_new_vert_2.connected_edges.append(group_connecting_edge)
 		if graph_animator != null:
@@ -233,7 +228,6 @@ func generate_dungeon():
 			graph_animator.animate_vertex_groups(vertex_groups)
 			graph_animator.animate_out_dungeon_objects(disp_vertex_group_centers)
 	
-	print(vertex_groups.size())
 
 #Breadth First Search algorithm for step 5 of dungeon generation
 func BFS(bfs_rooms: Array[DungeonVert]) -> Array[DungeonVert]:
@@ -253,7 +247,6 @@ func BFS(bfs_rooms: Array[DungeonVert]) -> Array[DungeonVert]:
 		visited_array.append(current_room)
 		#Find the connections to new room
 		var cur_room_connections = current_room.get_connected_verticies()
-		#print(str(cur_room_connections))
 		#add connected rooms that arent already visited, or in the traversal queue
 		for con in cur_room_connections:
 			if rooms_to_find.find(con) > -1:
@@ -266,4 +259,4 @@ func BFS(bfs_rooms: Array[DungeonVert]) -> Array[DungeonVert]:
 	vertex_groups.append(visited_array.duplicate())
 	
 	return rooms_to_find
-	
+
