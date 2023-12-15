@@ -131,6 +131,7 @@ func generate_dungeon():
 	#use closest to arbitrary group
 	#midpoint by averaging both point's components together
 	
+#region Step 6: Linking Disconected vertex groups
 	while vertex_groups.size() > 1:
 		
 		#Step 6e (its confusing I know)
@@ -181,6 +182,7 @@ func generate_dungeon():
 				(close_vg1_center.y + close_vg2_center.y)*0.5)
 		
 		var close_vg_midpoint_room = DungeonVert.new(close_vg_midpoint)
+		close_vg_midpoint_room.fill_color = Color.FUCHSIA
 		
 		if graph_animator != null:
 			graph_animator.animate_in_verticies([close_vg_midpoint_room])
@@ -204,7 +206,9 @@ func generate_dungeon():
 		
 		# Step 6d
 		var close_midpoint_edge1 = DungeonEdge.new(close_vg_midpoint_room, closest_to_new_vert_1)
+		close_midpoint_edge1.fill_color = Color.FUCHSIA
 		var close_midpoint_edge2 = DungeonEdge.new(close_vg_midpoint_room, closest_to_new_vert_2)
+		close_midpoint_edge2.fill_color = Color.FUCHSIA
 		if graph_animator != null:
 			graph_animator.animate_in_edges([close_midpoint_edge1,close_midpoint_edge2])
 		
@@ -227,6 +231,14 @@ func generate_dungeon():
 		if graph_animator != null:
 			graph_animator.animate_vertex_groups(vertex_groups)
 			graph_animator.animate_out_dungeon_objects(disp_vertex_group_centers)
+	
+#endregion
+	
+	#Step 7
+	var mst = prims(room_array)
+	
+	if graph_animator != null:
+		graph_animator.animate_object_colors_arbitrary(mst, Color.DARK_ORANGE)
 	
 
 #Breadth First Search algorithm for step 5 of dungeon generation
@@ -259,4 +271,54 @@ func BFS(bfs_rooms: Array[DungeonVert]) -> Array[DungeonVert]:
 	vertex_groups.append(visited_array.duplicate())
 	
 	return rooms_to_find
+
+
+#Prims algorithm for steps 7 and 8
+func prims(rooms: Array[DungeonVert]) -> Array[DungeonEdge]:
+	var available_edges: Array[DungeonEdge] = []
+	var tree_edges: Array[DungeonEdge] = []
+	var remaining_rooms: Array[DungeonVert] = rooms.duplicate()
+	
+	while remaining_rooms.size() > 0:
+		var chosen_dest: DungeonVert
+		#starting condition
+		if available_edges.size() <= 0:
+			chosen_dest = remaining_rooms.pop_back()
+		else:
+			var found_new = false
+			var chosen_dest_edge
+			var destination_index
+			#make sure edge is not corming loop with previously discovered verticies
+			while not found_new:
+				#remove edge from available edges
+				chosen_dest_edge = available_edges.pop_back()
+				
+				#If neither side is in remaining rooms
+				#there is a loop
+				if remaining_rooms.find(chosen_dest_edge.room1) == -1 and\
+					remaining_rooms.find(chosen_dest_edge.room2) == -1:
+					found_new = false
+				else:
+					#break out of loop
+					found_new = true
+					#find while is the other side of the edge
+					if remaining_rooms.find(chosen_dest_edge.room1) == -1:
+						destination_index = remaining_rooms.find(chosen_dest_edge.room2)
+					elif remaining_rooms.find(chosen_dest_edge.room2) == -1:
+						destination_index = remaining_rooms.find(chosen_dest_edge.room1)
+					
+					#add the new edge to the tree
+					tree_edges.append(chosen_dest_edge)
+					
+					chosen_dest = remaining_rooms[destination_index]
+					remaining_rooms.remove_at(destination_index)
+		
+		#add available edges from newly found vertex
+		available_edges.append_array(chosen_dest.connected_edges)
+		
+		#sort edges by length in descending order
+		available_edges.sort_custom(func(a, b): return a.get_length() > b.get_length())
+		
+	
+	return tree_edges
 
