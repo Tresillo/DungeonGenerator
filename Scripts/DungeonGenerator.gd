@@ -32,7 +32,7 @@ class_name DungeonGenerator
 #	9.  Apply AStar algorithm between each graph edge to map the corridor between each room.
 #
 #	THIS ALGORITHM RUNS IN O(n*log(n)) I think
-#	(nvm it runs in O(n^2) because of the distance matrix)
+#	(nvm it runs in O(n^2) because of the distance matrix (like High O(n^2))
 
 #dungeon properties
 var crd1: Vector2
@@ -68,7 +68,6 @@ func generate_dungeon():
 		var rm_coord = Vector2(rng.randf_range(crd1.x, crd2.x),rng.randf_range(crd1.y, crd2.y))
 		#Step 2
 		var new_room = DungeonVert.new(rm_coord)
-		add_child(new_room)
 		room_array.append(new_room)
 	
 	if graph_animator != null:
@@ -108,14 +107,12 @@ func generate_dungeon():
 		
 		if not closest_room_1 == null:
 			var new_edge = DungeonEdge.new(cur_room, closest_room_1)
-			add_child(new_edge)
 			cur_room.connected_edges.append(new_edge)
 			closest_room_1.connected_edges.append(new_edge)
 			dungeon_edges.append(new_edge)
 		
 		if not closest_room_2 == null:
 			var new_edge = DungeonEdge.new(cur_room, closest_room_2)
-			add_child(new_edge)
 			cur_room.connected_edges.append(new_edge)
 			closest_room_2.connected_edges.append(new_edge)
 			dungeon_edges.append(new_edge)
@@ -139,12 +136,16 @@ func generate_dungeon():
 		vertex_group_centers.append(group_average_position)
 		
 		var new_display_vertex = DungeonVert.new(group_average_position)
-		add_child(new_display_vertex)
+		#custom colors for vertex group centers
 		new_display_vertex.circle_radius = 16.0
 		new_display_vertex.fill_color = Color(Color.DEEP_PINK, 0.25)
 		new_display_vertex.border_color = Color(Color.NAVY_BLUE, 0.25)
 		disp_vertex_group_centers.append(new_display_vertex)
 	
+	# if not all verticies are connected, connect them
+	print(vertex_groups.size())
+	
+	# Step 6a
 	#vertex group distance matrix calculation
 	for vg_index in range(0,vertex_groups.size()):
 		var cur_vg_center = vertex_group_centers[vg_index]
@@ -156,6 +157,82 @@ func generate_dungeon():
 	
 	if graph_animator != null:
 		graph_animator.animate_in_verticies(disp_vertex_group_centers)
+	
+	#use closest to arbitrary group
+	#midpoint by averaging both point's components together
+	
+	print("attempt Loop")
+	while vertex_groups.size() > 1:
+		print(vertex_groups.size())
+		#index closest to group 0
+		var sorted_group_dist_array = vertex_group_distance_matrix[0].duplicate()
+		#sort in ascending order
+		sorted_group_dist_array.sort_custom(func(a, b): return a < b)
+		var closest_group_index = vertex_group_distance_matrix[0].find(sorted_group_dist_array[1])
+		
+		# Step 6a2
+		var close_vg1_center = vertex_group_centers[0]
+		var close_vg1 = vertex_groups[0]
+		var close_vg2_center = vertex_group_centers[closest_group_index]
+		var close_vg2 = vertex_groups[closest_group_index]
+		
+		# Step 6b
+		var close_vg_midpoint = Vector2(
+				(close_vg1_center.x + close_vg2_center.x)*0.5,
+				(close_vg1_center.y + close_vg2_center.y)*0.5)
+		
+		print(close_vg_midpoint)
+		var close_vg_midpoint_room = DungeonVert.new(close_vg_midpoint)
+		
+		if graph_animator != null:
+			graph_animator.animate_in_verticies([close_vg_midpoint_room])
+		
+		# Step 6c
+		var closest_to_new_vert_1
+		var closest_to_new_vert_1_dist = -1
+		for vert in close_vg1:
+			var temp_dist = close_vg_midpoint.distance_to(vert.pos)
+			if closest_to_new_vert_1_dist < 0 or temp_dist < closest_to_new_vert_1_dist:
+				closest_to_new_vert_1_dist = temp_dist
+				closest_to_new_vert_1 = vert
+		
+		var closest_to_new_vert_2
+		var closest_to_new_vert_2_dist = -1
+		for vert in close_vg2:
+			var temp_dist = close_vg_midpoint.distance_to(vert.pos)
+			if closest_to_new_vert_2_dist < 0 or temp_dist < closest_to_new_vert_2_dist:
+				closest_to_new_vert_2_dist = temp_dist
+				closest_to_new_vert_2 = vert
+		
+		# Step 6d
+		var close_midpoint_edge1 = DungeonEdge.new(close_vg_midpoint_room, closest_to_new_vert_1)
+		var close_midpoint_edge2 = DungeonEdge.new(close_vg_midpoint_room, closest_to_new_vert_2)
+		if graph_animator != null:
+			graph_animator.animate_in_edges([close_midpoint_edge1,close_midpoint_edge2])
+		
+		# Step 6e
+		var group_connecting_edge = DungeonEdge.new(closest_to_new_vert_1, closest_to_new_vert_2)
+		print(group_connecting_edge)
+		closest_to_new_vert_1.connected_edges.append(group_connecting_edge)
+		closest_to_new_vert_2.connected_edges.append(group_connecting_edge)
+		if graph_animator != null:
+			graph_animator.animate_in_edges([group_connecting_edge])
+			graph_animator.animate_out_dungeon_objects([
+					close_midpoint_edge1,
+					close_midpoint_edge2,
+					close_vg_midpoint_room
+			])
+		
+		#connect vertex groups
+		vertex_groups[0].append_array(close_vg2)
+		vertex_groups.remove_at(closest_group_index)
+		
+		if graph_animator != null:
+			graph_animator.animate_vertex_groups(vertex_groups)
+	
+	print(vertex_groups.size())
+	if graph_animator != null:
+		graph_animator.animate_out_dungeon_objects(disp_vertex_group_centers)
 
 #Breadth First Search algorithm for step 5 of dungeon generation
 func BFS(bfs_rooms: Array[DungeonVert]) -> Array[DungeonVert]:

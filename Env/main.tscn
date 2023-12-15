@@ -11,7 +11,6 @@ gradient = SubResource("Gradient_gyoh7")
 [node name="Main" type="Node2D"]
 
 [node name="DungeonArea" type="Node2D" parent="."]
-position = Vector2(1, 2)
 script = ExtResource("1_jvlp3")
 area_coord1 = Vector2(200, 50)
 area_coord2 = Vector2(1000, 550)
