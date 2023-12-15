@@ -241,6 +241,14 @@ func generate_dungeon():
 		graph_animator.animate_object_colors_arbitrary(mst, Color.DARK_ORANGE)
 	
 	# Step 8
+	var longest_from_arbitrary_vertex: int = BFS_max_length(room_array,0)
+	var longest_index: int = BFS_max_length(room_array, longest_from_arbitrary_vertex)
+	
+	var start_room = room_array[longest_from_arbitrary_vertex]
+	var end_room = room_array[longest_index]
+	
+	if graph_animator != null:
+		graph_animator.emphasize_verticies([start_room, end_room], [Color.GREEN, Color.RED])
 	
 
 #Breadth First Search algorithm for step 5 of dungeon generation
@@ -283,32 +291,41 @@ func BFS_max_length(bfs_rooms: Array[DungeonVert], start_room_index: int) -> int
 	var visited_array:Array[DungeonVert] = []
 	var rooms_to_find: Array[DungeonVert] = bfs_rooms.duplicate()
 	
-	var furthest_room: DungeonVert
 	var furthest_room_index: int
+	
+	var length_queue: Array[float] = []
 	
 	#start at arbitrary room
 	var current_room = rooms_to_find[start_room_index]
+	var current_room_length = 0
 	rooms_to_find.remove_at(start_room_index)
 	visited_array.append(current_room)
 	traversal_queue.append_array(current_room.get_connected_verticies())
-	
+	length_queue.append_array(current_room.connected_edges.map(func(e): return e.get_length()))
+	print(length_queue)
 	#Traverse through queue
-	while traversal_queue.size() > 0:
+	while rooms_to_find.size() > 0:
 		#Go to next room in traversal queue
 		current_room = traversal_queue.pop_front()
+		current_room_length = length_queue.pop_front()
 		visited_array.append(current_room)
 		#Find the connections to new room
 		var cur_room_connections = current_room.get_connected_verticies()
+		var cur_room_edges = current_room.connected_edges
+		var individual_edge_array_tracker: int = -1
 		#add connected rooms that arent already visited, or in the traversal queue
 		for con in cur_room_connections:
+			individual_edge_array_tracker += 1
 			if rooms_to_find.find(con) > -1:
 				rooms_to_find.remove_at(rooms_to_find.find(con))
 				if visited_array.find(con) == -1 and traversal_queue.find(con) == -1:
 					traversal_queue.append(con)
+					length_queue.append(cur_room_edges[individual_edge_array_tracker]\
+							.get_length() + current_room_length)
 	
-	
-	#Add all traversed verticies to their own vertex group
-	vertex_groups.append(visited_array.duplicate())
+	#return index of maximum 
+	var furthest_length_index = length_queue.find(length_queue.max())
+	furthest_room_index = bfs_rooms.find(traversal_queue[furthest_length_index])
 	
 	return furthest_room_index
 
