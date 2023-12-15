@@ -54,18 +54,18 @@ func animate_in_edges(edges:Array[DungeonEdge]):
 func animate_vertex_groups(groups: Array):
 	var color_index_tracker: int = 0
 	for g in groups:
-		animate_vertex_colors_arbitrary(g, color_display_array[color_index_tracker])
+		animate_object_colors_arbitrary(g, color_display_array[color_index_tracker])
 		
 		color_index_tracker += 1
 		if color_index_tracker >= color_display_array.size():
 			color_index_tracker = 0
 
 
-func animate_vertex_colors_arbitrary(vert: Array, col: Color):
+func animate_object_colors_arbitrary(dungeon_objects: Array, col: Color):
 	check_tween()
 	
-	for v in vert:
-		current_tween.tween_property(v, "fill_color",col,0.5 * animation_speed_mult)
+	for obj in dungeon_objects:
+		current_tween.tween_property(obj, "fill_color",col,0.5 * animation_speed_mult)
 
 
 func animate_out_dungeon_objects(dungeon_objects: Array):
@@ -92,4 +92,4 @@ func check_tween():
 	#This chained interval is to allow steps to happen one after another automatically
 	#While still allowing each operation of the step to animate in parallel
 	if not current_tween == null:
-		current_tween.chain().tween_interval(0.1)
+		current_tween.chain().tween_interval(0.01)
