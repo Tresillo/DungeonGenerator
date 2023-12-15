@@ -57,12 +57,12 @@ func new_graph():
 	dungeon_gen.generate_dungeon()
 
 
-func _draw():
-	var rect_points = \
-			[area_coord1,
-			Vector2(area_coord1.x, area_coord2.y),
-			area_coord2,
-			Vector2(area_coord2.x, area_coord1.y),
-			area_coord1]
-	
-	draw_polyline(rect_points, border_color, border_width)
+#func _draw():
+	#var rect_points = \
+			#[area_coord1,
+			#Vector2(area_coord1.x, area_coord2.y),
+			#area_coord2,
+			#Vector2(area_coord2.x, area_coord1.y),
+			#area_coord1]
+	#
+	#draw_polyline(rect_points, border_color, border_width)
