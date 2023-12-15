@@ -54,6 +54,12 @@ var draw_pos2: Vector2:
 	get:
 		return border_color
 
+#Visibility Porperties
+const default_line_width: float = 5.0
+const default_border_width: float = 3.0
+const default_fill_color: Color = Color.DIM_GRAY
+const default_border_color: Color = Color.DARK_BLUE
+
 func _init(room_1: DungeonVert, room_2: DungeonVert):
 	room1 = room_1
 	room2 = room_2

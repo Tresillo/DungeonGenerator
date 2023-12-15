@@ -40,6 +40,11 @@ class_name DungeonVert
 	get:
 		return border_color
 
+#Default Visibility Properties
+const default_circle_radius: float = 8.0
+const default_border_width: float = 2.0
+const default_fill_color: Color = Color.GRAY
+const default_border_color: Color = Color.DARK_BLUE
 
 func _init(vertex_position):
 	pos = vertex_position

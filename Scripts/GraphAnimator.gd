@@ -32,7 +32,7 @@ func animate_in_verticies(rooms:Array[DungeonVert]):
 		rm.z_index = 1
 		animating_rooms.append(rm)
 		add_child(rm)
-		var final_radius = rm.circle_radius
+		var final_radius = rm.default_circle_radius
 		rm.circle_radius = 0
 		current_tween.tween_property(rm, "circle_radius", final_radius,1 * animation_speed_mult)\
 				.set_delay(in_delay / animation_speed_mult)
@@ -80,6 +80,23 @@ func animate_out_dungeon_objects(dungeon_objects: Array):
 	#Remove objects that have been animated out after animation
 	for obj in dungeon_objects:
 		current_tween.chain().tween_callback(func(): obj.call_deferred("queue_free"))
+
+
+func emphasize_verticies(verts: Array[DungeonVert], cols: Array[Color]):
+	check_tween()
+	
+	var color_tracker: int = 0
+	for rm in verts:
+		var target_radius = rm.default_circle_radius * 1.5
+		print(target_radius)
+		current_tween.tween_property(rm, "circle_radius", target_radius,0.5 * animation_speed_mult)
+		current_tween.tween_property(rm, "fill_color",cols[color_tracker],0.5 * animation_speed_mult)
+		
+		color_tracker += 1
+		#small logic check if color and vertex arrays arent the same size
+		if color_tracker >= cols.size():
+			color_tracker = 0
+		
 
 
 func check_tween():
