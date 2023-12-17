@@ -279,6 +279,9 @@ func generate_dungeon():
 	
 	if graph_animator != null:
 		graph_animator.emphasize_verticies(treasure_rooms, [Color.YELLOW])
+		
+		#stop displaying dungeon MST
+		graph_animator.animate_object_colors_arbitrary(mst, mst[0].default_fill_color)
 
 
 #Breadth First Search algorithm for step 5 of dungeon generation
@@ -332,7 +335,6 @@ func BFS_max_length(bfs_rooms: Array[DungeonVert], start_room_index: int) -> int
 	visited_array.append(current_room)
 	traversal_queue.append_array(current_room.get_connected_verticies())
 	length_queue.append_array(current_room.connected_edges.map(func(e): return e.get_length()))
-	print(length_queue)
 	#Traverse through queue
 	while rooms_to_find.size() > 0:
 		#Go to next room in traversal queue
