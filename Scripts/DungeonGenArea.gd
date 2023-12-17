@@ -1,7 +1,7 @@
 @tool
 extends Node2D
 
-class_name DungeonArea
+class_name DungeonGenArea
 
 @export var area_coord1: Vector2 = Vector2(100,0):
 	set(val):

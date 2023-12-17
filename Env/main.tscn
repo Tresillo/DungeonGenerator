@@ -1,6 +1,6 @@
 [gd_scene load_steps=4 format=3 uid="uid://diead0h2ufjhm"]
 
-[ext_resource type="Script" path="res://Scripts/DungeonArea.gd" id="1_jvlp3"]
+[ext_resource type="Script" path="res://Scripts/DungeonGenArea.gd" id="1_jvlp3"]
 
 [sub_resource type="Gradient" id="Gradient_gyoh7"]
 colors = PackedColorArray(0.415931, 0.657033, 0.642758, 1, 0.5293, 0.603165, 0.79, 1)
@@ -10,7 +10,7 @@ gradient = SubResource("Gradient_gyoh7")
 
 [node name="Main" type="Node2D"]
 
-[node name="DungeonArea" type="Node2D" parent="."]
+[node name="DungeonGenArea" type="Node2D" parent="."]
 script = ExtResource("1_jvlp3")
 area_coord1 = Vector2(200, 50)
 area_coord2 = Vector2(1000, 550)
