@@ -28,6 +28,7 @@ class_name DungeonGenerator
 #	7.  Apply Primm's Algorithm to find the minimum spanning tree of the graph.
 #	8.  Find the longest path within the MST and place the spawn room at one end
 #			and the goal room at the other.
+#	8b. For every leaf node in the MST that isnt the start or end room, spawn a treasure room
 #	9.  Apply AStar algorithm between each graph edge to map the corridor between each room.
 #
 #	THIS ALGORITHM RUNS IN O(n*log(n)) I think
@@ -43,6 +44,12 @@ var graph_animator: GraphAnimator = null
 
 var room_array: Array[DungeonVert]
 var dungeon_edges: Array[DungeonEdge] = []
+
+#notable_rooms
+var start_room: DungeonVert
+var end_room: DungeonVert
+var treasure_rooms: Array[DungeonVert]
+
 var room_distance_matrix = []
 
 var vertex_groups = []
@@ -244,12 +251,35 @@ func generate_dungeon():
 	var longest_from_arbitrary_vertex: int = BFS_max_length(room_array,0)
 	var longest_index: int = BFS_max_length(room_array, longest_from_arbitrary_vertex)
 	
-	var start_room = room_array[longest_from_arbitrary_vertex]
-	var end_room = room_array[longest_index]
+	start_room = room_array[longest_from_arbitrary_vertex]
+	end_room = room_array[longest_index]
 	
 	if graph_animator != null:
 		graph_animator.emphasize_verticies([start_room, end_room], [Color.GREEN, Color.RED])
 	
+	# Step 8b
+	#instantiate counting dict for mst
+	var room_leaf_count_dict = {}
+	for rm in room_array:
+		room_leaf_count_dict[rm] = 0
+	
+	#for each edge in the mst, count how many times each edge connects to a certain node
+	# Any nodes with a count of exactly 1 is a leaf node
+	for edge in mst:
+		if room_leaf_count_dict.has(edge.room1):
+			room_leaf_count_dict[edge.room1] = room_leaf_count_dict[edge.room1] + 1
+		if room_leaf_count_dict.has(edge.room2):
+			room_leaf_count_dict[edge.room2] = room_leaf_count_dict[edge.room2] + 1
+	
+	treasure_rooms = []
+	for key in room_leaf_count_dict:
+		if room_leaf_count_dict[key] == 1 and not\
+				(start_room.is_equal_to(key) or end_room.is_equal_to(key)):
+			treasure_rooms.append(key)
+	
+	if graph_animator != null:
+		graph_animator.emphasize_verticies(treasure_rooms, [Color.YELLOW])
+
 
 #Breadth First Search algorithm for step 5 of dungeon generation
 #Determining all reachable verticies from a given vertex
