@@ -48,6 +48,7 @@ const default_border_color: Color = Color.DARK_BLUE
 
 func _init(vertex_position):
 	pos = vertex_position
+	position = pos
 	queue_redraw()
 
 
@@ -65,8 +66,8 @@ func get_connected_verticies() -> Array:
 
 
 func _draw():
-	draw_circle(pos, circle_radius, fill_color)
-	draw_arc(pos, circle_radius, 0, 2*PI, 20, border_color, border_width)
+	draw_circle(Vector2(0,0), circle_radius, fill_color)
+	draw_arc(Vector2(0,0), circle_radius, 0, 2*PI, 20, border_color, border_width)
 
 
 func _to_string():
