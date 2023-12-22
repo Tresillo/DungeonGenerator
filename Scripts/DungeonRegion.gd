@@ -1,6 +1,6 @@
 extends Node2D
 
-class_name DungeonRegiom
+class_name DungeonRegion
 
 @export var coord1: Vector2 = Vector2(100,0):
 	set(val):
