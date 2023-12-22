@@ -13,6 +13,11 @@ class_name DungeonVert
 		connected_edges = val
 	get:
 		return connected_edges
+@export var region: DungeonRegion:
+	set(val):
+		region = val
+	get:
+		return region
 
 @export_category("Visibility Porperties")
 @export var circle_radius: float = 8.0:
@@ -46,9 +51,17 @@ const default_border_width: float = 2.0
 const default_fill_color: Color = Color.GRAY
 const default_border_color: Color = Color.DARK_BLUE
 
-func _init(vertex_position):
+
+func _init(vertex_position: Vector2, dimensions = null):
 	pos = vertex_position
 	position = pos
+	
+	if dimensions == null:
+		region = null
+	else:
+		region = DungeonRegion.new(dimensions)
+		add_child(region)
+	
 	queue_redraw()
 
 

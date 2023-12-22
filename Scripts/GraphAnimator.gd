@@ -88,7 +88,6 @@ func emphasize_verticies(verts: Array[DungeonVert], cols: Array[Color]):
 	var color_tracker: int = 0
 	for rm in verts:
 		var target_radius = rm.default_circle_radius * 1.5
-		print(target_radius)
 		current_tween.tween_property(rm, "circle_radius", target_radius,0.5 * animation_speed_mult)
 		current_tween.tween_property(rm, "fill_color",cols[color_tracker],0.5 * animation_speed_mult)
 		
