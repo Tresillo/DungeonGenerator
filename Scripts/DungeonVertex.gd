@@ -74,6 +74,37 @@ func is_equal_to(other: DungeonVert) -> bool:
 		return false
 
 
+func is_colliding_with(other: DungeonVert) -> bool:
+	if region == null and other.region == null:
+		#no collisions can occur with no regions
+		return false
+	elif other.region == null:
+		var tp = other.pos
+		if tp.x < (pos.x + region.coord2.x) and tp.x > (pos.x + region.coord1.x) and\
+				tp.y < (pos.y + region.coord2.y) and tp.y > (pos.y + region.coord1.y):
+			return true
+		else:
+			return false
+	elif region == null:
+		var tp = other.pos
+		if pos.x < (tp.x + other.region.coord2.x) and pos.x > (tp.x + other.region.coord1.x) and\
+				pos.y < (tp.y + other.region.coord2.y) and pos.y > (tp.y + other.region.coord1.y):
+			return true
+		else:
+			return false
+	else:
+		#both rooms have regions
+		var tp = other.pos
+		if (pos.x + region.coord1.x) > (tp.x + other.region.coord2.x) or \
+				(tp.x + other.region.coord1.x) > (pos.x + region.coord2.x):
+			return false
+		elif (pos.y + region.coord1.y) > (tp.y + other.region.coord2.y) or \
+				(tp.y + other.region.coord1.y) > (pos.y + region.coord2.y):
+			return false
+		else:
+			return true
+
+
 func get_connected_verticies() -> Array:
 	return connected_edges.map(func(edge) -> DungeonVert: return edge.get_other_vertex(self))
 
