@@ -20,6 +20,9 @@ class_name DungeonGenArea
 		queue_redraw()
 	get:
 		return num_of_vertexes
+@export var min_dim_room_size: float = 75.0
+@export var max_room_dim_size: float = 200
+@export var max_room_gen_tries: int = 20
 
 @export_category("Aesthetic Categories")
 @export_color_no_alpha var border_color: Color:
@@ -39,9 +42,6 @@ var dungeon_gen:DungeonGenerator
 
 
 func _ready():
-	dungeon_gen = DungeonGenerator.new(area_coord1,area_coord2,num_of_vertexes)
-	add_child(dungeon_gen)
-	
 	call_deferred("new_graph")
 
 
@@ -50,7 +50,7 @@ func new_graph():
 	if temp_children.size() > 0:
 		for tmp_chld in temp_children:
 			tmp_chld.call_deferred("queue_free")
-	dungeon_gen = DungeonGenerator.new(area_coord1,area_coord2,num_of_vertexes)
+	dungeon_gen = DungeonGenerator.new(area_coord1,area_coord2,num_of_vertexes, min_dim_room_size, max_room_dim_size, max_room_gen_tries)
 	add_child(dungeon_gen)
 	
 	dungeon_gen.generate_dungeon()

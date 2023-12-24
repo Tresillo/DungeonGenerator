@@ -38,6 +38,9 @@ class_name DungeonGenerator
 var crd1: Vector2
 var crd2: Vector2
 var rm_num: int
+var min_dim: float
+var max_dim: float
+var gen_attempts: float
 
 var rng
 var graph_animator: GraphAnimator = null
@@ -57,10 +60,13 @@ var disp_vertex_group_centers: Array[DungeonVert] = []
 var vertex_group_centers = []
 var vertex_group_distance_matrix = []
 
-func _init(area_coord1: Vector2, area_coord2: Vector2, number_of_rooms: int):
+func _init(area_coord1: Vector2, area_coord2: Vector2, number_of_rooms: int, min_room_dim: float, max_room_dim: float, room_gen_tries: int):
 	crd1 = area_coord1
 	crd2 = area_coord2
 	rm_num = number_of_rooms
+	min_dim = min_room_dim
+	max_dim = max_room_dim
+	gen_attempts = room_gen_tries
 	
 	rng = RandomNumberGenerator.new()
 	
@@ -71,9 +77,11 @@ func _init(area_coord1: Vector2, area_coord2: Vector2, number_of_rooms: int):
 func generate_dungeon():
 	#Step 1
 	for i in range(0,rm_num):
-		var rm_coord = Vector2(rng.randf_range(crd1.x, crd2.x),rng.randf_range(crd1.y, crd2.y))
+		
+		var new_region = Vector2(rng.randf_range(min_dim, max_dim),rng.randf_range(min_dim, max_dim))
+		var rm_coord = Vector2(rng.randf_range(crd1.x + new_region.x*0.5, crd2.x - new_region.x*0.5),\
+				rng.randf_range(crd1.y + new_region.y*0.5, crd2.y - new_region.y*0.5))
 		#Step 2
-		var new_region = Vector2(100,100)
 		var new_room = DungeonVert.new(rm_coord, new_region)
 		room_array.append(new_room)
 	

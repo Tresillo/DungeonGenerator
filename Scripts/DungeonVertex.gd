@@ -35,6 +35,8 @@ class_name DungeonVert
 @export_color_no_alpha var fill_color: Color = Color.GRAY:
 	set(val):
 		fill_color = val
+		if region != null:
+			region.fill_color = val
 		queue_redraw()
 	get:
 		return fill_color
