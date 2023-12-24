@@ -1,6 +1,9 @@
-[gd_scene load_steps=4 format=3 uid="uid://diead0h2ufjhm"]
+[gd_scene load_steps=7 format=3 uid="uid://diead0h2ufjhm"]
 
 [ext_resource type="Script" path="res://Scripts/DungeonGenArea.gd" id="1_jvlp3"]
+[ext_resource type="Script" path="res://Scripts/UI/Dropdown.gd" id="2_bq2b5"]
+[ext_resource type="Texture2D" uid="uid://bg4kgnejei55h" path="res://Assets/icon.svg" id="2_cut2g"]
+[ext_resource type="LabelSettings" uid="uid://dpb7pytq0xht" path="res://Assets/UI/dropdown_section_label_settings.tres" id="3_s3es7"]
 
 [sub_resource type="Gradient" id="Gradient_gyoh7"]
 colors = PackedColorArray(0.415931, 0.657033, 0.642758, 1, 0.5293, 0.603165, 0.79, 1)
@@ -21,3 +24,74 @@ z_index = -1
 position = Vector2(576.5, 323.5)
 scale = Vector2(4.51172, 645)
 texture = SubResource("GradientTexture1D_a3qn3")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+layer = 100
+
+[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="ScrollContainer" type="ScrollContainer" parent="CanvasLayer/MarginContainer"]
+custom_minimum_size = Vector2(250, 300)
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 0
+horizontal_scroll_mode = 0
+script = ExtResource("2_bq2b5")
+
+[node name="Panel" type="Panel" parent="CanvasLayer/MarginContainer/ScrollContainer"]
+custom_minimum_size = Vector2(250, 50)
+layout_mode = 2
+
+[node name="Label" type="Label" parent="CanvasLayer/MarginContainer/ScrollContainer/Panel"]
+custom_minimum_size = Vector2(0, 50)
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 23.0
+text = " Custom Generator"
+label_settings = ExtResource("3_s3es7")
+vertical_alignment = 1
+
+[node name="TextureRect" type="TextureRect" parent="CanvasLayer/MarginContainer/ScrollContainer/Panel"]
+layout_mode = 1
+anchors_preset = 11
+anchor_left = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -128.0
+offset_top = -39.0
+offset_bottom = 39.0
+grow_horizontal = 0
+grow_vertical = 2
+scale = Vector2(0.25, 0.25)
+pivot_offset = Vector2(128, 64)
+texture = ExtResource("2_cut2g")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/MarginContainer/ScrollContainer/Panel"]
+custom_minimum_size = Vector2(250, 0)
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="Button" type="Button" parent="CanvasLayer/MarginContainer/ScrollContainer/Panel/VBoxContainer"]
+custom_minimum_size = Vector2(250, 50)
+layout_mode = 2
+text = "Test 1"
+
+[node name="Button2" type="Button" parent="CanvasLayer/MarginContainer/ScrollContainer/Panel/VBoxContainer"]
+custom_minimum_size = Vector2(250, 50)
+layout_mode = 2
+text = "Test 2"
+
+[node name="Button3" type="Button" parent="CanvasLayer/MarginContainer/ScrollContainer/Panel/VBoxContainer"]
+custom_minimum_size = Vector2(250, 50)
+layout_mode = 2
+text = "Test 3"
