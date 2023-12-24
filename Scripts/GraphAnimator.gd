@@ -36,7 +36,28 @@ func animate_in_verticies(rooms:Array[DungeonVert]):
 		rm.circle_radius = 0
 		current_tween.tween_property(rm, "circle_radius", final_radius,1 * animation_speed_mult)\
 				.set_delay(in_delay / animation_speed_mult)
+		if rm.region != null:
+			var r_center_point = Vector2((rm.region.coord1.x + rm.region.coord2.x) * 0.5,(rm.region.coord1.y + rm.region.coord2.y) * 0.5)
+			rm.region.draw_coord1 = r_center_point
+			rm.region.draw_coord2 = r_center_point
+			current_tween.tween_property(rm.region, "draw_coord1", rm.region.coord1, 1 * animation_speed_mult)\
+					.set_delay(in_delay / animation_speed_mult)
+			current_tween.tween_property(rm.region, "draw_coord2", rm.region.coord2, 1 * animation_speed_mult)\
+					.set_delay(in_delay / animation_speed_mult)
 		in_delay += 0.03
+
+
+func animate_in_regions(regions: Array[DungeonRegion]):
+	check_tween()
+	
+	for r in regions:
+		r.z_index = 0
+		add_child(r)
+		var r_center_point = Vector2((r.coord1.x + r.coord2.x) * 0.5,(r.coord1.y + r.coord2.y) * 0.5)
+		r.draw_coord1 = r_center_point
+		r.draw_coord2 = r_center_point
+		current_tween.tween_property(r, "draw_coord1", r.coord1, 1)
+		current_tween.tween_property(r, "draw_coord2", r.coord2, 1)
 
 
 func animate_in_edges(edges:Array[DungeonEdge]):
