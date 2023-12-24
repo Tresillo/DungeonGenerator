@@ -59,7 +59,9 @@ func _init(vertex_position: Vector2, dimensions = null):
 	if dimensions == null:
 		region = null
 	else:
-		region = DungeonRegion.new(dimensions)
+		var coord1 = dimensions * -0.5
+		var region_rect = Rect2(coord1, dimensions)
+		region = DungeonRegion.new(region_rect)
 		add_child(region)
 	
 	queue_redraw()

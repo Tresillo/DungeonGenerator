@@ -73,7 +73,8 @@ func generate_dungeon():
 	for i in range(0,rm_num):
 		var rm_coord = Vector2(rng.randf_range(crd1.x, crd2.x),rng.randf_range(crd1.y, crd2.y))
 		#Step 2
-		var new_room = DungeonVert.new(rm_coord)
+		var new_region = Vector2(100,100)
+		var new_room = DungeonVert.new(rm_coord, new_region)
 		room_array.append(new_room)
 	
 	if graph_animator != null:

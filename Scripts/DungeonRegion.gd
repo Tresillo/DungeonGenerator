@@ -67,13 +67,11 @@ class_name DungeonRegion
 		return margin
 
 
-func _init(dimensions: Vector2):
-	dim = dimensions
+func _init(dimensions: Rect2):
+	dim = dimensions.size
 	
-	#calc coord points of the region to be centered on 0,0
-	var half_dim = dim / 2
-	coord1 = half_dim * -1
-	coord2 = half_dim
+	coord1 = dimensions.position
+	coord2 = dimensions.end
 
 
 func _draw():
