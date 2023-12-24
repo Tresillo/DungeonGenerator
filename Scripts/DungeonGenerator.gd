@@ -76,14 +76,37 @@ func _init(area_coord1: Vector2, area_coord2: Vector2, number_of_rooms: int, min
 
 func generate_dungeon():
 	#Step 1
-	for i in range(0,rm_num):
+	var under_max_attempts: bool = true
+	#loop for all rooms
+	while (room_array.size() < rm_num and under_max_attempts):
+		var made_new_room: bool = false
+		var attempt_num: int = 0
 		
-		var new_region = Vector2(rng.randf_range(min_dim, max_dim),rng.randf_range(min_dim, max_dim))
-		var rm_coord = Vector2(rng.randf_range(crd1.x + new_region.x*0.5, crd2.x - new_region.x*0.5),\
-				rng.randf_range(crd1.y + new_region.y*0.5, crd2.y - new_region.y*0.5))
-		#Step 2
-		var new_room = DungeonVert.new(rm_coord, new_region)
-		room_array.append(new_room)
+		#loop for each attempt at generating a room
+		while (attempt_num < gen_attempts and not made_new_room):
+			var new_region = Vector2(rng.randf_range(min_dim, max_dim),rng.randf_range(min_dim, max_dim))
+			var rm_coord = Vector2(rng.randf_range(crd1.x + new_region.x*0.5, crd2.x - new_region.x*0.5),\
+					rng.randf_range(crd1.y + new_region.y*0.5, crd2.y - new_region.y*0.5))
+			
+			#Step 2
+			#checks to see if the newly generated room is colliding with previously generated rooms
+			var temp_colliding = false
+			var new_room = DungeonVert.new(rm_coord, new_region)
+			if room_array.size() > 0:
+				for rm in room_array:
+					if rm.is_colliding_with(new_room):
+						temp_colliding =true
+			
+			#check if room is valis
+			if temp_colliding:
+				attempt_num += 1
+			else:
+				room_array.append(new_room)
+				made_new_room = true
+		
+		#break out of loops if needed
+		if attempt_num >= gen_attempts:
+			under_max_attempts = false
 	
 	if graph_animator != null:
 		graph_animator.animate_in_verticies(room_array)

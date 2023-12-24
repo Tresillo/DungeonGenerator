@@ -76,8 +76,8 @@ func _init(dimensions: Rect2):
 
 func _draw():
 	var margin_vector = Vector2(margin, margin)
-	var draw_rect:Rect2 = Rect2(draw_coord1 + margin_vector, draw_coord2 - draw_coord1 - 2*margin_vector)
+	var vis_rect:Rect2 = Rect2(draw_coord1 + margin_vector, draw_coord2 - draw_coord1 - 2*margin_vector)
 	
-	draw_rect(draw_rect, border_color, false, border_width)
-	draw_rect(draw_rect, fill_color, true)
+	draw_rect(vis_rect, border_color, false, border_width)
+	draw_rect(vis_rect, fill_color, true)
 	

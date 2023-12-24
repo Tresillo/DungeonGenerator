@@ -20,9 +20,9 @@ class_name DungeonGenArea
 		queue_redraw()
 	get:
 		return num_of_vertexes
-@export var min_dim_room_size: float = 75.0
-@export var max_room_dim_size: float = 200
-@export var max_room_gen_tries: int = 20
+@export var min_dim_room_size: float = 50.0
+@export var max_room_dim_size: float = 150.0
+@export var max_room_gen_tries: int = 10
 
 @export_category("Aesthetic Categories")
 @export_color_no_alpha var border_color: Color:

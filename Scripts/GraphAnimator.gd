@@ -65,7 +65,7 @@ func animate_object_colors_arbitrary(dungeon_objects: Array, col: Color):
 	check_tween()
 	
 	for obj in dungeon_objects:
-		current_tween.tween_property(obj, "fill_color",col,0.5 * animation_speed_mult)
+		current_tween.tween_property(obj, "fill_color",col,1 * animation_speed_mult)
 
 
 func animate_out_dungeon_objects(dungeon_objects: Array):
@@ -88,8 +88,8 @@ func emphasize_verticies(verts: Array[DungeonVert], cols: Array[Color]):
 	var color_tracker: int = 0
 	for rm in verts:
 		var target_radius = rm.default_circle_radius * 1.5
-		current_tween.tween_property(rm, "circle_radius", target_radius,0.5 * animation_speed_mult)
-		current_tween.tween_property(rm, "fill_color",cols[color_tracker],0.5 * animation_speed_mult)
+		current_tween.tween_property(rm, "circle_radius", target_radius,1 * animation_speed_mult)
+		current_tween.tween_property(rm, "fill_color",cols[color_tracker],1 * animation_speed_mult)
 		
 		color_tracker += 1
 		#small logic check if color and vertex arrays arent the same size
