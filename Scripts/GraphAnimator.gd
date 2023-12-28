@@ -29,7 +29,6 @@ func animate_in_verticies(rooms:Array[DungeonVert]):
 	
 	var in_delay: float = 0.0
 	for rm in rooms:
-		rm.z_index = 1
 		animating_rooms.append(rm)
 		add_child(rm)
 		var final_radius = rm.default_circle_radius
@@ -51,7 +50,6 @@ func animate_in_regions(regions: Array[DungeonRegion]):
 	check_tween()
 	
 	for r in regions:
-		r.z_index = 0
 		add_child(r)
 		var r_center_point = Vector2((r.coord1.x + r.coord2.x) * 0.5,(r.coord1.y + r.coord2.y) * 0.5)
 		r.draw_coord1 = r_center_point
@@ -64,7 +62,6 @@ func animate_in_edges(edges:Array[DungeonEdge]):
 	check_tween()
 	
 	for e in edges:
-		e.z_index = 0
 		animating_corridors.append(e)
 		add_child(e)
 		var final_end_point = e.draw_pos2

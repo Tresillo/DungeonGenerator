@@ -66,6 +66,8 @@ func _init(vertex_position: Vector2, dimensions = null):
 		region = DungeonRegion.new(region_rect)
 		add_child(region)
 	
+	z_index = 2
+	
 	queue_redraw()
 
 

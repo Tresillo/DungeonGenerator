@@ -72,6 +72,10 @@ func _init(dimensions: Rect2):
 	
 	coord1 = dimensions.position
 	coord2 = dimensions.end
+	
+	z_index = 0
+	
+	queue_redraw()
 
 
 func _draw():

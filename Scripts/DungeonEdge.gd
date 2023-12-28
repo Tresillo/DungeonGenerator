@@ -66,6 +66,10 @@ func _init(room_1: DungeonVert, room_2: DungeonVert):
 	
 	draw_pos1 = room1.pos
 	draw_pos2 = room2.pos
+	
+	z_index = 1
+	
+	queue_redraw()
 
 
 func get_length() -> float:
