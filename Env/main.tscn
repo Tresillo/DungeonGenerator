@@ -1,6 +1,7 @@
-[gd_scene load_steps=7 format=3 uid="uid://diead0h2ufjhm"]
+[gd_scene load_steps=8 format=3 uid="uid://diead0h2ufjhm"]
 
 [ext_resource type="Script" path="res://Scripts/DungeonGenArea.gd" id="1_jvlp3"]
+[ext_resource type="Script" path="res://Scripts/UI/FoldawayButton.gd" id="2_6k2u2"]
 [ext_resource type="Script" path="res://Scripts/UI/Dropdown.gd" id="2_bq2b5"]
 [ext_resource type="Texture2D" uid="uid://bg4kgnejei55h" path="res://Assets/icon.svg" id="2_cut2g"]
 [ext_resource type="Script" path="res://Scripts/UI/Drawer.gd" id="3_htufo"]
@@ -38,19 +39,38 @@ theme_override_constants/margin_left = 10
 theme_override_constants/margin_top = 10
 theme_override_constants/margin_right = 10
 theme_override_constants/margin_bottom = 10
+script = ExtResource("2_6k2u2")
 
-[node name="ScrollContainer" type="ScrollContainer" parent="CanvasLayer/MarginContainer"]
+[node name="Foldaway Button" type="TextureButton" parent="CanvasLayer/MarginContainer"]
+custom_minimum_size = Vector2(50, 50)
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 0
+texture_normal = ExtResource("2_cut2g")
+ignore_texture_size = true
+stretch_mode = 0
+
+[node name="Foldaway Container" type="Panel" parent="CanvasLayer/MarginContainer"]
+clip_contents = true
+custom_minimum_size = Vector2(0, 300)
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 0
+
+[node name="ScrollContainer" type="ScrollContainer" parent="CanvasLayer/MarginContainer/Foldaway Container"]
 custom_minimum_size = Vector2(300, 300)
 layout_mode = 2
+offset_right = 300.0
+offset_bottom = 300.0
 size_flags_horizontal = 0
 size_flags_vertical = 0
 horizontal_scroll_mode = 0
 
-[node name="Dropdown" type="Control" parent="CanvasLayer/MarginContainer/ScrollContainer"]
+[node name="Dropdown" type="Control" parent="CanvasLayer/MarginContainer/Foldaway Container/ScrollContainer"]
 layout_mode = 2
 script = ExtResource("2_bq2b5")
 
-[node name="Panel" type="Panel" parent="CanvasLayer/MarginContainer/ScrollContainer/Dropdown" groups=["part_of_drawer"]]
+[node name="Panel" type="Panel" parent="CanvasLayer/MarginContainer/Foldaway Container/ScrollContainer/Dropdown" groups=["part_of_drawer"]]
 clip_contents = true
 custom_minimum_size = Vector2(300, 50)
 layout_mode = 2
@@ -58,18 +78,18 @@ offset_right = 250.0
 offset_bottom = 50.0
 script = ExtResource("3_htufo")
 
-[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/MarginContainer/ScrollContainer/Dropdown/Panel" groups=["part_of_drawer"]]
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/MarginContainer/Foldaway Container/ScrollContainer/Dropdown/Panel" groups=["part_of_drawer"]]
 custom_minimum_size = Vector2(250, 0)
 layout_mode = 0
 offset_right = 300.0
 offset_bottom = 158.0
 
-[node name="Show" type="Button" parent="CanvasLayer/MarginContainer/ScrollContainer/Dropdown/Panel/VBoxContainer"]
+[node name="Show" type="Button" parent="CanvasLayer/MarginContainer/Foldaway Container/ScrollContainer/Dropdown/Panel/VBoxContainer"]
 custom_minimum_size = Vector2(250, 50)
 layout_mode = 2
 text = "2 Nearest Algorithm"
 
-[node name="TextureRect" type="TextureRect" parent="CanvasLayer/MarginContainer/ScrollContainer/Dropdown/Panel/VBoxContainer/Show"]
+[node name="TextureRect" type="TextureRect" parent="CanvasLayer/MarginContainer/Foldaway Container/ScrollContainer/Dropdown/Panel/VBoxContainer/Show"]
 layout_mode = 1
 anchors_preset = 11
 anchor_left = 1.0
@@ -84,17 +104,17 @@ grow_vertical = 2
 scale = Vector2(0.25, 0.25)
 texture = ExtResource("2_cut2g")
 
-[node name="Button2" type="Button" parent="CanvasLayer/MarginContainer/ScrollContainer/Dropdown/Panel/VBoxContainer"]
+[node name="Button2" type="Button" parent="CanvasLayer/MarginContainer/Foldaway Container/ScrollContainer/Dropdown/Panel/VBoxContainer"]
 custom_minimum_size = Vector2(300, 50)
 layout_mode = 2
 text = "Test 2"
 
-[node name="Button3" type="Button" parent="CanvasLayer/MarginContainer/ScrollContainer/Dropdown/Panel/VBoxContainer"]
+[node name="Button3" type="Button" parent="CanvasLayer/MarginContainer/Foldaway Container/ScrollContainer/Dropdown/Panel/VBoxContainer"]
 custom_minimum_size = Vector2(300, 50)
 layout_mode = 2
 text = "Test 3"
 
-[node name="Panel2" type="Panel" parent="CanvasLayer/MarginContainer/ScrollContainer/Dropdown" groups=["part_of_drawer"]]
+[node name="Panel2" type="Panel" parent="CanvasLayer/MarginContainer/Foldaway Container/ScrollContainer/Dropdown" groups=["part_of_drawer"]]
 clip_contents = true
 custom_minimum_size = Vector2(300, 50)
 layout_mode = 2
@@ -102,18 +122,18 @@ offset_right = 250.0
 offset_bottom = 50.0
 script = ExtResource("3_htufo")
 
-[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/MarginContainer/ScrollContainer/Dropdown/Panel2" groups=["part_of_drawer"]]
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/MarginContainer/Foldaway Container/ScrollContainer/Dropdown/Panel2" groups=["part_of_drawer"]]
 custom_minimum_size = Vector2(300, 0)
 layout_mode = 0
 offset_right = 40.0
 offset_bottom = 40.0
 
-[node name="Show" type="Button" parent="CanvasLayer/MarginContainer/ScrollContainer/Dropdown/Panel2/VBoxContainer"]
+[node name="Show" type="Button" parent="CanvasLayer/MarginContainer/Foldaway Container/ScrollContainer/Dropdown/Panel2/VBoxContainer"]
 custom_minimum_size = Vector2(300, 50)
 layout_mode = 2
 text = "Binary Partitioning Algorithm"
 
-[node name="TextureRect2" type="TextureRect" parent="CanvasLayer/MarginContainer/ScrollContainer/Dropdown/Panel2/VBoxContainer/Show"]
+[node name="TextureRect2" type="TextureRect" parent="CanvasLayer/MarginContainer/Foldaway Container/ScrollContainer/Dropdown/Panel2/VBoxContainer/Show"]
 layout_mode = 1
 anchors_preset = 11
 anchor_left = 1.0
@@ -128,12 +148,12 @@ grow_vertical = 2
 scale = Vector2(0.25, 0.25)
 texture = ExtResource("2_cut2g")
 
-[node name="Button2" type="Button" parent="CanvasLayer/MarginContainer/ScrollContainer/Dropdown/Panel2/VBoxContainer"]
+[node name="Button2" type="Button" parent="CanvasLayer/MarginContainer/Foldaway Container/ScrollContainer/Dropdown/Panel2/VBoxContainer"]
 custom_minimum_size = Vector2(300, 50)
 layout_mode = 2
 text = "Test 5"
 
-[node name="Button3" type="Button" parent="CanvasLayer/MarginContainer/ScrollContainer/Dropdown/Panel2/VBoxContainer"]
+[node name="Button3" type="Button" parent="CanvasLayer/MarginContainer/Foldaway Container/ScrollContainer/Dropdown/Panel2/VBoxContainer"]
 custom_minimum_size = Vector2(300, 50)
 layout_mode = 2
 text = "Test 6"
