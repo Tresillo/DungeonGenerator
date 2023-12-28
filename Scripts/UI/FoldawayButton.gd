@@ -9,8 +9,7 @@ var button_init_pos
 
 func _ready():
 	foldaway_container_node = $"Foldaway Container"
-	$"Foldaway Button".connect("pressed", func():is_expanded = not is_expanded)
-	button_init_pos = $"Foldaway Button".position
+	button_init_pos = get_node("../Foldaway Button").position
 
 
 func _process(delta):
@@ -23,10 +22,14 @@ func _process(delta):
 	else:
 		foldaway_container_node.size.x = lerp(foldaway_container_node.size.x, foldaway_container_node.custom_minimum_size.x, 0.25)
 	
-	$"Foldaway Button".position.x = button_init_pos.x +\
+	get_node("../Foldaway Button").position.x = button_init_pos.x +\
 			foldaway_container_node.size.x + 15.0
 	
 	#update layout
 	if last_size != foldaway_container_node.size:
 		queue_redraw()
 		last_size = foldaway_container_node.size
+
+
+func _on_foldaway_button_pressed():
+	is_expanded = not is_expanded
