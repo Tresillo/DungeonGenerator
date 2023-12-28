@@ -1,6 +1,6 @@
 extends Node2D
 
-class_name DungeonGenerator
+class_name DGen2NN
 
 ##	DUNGEON GENERATOR ALGORITHM - DRAFT 1
 #

@@ -38,7 +38,7 @@ class_name DungeonGenArea
 	get:
 		return border_width
 
-var dungeon_gen:DungeonGenerator
+var dungeon_gen:DGen2NN
 
 
 func _ready():
@@ -50,7 +50,7 @@ func new_graph():
 	if temp_children.size() > 0:
 		for tmp_chld in temp_children:
 			tmp_chld.call_deferred("queue_free")
-	dungeon_gen = DungeonGenerator.new(area_coord1,area_coord2,num_of_vertexes, min_dim_room_size, max_room_dim_size, max_room_gen_tries)
+	dungeon_gen = DGen2NN.new(area_coord1,area_coord2,num_of_vertexes, min_dim_room_size, max_room_dim_size, max_room_gen_tries)
 	add_child(dungeon_gen)
 	
 	dungeon_gen.generate_dungeon()
