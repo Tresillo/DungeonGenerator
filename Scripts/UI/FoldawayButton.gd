@@ -1,6 +1,6 @@
-extends MarginContainer
+extends Control
 
-var is_expanded: bool = false
+var is_expanded: bool = true
 
 var last_size = Vector2.ZERO
 var foldaway_container_node
