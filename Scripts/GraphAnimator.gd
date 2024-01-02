@@ -6,7 +6,7 @@ var current_tween: Tween
 
 var animating_rooms: Array[DungeonVert]
 var animating_corridors: Array[DungeonEdge]
-var animating_areas: Array
+var animating_areas: Array[DungeonRegion]
 
 var animation_speed_mult: float = 1.0
 
@@ -54,6 +54,7 @@ func animate_in_regions(regions: Array[DungeonRegion]):
 		var r_center_point = Vector2((r.coord1.x + r.coord2.x) * 0.5,(r.coord1.y + r.coord2.y) * 0.5)
 		r.draw_coord1 = r_center_point
 		r.draw_coord2 = r_center_point
+		animating_areas.append(r)
 		current_tween.tween_property(r, "draw_coord1", r.coord1, 1)
 		current_tween.tween_property(r, "draw_coord2", r.coord2, 1)
 
@@ -89,11 +90,22 @@ func animate_object_colors_arbitrary(dungeon_objects: Array, col: Color):
 func animate_out_dungeon_objects(dungeon_objects: Array):
 	check_tween()
 	
+	var out_delay = 0.0
 	for obj in dungeon_objects:
 		if obj is DungeonEdge:
-			current_tween.tween_property(obj, "draw_pos2", obj.draw_pos1,0.75 * animation_speed_mult)
+			current_tween.tween_property(obj, "draw_pos2", obj.draw_pos1,0.75 * animation_speed_mult)\
+					.set_delay(out_delay / animation_speed_mult)
 		elif obj is DungeonVert:
-			current_tween.tween_property(obj, "circle_radius", 0,0.6 * animation_speed_mult)
+			current_tween.tween_property(obj, "circle_radius", 0,0.6 * animation_speed_mult)\
+					.set_delay(out_delay / animation_speed_mult)
+		elif obj is DungeonRegion:
+			var obj_center = Vector2(obj.coord1 + obj.coord2) *0.5
+			current_tween.tween_property(obj, "draw_coord1", obj_center, 0.6 * animation_speed_mult)\
+					.set_delay(out_delay / animation_speed_mult)
+			current_tween.tween_property(obj, "draw_coord2", obj_center, 0.6 * animation_speed_mult)\
+					.set_delay(out_delay / animation_speed_mult)
+		
+		out_delay += 0.03
 	
 	#Remove objects that have been animated out after animation
 	for obj in dungeon_objects:
@@ -121,9 +133,31 @@ func check_tween():
 		current_tween = get_tree().create_tween().bind_node(self)\
 				.set_trans(Tween.TRANS_SINE)\
 				.set_parallel(true)
-		current_tween.connect("finished", func(): print("ANIMATION FINISHED"))
+		
+		if current_tween.finished.get_connections().size() <= 0:
+			current_tween.connect("finished", func():print("ANIMATION FINISHED"))
 	
 	#This chained interval is to allow steps to happen one after another automatically
 	#While still allowing each operation of the step to animate in parallel
 	if not current_tween == null:
 		current_tween.chain().tween_interval(0.01)
+
+
+func interupt_tween():
+	if current_tween != null:
+		if current_tween.is_running():
+			current_tween.kill()
+	
+	for o in animating_areas:
+		o.queue_free()
+	animating_areas = []
+	
+	for o in animating_corridors:
+		o.queue_free()
+	animating_corridors = []
+	
+	for o in animating_rooms:
+		o.queue_free()
+	animating_rooms = []
+	
+	current_tween = null
