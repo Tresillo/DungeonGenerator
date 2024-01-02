@@ -60,7 +60,7 @@ var disp_vertex_group_centers: Array[DungeonVert] = []
 var vertex_group_centers = []
 var vertex_group_distance_matrix = []
 
-func _init(area_coord1: Vector2, area_coord2: Vector2, number_of_rooms: int, min_room_dim: float, max_room_dim: float, room_gen_tries: int):
+func _init(area_coord1: Vector2, area_coord2: Vector2, number_of_rooms: int, min_room_dim: float, max_room_dim: float, room_gen_tries: int, graph_anim: GraphAnimator = null):
 	crd1 = area_coord1
 	crd2 = area_coord2
 	rm_num = number_of_rooms
@@ -70,20 +70,21 @@ func _init(area_coord1: Vector2, area_coord2: Vector2, number_of_rooms: int, min
 	
 	rng = RandomNumberGenerator.new()
 	
-	graph_animator = GraphAnimator.new()
-	add_child(graph_animator)
+	graph_animator = graph_anim
 
 
 func generate_dungeon():
 	#Step 1
 	var under_max_attempts: bool = true
 	#loop for all rooms
-	while (room_array.size() < rm_num and under_max_attempts):
+	while ((room_array.size() < rm_num and under_max_attempts) or room_array.size() < 3):
 		var made_new_room: bool = false
 		var attempt_num: int = 0
 		
+		#Become Ungovornable
+		#and create new code comments
 		#loop for each attempt at generating a room
-		while (attempt_num < gen_attempts and not made_new_room):
+		while ((attempt_num < gen_attempts and not made_new_room) or room_array.size() < 1):
 			var new_region = Vector2(rng.randf_range(min_dim, max_dim),rng.randf_range(min_dim, max_dim))
 			var rm_coord = Vector2(rng.randf_range(crd1.x + new_region.x*0.5, crd2.x - new_region.x*0.5),\
 					rng.randf_range(crd1.y + new_region.y*0.5, crd2.y - new_region.y*0.5))
