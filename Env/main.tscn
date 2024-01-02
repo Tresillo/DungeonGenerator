@@ -55,7 +55,6 @@ layout_mode = 2
 script = ExtResource("6_ifkos")
 
 [node name="InfoContainer" type="MarginContainer" parent="CanvasLayer/MarginContainer/Info Button"]
-visible = false
 clip_contents = true
 layout_mode = 1
 anchors_preset = 15
@@ -63,6 +62,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+mouse_filter = 2
 theme_override_constants/margin_left = 100
 theme_override_constants/margin_top = 20
 theme_override_constants/margin_right = 100
@@ -70,7 +70,7 @@ theme_override_constants/margin_bottom = 20
 
 [node name="Panel" type="Panel" parent="CanvasLayer/MarginContainer/Info Button/InfoContainer"]
 layout_mode = 2
-mouse_filter = 1
+mouse_filter = 2
 
 [node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/MarginContainer/Info Button/InfoContainer/Panel"]
 layout_mode = 1
@@ -79,6 +79,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+mouse_filter = 2
 theme_override_constants/margin_left = 10
 theme_override_constants/margin_top = 10
 theme_override_constants/margin_right = 10
@@ -86,15 +87,36 @@ theme_override_constants/margin_bottom = 10
 
 [node name="ScrollContainer" type="ScrollContainer" parent="CanvasLayer/MarginContainer/Info Button/InfoContainer/Panel/MarginContainer"]
 layout_mode = 2
+mouse_filter = 0
+follow_focus = true
 horizontal_scroll_mode = 0
 
-[node name="AlgorithmInfo" type="Label" parent="CanvasLayer/MarginContainer/Info Button/InfoContainer/Panel/MarginContainer/ScrollContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/MarginContainer/Info Button/InfoContainer/Panel/MarginContainer/ScrollContainer"]
+layout_mode = 2
+alignment = 1
+
+[node name="AlgorithmTitle" type="Label" parent="CanvasLayer/MarginContainer/Info Button/InfoContainer/Panel/MarginContainer/ScrollContainer/VBoxContainer"]
+custom_minimum_size = Vector2(912, 64)
+layout_mode = 2
+text = "Default Title"
+horizontal_alignment = 1
+autowrap_mode = 2
+
+[node name="AlgorithmInfo" type="Label" parent="CanvasLayer/MarginContainer/Info Button/InfoContainer/Panel/MarginContainer/ScrollContainer/VBoxContainer"]
 custom_minimum_size = Vector2(912, 100)
 layout_mode = 2
+text = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris sed blandit velit. Donec molestie ipsum eu ante dignissim dictum. Nullam ante sapien, maximus eget tellus vitae, volutpat faucibus dolor. Duis non iaculis ligula. Ut porta lacus sit amet varius porttitor. Donec hendrerit, eros eu finibus faucibus, diam mauris egestas ex, dictum iaculis magna neque nec ipsum. Nulla placerat erat mi, vitae vulputate dui scelerisque ut. Ut ut dictum elit. Sed ac pulvinar metus. Sed et eleifend quam. Curabitur vestibulum ex nec augue scelerisque, malesuada venenatis est eleifend. Nullam sit amet tempor felis. Cras felis nunc, accumsan quis turpis nec, bibendum cursus risus. Nulla viverra lorem augue, sit amet iaculis felis pulvinar sit amet. Sed scelerisque massa vel vestibulum malesuada.
+
+Vivamus blandit, erat non porttitor viverra, risus lectus mattis nisi, ut ullamcorper mi quam sed dolor. Etiam non elit vitae purus venenatis feugiat eu ultricies lacus. Ut feugiat velit eget diam fringilla rutrum. Integer quis magna sed metus pulvinar congue eget scelerisque mauris. Duis dictum nulla sit amet dictum viverra. Proin convallis faucibus ipsum, eu aliquet nulla cursus in. Vestibulum malesuada erat vel augue hendrerit, a efficitur augue molestie.
+
+Sed hendrerit pulvinar bibendum. Donec facilisis sem a dui fringilla, eu tincidunt ex euismod. In aliquet imperdiet lectus, vitae pretium neque commodo a. Proin sed mauris mattis, fermentum sem eu, maximus eros. Morbi congue nunc lacus, in pharetra lacus condimentum ornare. Vivamus elementum quis nisi eu tempus. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Donec ac lobortis purus.
+
+Morbi a mollis nisi. Sed sed malesuada nulla. Integer neque mauris, interdum eget vulputate non, elementum sed ex. Nam lobortis condimentum pulvinar. Vestibulum metus ligula, ullamcorper id arcu scelerisque, rutrum malesuada felis. In velit dui, sodales nec mollis iaculis, sagittis eget tellus. Donec in est id nulla consequat. "
 autowrap_mode = 2
 
 [node name="Foldaway Controller" type="Control" parent="CanvasLayer/MarginContainer"]
 layout_mode = 2
+mouse_filter = 2
 script = ExtResource("2_6k2u2")
 
 [node name="Foldaway Container" type="Panel" parent="CanvasLayer/MarginContainer/Foldaway Controller"]
