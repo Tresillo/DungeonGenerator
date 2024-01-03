@@ -126,7 +126,7 @@ script = ExtResource("2_6k2u2")
 
 [node name="Foldaway Container" type="Panel" parent="CanvasLayer/MarginContainer/Foldaway Controller"]
 clip_contents = true
-custom_minimum_size = Vector2(0, 300)
+custom_minimum_size = Vector2(0, 500)
 layout_mode = 2
 offset_bottom = 300.0
 size_flags_horizontal = 0
@@ -134,7 +134,7 @@ size_flags_vertical = 0
 theme = SubResource("Theme_nr6ky")
 
 [node name="ScrollContainer" type="ScrollContainer" parent="CanvasLayer/MarginContainer/Foldaway Controller/Foldaway Container"]
-custom_minimum_size = Vector2(300, 300)
+custom_minimum_size = Vector2(300, 500)
 layout_mode = 2
 offset_right = 300.0
 offset_bottom = 300.0
@@ -153,6 +153,7 @@ layout_mode = 2
 offset_right = 250.0
 offset_bottom = 50.0
 script = ExtResource("3_htufo")
+lerp_to = 325.0
 
 [node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/MarginContainer/Foldaway Controller/Foldaway Container/ScrollContainer/Dropdown/Panel" groups=["part_of_drawer"]]
 custom_minimum_size = Vector2(250, 0)
@@ -180,10 +181,108 @@ grow_vertical = 2
 scale = Vector2(0.25, 0.25)
 texture = ExtResource("2_cut2g")
 
-[node name="Button2" type="Button" parent="CanvasLayer/MarginContainer/Foldaway Controller/Foldaway Container/ScrollContainer/Dropdown/Panel/VBoxContainer"]
+[node name="TargetRoomNumPnl" type="Panel" parent="CanvasLayer/MarginContainer/Foldaway Controller/Foldaway Container/ScrollContainer/Dropdown/Panel/VBoxContainer"]
+clip_contents = true
 custom_minimum_size = Vector2(300, 50)
 layout_mode = 2
-text = "Test 2"
+
+[node name="TargetRoomNumCont" type="VBoxContainer" parent="CanvasLayer/MarginContainer/Foldaway Controller/Foldaway Container/ScrollContainer/Dropdown/Panel/VBoxContainer/TargetRoomNumPnl"]
+custom_minimum_size = Vector2(300, 50)
+layout_mode = 2
+offset_top = 4.0
+offset_right = 300.0
+offset_bottom = 50.0
+alignment = 1
+
+[node name="TargetRoomNumLbl" type="Label" parent="CanvasLayer/MarginContainer/Foldaway Controller/Foldaway Container/ScrollContainer/Dropdown/Panel/VBoxContainer/TargetRoomNumPnl/TargetRoomNumCont"]
+layout_mode = 2
+text = "Target Room Number:"
+label_settings = ExtResource("4_dgsxl")
+
+[node name="TargetRoomNumSld" type="HSlider" parent="CanvasLayer/MarginContainer/Foldaway Controller/Foldaway Container/ScrollContainer/Dropdown/Panel/VBoxContainer/TargetRoomNumPnl/TargetRoomNumCont"]
+layout_mode = 2
+min_value = 5.0
+max_value = 30.0
+value = 25.0
+tick_count = 1
+ticks_on_borders = true
+
+[node name="MinRoomDimPnl" type="Panel" parent="CanvasLayer/MarginContainer/Foldaway Controller/Foldaway Container/ScrollContainer/Dropdown/Panel/VBoxContainer"]
+clip_contents = true
+custom_minimum_size = Vector2(300, 50)
+layout_mode = 2
+
+[node name="MinRoomDimCtn" type="VBoxContainer" parent="CanvasLayer/MarginContainer/Foldaway Controller/Foldaway Container/ScrollContainer/Dropdown/Panel/VBoxContainer/MinRoomDimPnl"]
+custom_minimum_size = Vector2(300, 50)
+layout_mode = 2
+offset_top = 4.0
+offset_right = 300.0
+offset_bottom = 50.0
+alignment = 1
+
+[node name="MinRoomDimLbl" type="Label" parent="CanvasLayer/MarginContainer/Foldaway Controller/Foldaway Container/ScrollContainer/Dropdown/Panel/VBoxContainer/MinRoomDimPnl/MinRoomDimCtn"]
+layout_mode = 2
+text = "Minimum Room Dimensions:"
+label_settings = ExtResource("4_dgsxl")
+
+[node name="MinRoomDimSld" type="HSlider" parent="CanvasLayer/MarginContainer/Foldaway Controller/Foldaway Container/ScrollContainer/Dropdown/Panel/VBoxContainer/MinRoomDimPnl/MinRoomDimCtn"]
+layout_mode = 2
+min_value = 10.0
+value = 50.0
+tick_count = 1
+ticks_on_borders = true
+
+[node name="MaxRoomDimPnl" type="Panel" parent="CanvasLayer/MarginContainer/Foldaway Controller/Foldaway Container/ScrollContainer/Dropdown/Panel/VBoxContainer"]
+clip_contents = true
+custom_minimum_size = Vector2(300, 50)
+layout_mode = 2
+
+[node name="MaxRoomDimCtn" type="VBoxContainer" parent="CanvasLayer/MarginContainer/Foldaway Controller/Foldaway Container/ScrollContainer/Dropdown/Panel/VBoxContainer/MaxRoomDimPnl"]
+custom_minimum_size = Vector2(300, 50)
+layout_mode = 2
+offset_top = 4.0
+offset_right = 300.0
+offset_bottom = 50.0
+alignment = 1
+
+[node name="MaxRoomDimLbl" type="Label" parent="CanvasLayer/MarginContainer/Foldaway Controller/Foldaway Container/ScrollContainer/Dropdown/Panel/VBoxContainer/MaxRoomDimPnl/MaxRoomDimCtn"]
+layout_mode = 2
+text = "Maximum Room Dimensions:"
+label_settings = ExtResource("4_dgsxl")
+
+[node name="MaxRoomDimSld" type="HSlider" parent="CanvasLayer/MarginContainer/Foldaway Controller/Foldaway Container/ScrollContainer/Dropdown/Panel/VBoxContainer/MaxRoomDimPnl/MaxRoomDimCtn"]
+layout_mode = 2
+min_value = 50.0
+max_value = 200.0
+value = 50.0
+tick_count = 1
+ticks_on_borders = true
+
+[node name="RoomGenAtmptPnl" type="Panel" parent="CanvasLayer/MarginContainer/Foldaway Controller/Foldaway Container/ScrollContainer/Dropdown/Panel/VBoxContainer"]
+clip_contents = true
+custom_minimum_size = Vector2(300, 50)
+layout_mode = 2
+
+[node name="RoomGenAtmptCtn" type="VBoxContainer" parent="CanvasLayer/MarginContainer/Foldaway Controller/Foldaway Container/ScrollContainer/Dropdown/Panel/VBoxContainer/RoomGenAtmptPnl"]
+custom_minimum_size = Vector2(300, 50)
+layout_mode = 2
+offset_top = 4.0
+offset_right = 300.0
+offset_bottom = 50.0
+alignment = 1
+
+[node name="RoomGenAtmptLbl" type="Label" parent="CanvasLayer/MarginContainer/Foldaway Controller/Foldaway Container/ScrollContainer/Dropdown/Panel/VBoxContainer/RoomGenAtmptPnl/RoomGenAtmptCtn"]
+layout_mode = 2
+text = "Room Generation Attempts:"
+label_settings = ExtResource("4_dgsxl")
+
+[node name="RoomGenAtmptSld" type="HSlider" parent="CanvasLayer/MarginContainer/Foldaway Controller/Foldaway Container/ScrollContainer/Dropdown/Panel/VBoxContainer/RoomGenAtmptPnl/RoomGenAtmptCtn"]
+layout_mode = 2
+min_value = 50.0
+max_value = 200.0
+value = 50.0
+tick_count = 1
+ticks_on_borders = true
 
 [node name="Run 2NN" type="Button" parent="CanvasLayer/MarginContainer/Foldaway Controller/Foldaway Container/ScrollContainer/Dropdown/Panel/VBoxContainer"]
 custom_minimum_size = Vector2(300, 50)
@@ -197,6 +296,7 @@ layout_mode = 2
 offset_right = 250.0
 offset_bottom = 50.0
 script = ExtResource("3_htufo")
+lerp_to = 100.0
 
 [node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/MarginContainer/Foldaway Controller/Foldaway Container/ScrollContainer/Dropdown/Panel2" groups=["part_of_drawer"]]
 custom_minimum_size = Vector2(300, 0)
