@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=3 uid="uid://diead0h2ufjhm"]
+[gd_scene load_steps=15 format=3 uid="uid://diead0h2ufjhm"]
 
 [ext_resource type="Script" path="res://Scripts/DungeonGenArea.gd" id="1_jvlp3"]
 [ext_resource type="Script" path="res://Scripts/UI/FoldawayButton.gd" id="2_6k2u2"]
@@ -9,6 +9,7 @@
 [ext_resource type="LabelSettings" uid="uid://dsfluuiknv1mr" path="res://Assets/UI/heading_label_settings.tres" id="4_bgx4c"]
 [ext_resource type="LabelSettings" uid="uid://o1usjfj4xqu7" path="res://Assets/UI/body_label_settings.tres" id="4_dgsxl"]
 [ext_resource type="Script" path="res://Scripts/UI/InfoButton.gd" id="6_ifkos"]
+[ext_resource type="LabelSettings" uid="uid://2behlqo0niv0" path="res://Assets/UI/Dropdown_counter_settings.tres" id="10_rnkda"]
 
 [sub_resource type="Gradient" id="Gradient_gyoh7"]
 colors = PackedColorArray(0.415931, 0.657033, 0.642758, 1, 0.5293, 0.603165, 0.79, 1)
@@ -194,10 +195,19 @@ offset_right = 300.0
 offset_bottom = 50.0
 alignment = 1
 
-[node name="TargetRoomNumLbl" type="Label" parent="CanvasLayer/MarginContainer/Foldaway Controller/Foldaway Container/ScrollContainer/Dropdown/Panel/VBoxContainer/TargetRoomNumPnl/TargetRoomNumCont"]
+[node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/MarginContainer/Foldaway Controller/Foldaway Container/ScrollContainer/Dropdown/Panel/VBoxContainer/TargetRoomNumPnl/TargetRoomNumCont"]
+layout_mode = 2
+
+[node name="TargetRoomNumLbl" type="Label" parent="CanvasLayer/MarginContainer/Foldaway Controller/Foldaway Container/ScrollContainer/Dropdown/Panel/VBoxContainer/TargetRoomNumPnl/TargetRoomNumCont/HBoxContainer"]
 layout_mode = 2
 text = "Target Room Number:"
 label_settings = ExtResource("4_dgsxl")
+
+[node name="TargetRoomNumCounter" type="Label" parent="CanvasLayer/MarginContainer/Foldaway Controller/Foldaway Container/ScrollContainer/Dropdown/Panel/VBoxContainer/TargetRoomNumPnl/TargetRoomNumCont/HBoxContainer"]
+layout_mode = 2
+text = "25"
+label_settings = ExtResource("10_rnkda")
+horizontal_alignment = 2
 
 [node name="TargetRoomNumSld" type="HSlider" parent="CanvasLayer/MarginContainer/Foldaway Controller/Foldaway Container/ScrollContainer/Dropdown/Panel/VBoxContainer/TargetRoomNumPnl/TargetRoomNumCont"]
 layout_mode = 2
@@ -220,10 +230,20 @@ offset_right = 300.0
 offset_bottom = 50.0
 alignment = 1
 
-[node name="MinRoomDimLbl" type="Label" parent="CanvasLayer/MarginContainer/Foldaway Controller/Foldaway Container/ScrollContainer/Dropdown/Panel/VBoxContainer/MinRoomDimPnl/MinRoomDimCtn"]
+[node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/MarginContainer/Foldaway Controller/Foldaway Container/ScrollContainer/Dropdown/Panel/VBoxContainer/MinRoomDimPnl/MinRoomDimCtn"]
+layout_mode = 2
+
+[node name="MinRoomDimLbl" type="Label" parent="CanvasLayer/MarginContainer/Foldaway Controller/Foldaway Container/ScrollContainer/Dropdown/Panel/VBoxContainer/MinRoomDimPnl/MinRoomDimCtn/HBoxContainer"]
 layout_mode = 2
 text = "Minimum Room Dimensions:"
 label_settings = ExtResource("4_dgsxl")
+
+[node name="MinRoomDimCounter" type="Label" parent="CanvasLayer/MarginContainer/Foldaway Controller/Foldaway Container/ScrollContainer/Dropdown/Panel/VBoxContainer/MinRoomDimPnl/MinRoomDimCtn/HBoxContainer"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.929412, 0.478431, 0.72549, 1)
+text = "50"
+label_settings = ExtResource("10_rnkda")
+horizontal_alignment = 2
 
 [node name="MinRoomDimSld" type="HSlider" parent="CanvasLayer/MarginContainer/Foldaway Controller/Foldaway Container/ScrollContainer/Dropdown/Panel/VBoxContainer/MinRoomDimPnl/MinRoomDimCtn"]
 layout_mode = 2
@@ -245,16 +265,26 @@ offset_right = 300.0
 offset_bottom = 50.0
 alignment = 1
 
-[node name="MaxRoomDimLbl" type="Label" parent="CanvasLayer/MarginContainer/Foldaway Controller/Foldaway Container/ScrollContainer/Dropdown/Panel/VBoxContainer/MaxRoomDimPnl/MaxRoomDimCtn"]
+[node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/MarginContainer/Foldaway Controller/Foldaway Container/ScrollContainer/Dropdown/Panel/VBoxContainer/MaxRoomDimPnl/MaxRoomDimCtn"]
+layout_mode = 2
+
+[node name="MaxRoomDimLbl" type="Label" parent="CanvasLayer/MarginContainer/Foldaway Controller/Foldaway Container/ScrollContainer/Dropdown/Panel/VBoxContainer/MaxRoomDimPnl/MaxRoomDimCtn/HBoxContainer"]
 layout_mode = 2
 text = "Maximum Room Dimensions:"
 label_settings = ExtResource("4_dgsxl")
+
+[node name="MaxRoomDimCounter" type="Label" parent="CanvasLayer/MarginContainer/Foldaway Controller/Foldaway Container/ScrollContainer/Dropdown/Panel/VBoxContainer/MaxRoomDimPnl/MaxRoomDimCtn/HBoxContainer"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.929412, 0.478431, 0.72549, 1)
+text = "150"
+label_settings = ExtResource("10_rnkda")
+horizontal_alignment = 2
 
 [node name="MaxRoomDimSld" type="HSlider" parent="CanvasLayer/MarginContainer/Foldaway Controller/Foldaway Container/ScrollContainer/Dropdown/Panel/VBoxContainer/MaxRoomDimPnl/MaxRoomDimCtn"]
 layout_mode = 2
 min_value = 50.0
 max_value = 200.0
-value = 50.0
+value = 150.0
 tick_count = 1
 ticks_on_borders = true
 
@@ -271,16 +301,26 @@ offset_right = 300.0
 offset_bottom = 50.0
 alignment = 1
 
-[node name="RoomGenAtmptLbl" type="Label" parent="CanvasLayer/MarginContainer/Foldaway Controller/Foldaway Container/ScrollContainer/Dropdown/Panel/VBoxContainer/RoomGenAtmptPnl/RoomGenAtmptCtn"]
+[node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/MarginContainer/Foldaway Controller/Foldaway Container/ScrollContainer/Dropdown/Panel/VBoxContainer/RoomGenAtmptPnl/RoomGenAtmptCtn"]
+layout_mode = 2
+
+[node name="RoomGenAtmptLbl" type="Label" parent="CanvasLayer/MarginContainer/Foldaway Controller/Foldaway Container/ScrollContainer/Dropdown/Panel/VBoxContainer/RoomGenAtmptPnl/RoomGenAtmptCtn/HBoxContainer"]
 layout_mode = 2
 text = "Room Generation Attempts:"
 label_settings = ExtResource("4_dgsxl")
 
+[node name="RoomGenAttemptCounter" type="Label" parent="CanvasLayer/MarginContainer/Foldaway Controller/Foldaway Container/ScrollContainer/Dropdown/Panel/VBoxContainer/RoomGenAtmptPnl/RoomGenAtmptCtn/HBoxContainer"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.929412, 0.478431, 0.72549, 1)
+text = "10"
+label_settings = ExtResource("10_rnkda")
+horizontal_alignment = 2
+
 [node name="RoomGenAtmptSld" type="HSlider" parent="CanvasLayer/MarginContainer/Foldaway Controller/Foldaway Container/ScrollContainer/Dropdown/Panel/VBoxContainer/RoomGenAtmptPnl/RoomGenAtmptCtn"]
 layout_mode = 2
-min_value = 50.0
-max_value = 200.0
-value = 50.0
+min_value = 1.0
+max_value = 25.0
+value = 10.0
 tick_count = 1
 ticks_on_borders = true
 
