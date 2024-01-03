@@ -2,6 +2,10 @@ extends Node2D
 
 class_name DungeonGenArea
 
+# info file paths
+@onready var TNN_info = "res://AlgorithmInfo/2NN.txt"
+var loaded_path = ""
+
 @export var area_coord1: Vector2 = Vector2(100,0):
 	set(val):
 		area_coord1 = val
@@ -40,13 +44,18 @@ class_name DungeonGenArea
 
 var dungeon_gen
 var init_label: Label
+var info_text_label: Label
+var info_title_label: Label
 var graph_animator: GraphAnimator = null
 var init_run: bool
 
 func _ready():
-	init_label = get_tree().root.get_node("CanvasLayer/MarginContainer/InitLabel")
+	init_label = get_tree().root.get_node("Main/CanvasLayer/MarginContainer/InitLabel")
+	info_text_label = get_tree().root.get_node("Main/CanvasLayer/MarginContainer/Info Button/InfoContainer/Panel/MarginContainer/ScrollContainer/VBoxContainer/AlgorithmInfo")
+	info_title_label = get_tree().root.get_node("Main/CanvasLayer/MarginContainer/Info Button/InfoContainer/Panel/MarginContainer/ScrollContainer/VBoxContainer/AlgorithmTitle")
 	graph_animator = $GraphAnimator
 	init_run = false
+	
 
 
 func new_graph():
@@ -81,5 +90,28 @@ func _on_run_2nn_pressed():
 	add_child(dungeon_gen)
 	graph_animator.interupt_tween()
 	
+	#read and load the Info file for this
+	if loaded_path != TNN_info:
+		load_info_from_file(TNN_info)
+	
 	dungeon_gen = DGen2NN.new(area_coord1,area_coord2,num_of_vertexes, min_dim_room_size, max_room_dim_size, max_room_gen_tries, graph_animator)
 	dungeon_gen.generate_dungeon()
+
+
+func load_info_from_file(path:String):
+	var f = FileAccess.open(path,FileAccess.READ)
+	var title_line = f.get_line()
+	#get whole file but first line
+	var info_string = f.get_as_text().substr(title_line.length())
+	
+	if info_text_label == null or info_title_label == null:
+		info_text_label = get_tree().root.get_node("Main/CanvasLayer/MarginContainer/Info Button/InfoContainer/Panel/MarginContainer/ScrollContainer/VBoxContainer/AlgorithmInfo")
+		info_title_label = get_tree().root.get_node("Main/CanvasLayer/MarginContainer/Info Button/InfoContainer/Panel/MarginContainer/ScrollContainer/VBoxContainer/AlgorithmTitle")
+
+	
+	info_title_label.text = title_line
+	info_text_label.text = info_string
+	print(info_string.substr(0,20))
+	
+	loaded_path = path
+	

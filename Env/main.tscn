@@ -55,6 +55,7 @@ layout_mode = 2
 script = ExtResource("6_ifkos")
 
 [node name="InfoContainer" type="MarginContainer" parent="CanvasLayer/MarginContainer/Info Button"]
+visible = false
 clip_contents = true
 layout_mode = 1
 anchors_preset = 15
@@ -96,7 +97,7 @@ layout_mode = 2
 alignment = 1
 
 [node name="AlgorithmTitle" type="Label" parent="CanvasLayer/MarginContainer/Info Button/InfoContainer/Panel/MarginContainer/ScrollContainer/VBoxContainer"]
-custom_minimum_size = Vector2(912, 64)
+custom_minimum_size = Vector2(912, 0)
 layout_mode = 2
 text = "Default Title"
 horizontal_alignment = 1
