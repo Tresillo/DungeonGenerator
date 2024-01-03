@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=3 uid="uid://diead0h2ufjhm"]
+[gd_scene load_steps=14 format=3 uid="uid://diead0h2ufjhm"]
 
 [ext_resource type="Script" path="res://Scripts/DungeonGenArea.gd" id="1_jvlp3"]
 [ext_resource type="Script" path="res://Scripts/UI/FoldawayButton.gd" id="2_6k2u2"]
@@ -6,6 +6,8 @@
 [ext_resource type="Script" path="res://Scripts/UI/Dropdown.gd" id="2_bq2b5"]
 [ext_resource type="Texture2D" uid="uid://bg4kgnejei55h" path="res://Assets/icon.svg" id="2_cut2g"]
 [ext_resource type="Script" path="res://Scripts/UI/Drawer.gd" id="3_htufo"]
+[ext_resource type="LabelSettings" uid="uid://dsfluuiknv1mr" path="res://Assets/UI/heading_label_settings.tres" id="4_bgx4c"]
+[ext_resource type="LabelSettings" uid="uid://o1usjfj4xqu7" path="res://Assets/UI/body_label_settings.tres" id="4_dgsxl"]
 [ext_resource type="Script" path="res://Scripts/UI/InfoButton.gd" id="6_ifkos"]
 
 [sub_resource type="Gradient" id="Gradient_gyoh7"]
@@ -100,11 +102,12 @@ alignment = 1
 custom_minimum_size = Vector2(912, 0)
 layout_mode = 2
 text = "Default Title"
+label_settings = ExtResource("4_bgx4c")
 horizontal_alignment = 1
 autowrap_mode = 2
 
 [node name="AlgorithmInfo" type="Label" parent="CanvasLayer/MarginContainer/Info Button/InfoContainer/Panel/MarginContainer/ScrollContainer/VBoxContainer"]
-custom_minimum_size = Vector2(912, 100)
+custom_minimum_size = Vector2(912, 0)
 layout_mode = 2
 text = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris sed blandit velit. Donec molestie ipsum eu ante dignissim dictum. Nullam ante sapien, maximus eget tellus vitae, volutpat faucibus dolor. Duis non iaculis ligula. Ut porta lacus sit amet varius porttitor. Donec hendrerit, eros eu finibus faucibus, diam mauris egestas ex, dictum iaculis magna neque nec ipsum. Nulla placerat erat mi, vitae vulputate dui scelerisque ut. Ut ut dictum elit. Sed ac pulvinar metus. Sed et eleifend quam. Curabitur vestibulum ex nec augue scelerisque, malesuada venenatis est eleifend. Nullam sit amet tempor felis. Cras felis nunc, accumsan quis turpis nec, bibendum cursus risus. Nulla viverra lorem augue, sit amet iaculis felis pulvinar sit amet. Sed scelerisque massa vel vestibulum malesuada.
 
@@ -113,7 +116,8 @@ Vivamus blandit, erat non porttitor viverra, risus lectus mattis nisi, ut ullamc
 Sed hendrerit pulvinar bibendum. Donec facilisis sem a dui fringilla, eu tincidunt ex euismod. In aliquet imperdiet lectus, vitae pretium neque commodo a. Proin sed mauris mattis, fermentum sem eu, maximus eros. Morbi congue nunc lacus, in pharetra lacus condimentum ornare. Vivamus elementum quis nisi eu tempus. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Donec ac lobortis purus.
 
 Morbi a mollis nisi. Sed sed malesuada nulla. Integer neque mauris, interdum eget vulputate non, elementum sed ex. Nam lobortis condimentum pulvinar. Vestibulum metus ligula, ullamcorper id arcu scelerisque, rutrum malesuada felis. In velit dui, sodales nec mollis iaculis, sagittis eget tellus. Donec in est id nulla consequat. "
-autowrap_mode = 2
+label_settings = ExtResource("4_dgsxl")
+autowrap_mode = 3
 
 [node name="Foldaway Controller" type="Control" parent="CanvasLayer/MarginContainer"]
 layout_mode = 2
@@ -249,9 +253,12 @@ ignore_texture_size = true
 stretch_mode = 0
 
 [node name="InitLabel" type="Label" parent="CanvasLayer/MarginContainer"]
+z_index = -10
 layout_mode = 2
 size_flags_horizontal = 4
-text = "Click RUN on an Algorithm to generate a new Dungeon"
+text = "Click RUN on an Algorithm to the left
+to generate a New Dungeon"
+label_settings = ExtResource("4_bgx4c")
 horizontal_alignment = 1
 
 [connection signal="pressed" from="CanvasLayer/MarginContainer/Foldaway Controller/Foldaway Container/ScrollContainer/Dropdown/Panel/VBoxContainer/Run 2NN" to="DungeonGenArea" method="_on_run_2nn_pressed"]
