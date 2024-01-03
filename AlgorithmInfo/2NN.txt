@@ -1,0 +1,22 @@
+2 Nearest Neighbour Algorithm
+This algorithm simplistically looks at every vertex and joins up its nearest two neighbours, with extra sanity checks for checking if the dungeon is fully traversable. The start and end rooms are always the either end of the longest path through the dungeon and treasure rooms are generated for every room that is on a leaf in the dungeon graph's MST. This algorithm was created bispokely by myself, which you can tell because its not very good. The dungeon runs in O(n^2) time.
+
+The algorithm steps are as follows:
+  1.  Randomly Generate each room.
+  2.  Store each center point of each room as a dungeon vertex.
+  3.  Calculate a distance matrix of the distance between each pair of verticies.
+  4.  For each Vertex, add an edge or corridor between the current vertex and its 2 nearest verticies.
+  5a. Attempt to traverse all verticies of the graph from an arbitrary vertex using the breadth-first search algorithm. store these verticies as a group of nodes.
+  5b. If not all verticies are reached after all edges are traversed, choose an unreached vertex and continue to search, adding all verticies found to a new vertex group.
+  5c. Continue Searching vertex groups until all verticies have been added to a vertex group.
+  6.  Connect each vertex group together with at least 1 edge.
+    6a. Calculate the average position of each vertex group and determine the 2 closest vertex groups.
+    6b. Create a new unconnected graph vertex on the midpoint between the shortest path between the 2 current vertex group average centers (called A).
+    6c. Find the distance between all verticies in both current vertex groups and A vertex.
+    6d. Create an edge between the A and the nearest vertex from each current vertex group.
+    6e. Remove A from the graph and connect the 2 vertecies that were connected to A and connect them.
+    6f. Update the vertex group distance matrix and Repeat this for the next closest pair of vertex groups until only 1 vertex group remains.
+  7.  Apply Primm's Algorithm to find the minimum spanning tree of the graph.
+  8a. Find the longest path within the MST and place the spawn room at one end and the goal room at the other.
+  8b. For every leaf node in the MST that isnt the start or end room, spawn a treasure room
+  9.  Apply AStar algorithm between each graph edge to map the corridor between each room.
