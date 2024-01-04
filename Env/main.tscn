@@ -1,16 +1,18 @@
-[gd_scene load_steps=16 format=3 uid="uid://diead0h2ufjhm"]
+[gd_scene load_steps=18 format=3 uid="uid://diead0h2ufjhm"]
 
 [ext_resource type="Script" path="res://Scripts/DungeonGenArea.gd" id="1_jvlp3"]
 [ext_resource type="Script" path="res://Scripts/UI/FoldawayButton.gd" id="2_6k2u2"]
 [ext_resource type="Script" path="res://Scripts/GraphAnimator.gd" id="2_041p4"]
 [ext_resource type="Script" path="res://Scripts/UI/Dropdown.gd" id="2_bq2b5"]
-[ext_resource type="Texture2D" uid="uid://bg4kgnejei55h" path="res://Assets/icon.svg" id="2_cut2g"]
 [ext_resource type="Script" path="res://Scripts/UISettingsManager.gd" id="3_fhyf0"]
 [ext_resource type="Script" path="res://Scripts/UI/Drawer.gd" id="3_htufo"]
 [ext_resource type="LabelSettings" uid="uid://dsfluuiknv1mr" path="res://Assets/UI/heading_label_settings.tres" id="4_bgx4c"]
 [ext_resource type="LabelSettings" uid="uid://o1usjfj4xqu7" path="res://Assets/UI/body_label_settings.tres" id="4_dgsxl"]
 [ext_resource type="Script" path="res://Scripts/UI/InfoButton.gd" id="6_ifkos"]
+[ext_resource type="Texture2D" uid="uid://bfwd4gefg13xj" path="res://Assets/DrawerButton.png" id="10_5qlxq"]
 [ext_resource type="LabelSettings" uid="uid://2behlqo0niv0" path="res://Assets/UI/Dropdown_counter_settings.tres" id="10_rnkda"]
+[ext_resource type="Texture2D" uid="uid://cr0w7ggbai43q" path="res://Assets/InfoButton.png" id="13_qyi6j"]
+[ext_resource type="Texture2D" uid="uid://c6d4pxmxdw86h" path="res://Assets/PanelButton.png" id="14_2vgwr"]
 
 [sub_resource type="Gradient" id="Gradient_gyoh7"]
 colors = PackedColorArray(0.415931, 0.657033, 0.642758, 1, 0.5293, 0.603165, 0.79, 1)
@@ -177,12 +179,10 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 offset_left = -32.0
 offset_top = 9.0
-offset_right = 96.0
-offset_bottom = 87.0
+offset_bottom = -9.0
 grow_horizontal = 0
 grow_vertical = 2
-scale = Vector2(0.25, 0.25)
-texture = ExtResource("2_cut2g")
+texture = ExtResource("10_5qlxq")
 
 [node name="TargetRoomNumPnl" type="Panel" parent="CanvasLayer/MarginContainer/Foldaway Controller/Foldaway Container/ScrollContainer/Dropdown/2NNPanel/VBoxContainer"]
 clip_contents = true
@@ -372,12 +372,10 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 offset_left = -32.0
 offset_top = 9.0
-offset_right = 96.0
-offset_bottom = 87.0
+offset_bottom = -9.0
 grow_horizontal = 0
 grow_vertical = 2
-scale = Vector2(0.25, 0.25)
-texture = ExtResource("2_cut2g")
+texture = ExtResource("10_5qlxq")
 
 [node name="Button2" type="Button" parent="CanvasLayer/MarginContainer/Foldaway Controller/Foldaway Container/ScrollContainer/Dropdown/Panel2/VBoxContainer"]
 custom_minimum_size = Vector2(300, 50)
@@ -390,20 +388,22 @@ layout_mode = 2
 text = "Test 6"
 
 [node name="InfoButton" type="TextureButton" parent="CanvasLayer/MarginContainer"]
+unique_name_in_owner = true
 custom_minimum_size = Vector2(50, 50)
 layout_mode = 2
 size_flags_horizontal = 8
 size_flags_vertical = 0
-texture_normal = ExtResource("2_cut2g")
+texture_normal = ExtResource("13_qyi6j")
 ignore_texture_size = true
 stretch_mode = 0
 
 [node name="Foldaway Button" type="TextureButton" parent="CanvasLayer/MarginContainer"]
+unique_name_in_owner = true
 custom_minimum_size = Vector2(50, 50)
 layout_mode = 2
 size_flags_horizontal = 0
 size_flags_vertical = 0
-texture_normal = ExtResource("2_cut2g")
+texture_normal = ExtResource("14_2vgwr")
 ignore_texture_size = true
 stretch_mode = 0
 

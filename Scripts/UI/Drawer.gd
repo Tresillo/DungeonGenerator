@@ -4,10 +4,15 @@ var is_expanded: bool = false
 
 var last_size = Vector2.ZERO
 
+var show_tex_rec
+
 @export var lerp_to: float = 215.0
 
 func _ready():
-	get_child(0).get_child(0).pressed.connect(func(): is_expanded = not is_expanded)
+	show_tex_rec = get_child(0).get_child(0).get_child(0)
+	get_child(0).get_child(0).pressed.connect(func():
+			is_expanded = not is_expanded
+			show_tex_rec.flip_v = is_expanded)
 
 func _process(delta):
 	

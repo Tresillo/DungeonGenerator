@@ -10,6 +10,7 @@ var button_init_pos
 func _ready():
 	foldaway_container_node = $"Foldaway Container"
 	button_init_pos = get_node("../Foldaway Button").position
+	%"Foldaway Button".flip_h = is_expanded
 
 
 func _process(delta):
@@ -33,3 +34,4 @@ func _process(delta):
 
 func _on_foldaway_button_pressed():
 	is_expanded = not is_expanded
+	%"Foldaway Button".flip_h = is_expanded
