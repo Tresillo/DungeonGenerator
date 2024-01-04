@@ -1,0 +1,3 @@
+Modified Binary Space Partitioning Algorithm
+
+The general idea is to take a space, and continue splitting it into 2 different sections, keeping track of these splits with a binary tree. When the number of individual areas wanted has been reached, a room is generated randomly in each partition. The partitions are then joined up in the same order that they were split apart, adding a corridor at every join. This creates a non looping dungeon, from which a start and end room can be found. However, as I want to create loops in my dungeon, I will modify the algorithm to add more corridors between adjacent partitions in the space. 
