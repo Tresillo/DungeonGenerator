@@ -110,7 +110,7 @@ func load_info_from_file(path:String):
 	if info_text_label == null or info_title_label == null:
 		info_text_label = get_tree().root.get_node("Main/CanvasLayer/MarginContainer/Info Button/InfoContainer/Panel/MarginContainer/ScrollContainer/VBoxContainer/AlgorithmInfo")
 		info_title_label = get_tree().root.get_node("Main/CanvasLayer/MarginContainer/Info Button/InfoContainer/Panel/MarginContainer/ScrollContainer/VBoxContainer/AlgorithmTitle")
-
+	
 	
 	info_title_label.text = title_line
 	info_text_label.text = info_string
@@ -122,4 +122,3 @@ func load_info_from_file(path:String):
 
 func _on_canvas_layer__2_nn_properties_changed(_2nn_target_room, _2nn_min_room, _2nn_max_room, _2nn_room_gen):
 	_2nn_props = [_2nn_target_room, _2nn_min_room, _2nn_max_room, _2nn_room_gen]
-	print("prop_chaged " + str(_2nn_props))

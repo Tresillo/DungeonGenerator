@@ -151,12 +151,12 @@ script = ExtResource("2_bq2b5")
 
 [node name="2NNPanel" type="Panel" parent="CanvasLayer/MarginContainer/Foldaway Controller/Foldaway Container/ScrollContainer/Dropdown" groups=["part_of_drawer"]]
 clip_contents = true
-custom_minimum_size = Vector2(300, 50)
+custom_minimum_size = Vector2(330, 50)
 layout_mode = 2
 offset_right = 250.0
 offset_bottom = 50.0
 script = ExtResource("3_htufo")
-lerp_to = 325.0
+lerp_to = 375.0
 
 [node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/MarginContainer/Foldaway Controller/Foldaway Container/ScrollContainer/Dropdown/2NNPanel" groups=["part_of_drawer"]]
 custom_minimum_size = Vector2(250, 0)
@@ -330,7 +330,7 @@ unique_name_in_owner = true
 layout_mode = 2
 min_value = 1.0
 max_value = 25.0
-value = 10.0
+value = 15.0
 tick_count = 1
 ticks_on_borders = true
 
