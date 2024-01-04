@@ -1,3 +1,29 @@
 Modified Binary Space Partitioning Algorithm
-
 The general idea is to take a space, and continue splitting it into 2 different sections, keeping track of these splits with a binary tree. When the number of individual areas wanted has been reached, a room is generated randomly in each partition. The partitions are then joined up in the same order that they were split apart, adding a corridor at every join. This creates a non looping dungeon, from which a start and end room can be found. However, as I want to create loops in my dungeon, I will modify the algorithm to add more corridors between adjacent partitions in the space. 
+
+The green room would be the room the player starts in, the red room would be the boss room or the end of the dunegon floor, and all yellow rooms would be the treasure rooms, for things like shops and chests.
+
+The properties given for this algorithm do the following:
+  Room Number: the number of rooms to be generated in the dungeon.
+  Minimum Room Dimensions: The minimum size of a dimension of a room that can generate.
+  Maximum Room Dimensions: The maximum size of a dimension of a room that can generate.
+
+The algorithm is based on this page (https://www.roguebasin.com/index.php/Basic_BSP_Dungeon_generation) and goes as follows as follows:
+  1.  Start from a region where the dungeon will be generated
+  2.  Split the region randomly into 2 partitions, with a random cardinal direction of the slice and a random place to start the slice. The slices should ensure not to leave a partition with less than the minimum size of a room in either dimension
+  3.  Create 2 sub regions from this split region, and keep track of this split in a binary tree, where each layer of split down is a new layer on the tree.
+  4.  Repeatedly split these sub regions in the same way you split the original region until you have as many sub areas as you want dungeon rooms.
+  5.  Randomly generate rooms in each of these leave binary partitions.
+  6.  In an attempt to generate loops in the graph, extra corridors will be added using the following
+	6a. For each leaf partition's edge, check through the opposite edges of all other leaf partitions to see if the two line up on the same axis.
+	6b. If a pair like this is found, make a secondary check to see if the other dimensions of the two leaf partitions are in the same range.
+	6c. If this is true, add this other leaf partition to the current leaf partition's list pf adjacent regions. These will be used to add additional edges.
+  7.  Merge the leaf node partitions together into their parent region, creating an edge between the two rooms in the two partitions.
+  8.  When making edges between rooms:
+	8a. If a straight line can be made between the rooms, make the corridor straight.
+	8b. If a straight line cannot be found, separate the edge into 3 components. From the centers of each room, move the greater component of the displacement of the rooms exactly half way using the first and thrid components of the corridor.
+	8c. With the second component of the corridor between the two rooms, create a perpendicular line between the first and third component of the rooms in order to make a Z shaped corridor.
+  9.  Also randomly add corridors between adjacent leaf partitions at this stage that were calculated from step 6.
+  10. Continue merging rooms and creating edges between them until the root of the binary tree is reached.
+  11. Using the tree from the binary tree earlier, find the longest path through this tree. Place the start room at one end and the end room at the other.
+  12. For leaf rooms in the binary tree that are not designated as the start or end rooms, label these as treasure rooms.
