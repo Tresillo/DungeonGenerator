@@ -149,15 +149,18 @@ func interupt_tween():
 			current_tween.kill()
 	
 	for o in animating_areas:
-		o.queue_free()
+		if is_instance_valid(o):
+			o.queue_free()
 	animating_areas = []
 	
 	for o in animating_corridors:
-		o.queue_free()
+		if is_instance_valid(o):
+			o.queue_free()
 	animating_corridors = []
 	
 	for o in animating_rooms:
-		o.queue_free()
+		if is_instance_valid(o):
+			o.queue_free()
 	animating_rooms = []
 	
 	current_tween = null
