@@ -389,7 +389,7 @@ text = "Test 6"
 
 [node name="InfoButton" type="TextureButton" parent="CanvasLayer/MarginContainer"]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(50, 50)
+custom_minimum_size = Vector2(32, 32)
 layout_mode = 2
 size_flags_horizontal = 8
 size_flags_vertical = 0
@@ -399,7 +399,7 @@ stretch_mode = 0
 
 [node name="Foldaway Button" type="TextureButton" parent="CanvasLayer/MarginContainer"]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(50, 50)
+custom_minimum_size = Vector2(32, 32)
 layout_mode = 2
 size_flags_horizontal = 0
 size_flags_vertical = 0
