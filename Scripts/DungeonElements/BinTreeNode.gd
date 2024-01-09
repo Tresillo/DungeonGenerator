@@ -1,28 +1,32 @@
 class_name BinTreeNode
 
 var dungeon_region: DungeonRegion
-var tree_children: Array[BinTreeNode]
+var left_tree_child: BinTreeNode
+var right_tree_child: BinTreeNode
 var tree_parent: BinTreeNode
 
 
 func _init(contained_region: DungeonRegion):
 	dungeon_region = contained_region
 	
-	tree_children = []
+	left_tree_child = null
+	right_tree_child = null
 	tree_parent = null
 
 
 func add_tree_child(new_child: BinTreeNode) -> bool:
-	if tree_children.size() >= 2:
-		return false
-	else:
-		tree_children.append(new_child)
-		new_child.tree_parent = self
+	if left_tree_child == null:
+		left_tree_child = new_child
 		return true
+	elif right_tree_child == null:
+		right_tree_child = new_child
+		return true
+	else:
+		return false
 
 
 func get_tree_children() -> Array[BinTreeNode]:
-	return tree_children
+	return [left_tree_child,right_tree_child]
 
 
 func get_tree_parent() -> BinTreeNode:
@@ -30,4 +34,4 @@ func get_tree_parent() -> BinTreeNode:
 
 
 func is_leaf() -> bool:
-	return (tree_children.size() <= 0)
+	return (left_tree_child == null and right_tree_child == null)
