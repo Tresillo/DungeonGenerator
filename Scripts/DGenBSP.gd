@@ -57,18 +57,17 @@ func generate_dungeon():
 	var partitions_remaining: int = rm_num - 1 #super partition is first one
 	var no_new_partitions_made: bool = false
 	var new_partition_this_generation: bool = true
+	var splits_to_animate = []
+	var splits_to_animate_cur_gen = []
 	
-	#loop
-	#get leaf nodes
-	#itterate on each one
-	#split each
-	#check remaining rooms after each split, break if true
-	#once all have have been split, get bsp leaf nodes
-	
+	#Step 4
 	while (partitions_remaining > 0 and not no_new_partitions_made):
 		
 		#refresh available leaf nodes
 		if current_leaf_nodes.size() <= 0:
+			if splits_to_animate_cur_gen.size() > 0:
+				splits_to_animate.append(splits_to_animate_cur_gen.duplicate())
+				splits_to_animate_cur_gen = []
 			if not new_partition_this_generation:
 				#no more space to partition for more rooms
 				no_new_partitions_made = true
@@ -79,7 +78,7 @@ func generate_dungeon():
 		if not no_new_partitions_made:
 			var cur_part_parent = current_leaf_nodes.pop_back()
 			var cur_parent_region = cur_part_parent.dungeon_region
-			
+			#Step 2
 			#if current leaf node has a dimension large enough to split
 			if cur_parent_region.dim.x > 2*min_dim or cur_parent_region.dim.y > 2*min_dim:
 				#choose random available split direction
@@ -95,6 +94,7 @@ func generate_dungeon():
 				var split_position: float = -1.0
 				var child1: DungeonRegion
 				var child2: DungeonRegion
+				#Step 3
 				if split_dir == Vector2.DOWN:
 					#can only choose to split in a way where a room
 					#could be generated in the resulting partition
@@ -142,11 +142,24 @@ func generate_dungeon():
 							)
 					)
 				
-				binary_tree.add_new_tree_child(cur_part_parent,BinTreeNode.new(child1))
-				binary_tree.add_new_tree_child(cur_part_parent,BinTreeNode.new(child2))
+				var child1_node = BinTreeNode.new(child1)
+				var child2_node = BinTreeNode.new(child2)
+				
+				binary_tree.add_new_tree_child(cur_part_parent,child1_node)
+				binary_tree.add_new_tree_child(cur_part_parent,child2_node)
 				partitions_remaining -= 1
 				#keep track that there is still a chance new partitions can be generated
 				new_partition_this_generation = true
+				
+				#create split container class for keeping track of splits to animate
+				var cur_part_split = PartitionSplit.new()
+				cur_part_split.parent_partition = cur_part_parent
+				cur_part_split.child1_partition = child1_node
+				cur_part_split.child2_partition = child2_node
+				cur_part_split.split_direction = split_dir
+				cur_part_split.split_line_start = child2.coord1
+				cur_part_split.split_line_end = child1.coord2
+				splits_to_animate_cur_gen.append(cur_part_split)
 				
 				
 	
