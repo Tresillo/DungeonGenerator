@@ -2,31 +2,33 @@ extends Node2D
 
 class_name DungeonRegion
 
-@export var coord1: Vector2 = Vector2(100,0):
+@export var coord1: Vector2 = Vector2(0,0):
 	set(val):
 		coord1 = val
 		draw_coord1 = coord1
+		update_dimensions()
 	get:
 		return coord1
-@export var coord2: Vector2 = Vector2(100,0):
+@export var coord2: Vector2 = Vector2(100,100):
 	set(val):
 		coord2 = val
 		draw_coord2 = coord2
+		update_dimensions()
 	get:
 		return coord2
-@export var dim: Vector2 = Vector2(100,0):
+@export var dim: Vector2 = Vector2(100,100):
 	set(val):
 		dim = val
 	get:
 		return dim
 
-@export var draw_coord1: Vector2 = Vector2(100,0):
+@export var draw_coord1: Vector2 = Vector2(0,0):
 	set(val):
 		draw_coord1 = val
 		queue_redraw()
 	get:
 		return draw_coord1
-@export var draw_coord2: Vector2 = Vector2(100,0):
+@export var draw_coord2: Vector2 = Vector2(100,100):
 	set(val):
 		draw_coord2 = val
 		queue_redraw()
@@ -78,9 +80,14 @@ func _init(dimensions: Rect2):
 	queue_redraw()
 
 
+func update_dimensions():
+	dim = Vector2(coord1.x - coord2.x, coord1.y - coord2.y)
+
+
 func _draw():
 	var margin_vector = Vector2(margin, margin)
-	var vis_rect:Rect2 = Rect2(draw_coord1 + margin_vector, draw_coord2 - draw_coord1 - 2*margin_vector)
+	var vis_rect:Rect2 = Rect2(draw_coord1 + margin_vector + border_width * 0.5,\
+			draw_coord2 - draw_coord1 - 2*margin_vector - border_width)
 	
 	draw_rect(vis_rect, border_color, false, border_width)
 	draw_rect(vis_rect, fill_color, true)

@@ -128,6 +128,10 @@ func emphasize_verticies(verts: Array[DungeonVert], cols: Array[Color]):
 		
 
 
+func animate_split(regions):
+	pass
+
+
 func check_tween():
 	if current_tween == null:
 		current_tween = get_tree().create_tween().bind_node(self)\
