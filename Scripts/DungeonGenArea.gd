@@ -4,6 +4,7 @@ class_name DungeonGenArea
 
 # info file paths
 @onready var TNN_info = "res://AlgorithmInfo/2NN.txt"
+@onready var BSP_info = "res://AlgorithmInfo/BSP.txt"
 var loaded_path = ""
 
 @export var area_coord1: Vector2 = Vector2(100,0):
@@ -88,19 +89,6 @@ func new_graph():
 	#draw_polyline(rect_points, border_color, border_width)
 
 
-func _on_run_2nn_pressed():
-	new_graph()
-	graph_animator.interupt_tween()
-	
-	#read and load the Info file for this
-	if loaded_path != TNN_info:
-		load_info_from_file(TNN_info)
-	
-	dungeon_gen = DGen2NN.new(area_coord1,area_coord2,_2nn_props[0], _2nn_props[1], _2nn_props[2], _2nn_props[3], graph_animator)
-	add_child(dungeon_gen)
-	dungeon_gen.generate_dungeon()
-
-
 func load_info_from_file(path:String):
 	var f = FileAccess.open(path,FileAccess.READ)
 	var title_line = f.get_line()
@@ -122,3 +110,30 @@ func load_info_from_file(path:String):
 
 func _on_canvas_layer__2_nn_properties_changed(_2nn_target_room, _2nn_min_room, _2nn_max_room, _2nn_room_gen):
 	_2nn_props = [_2nn_target_room, _2nn_min_room, _2nn_max_room, _2nn_room_gen]
+
+
+func _on_run_2nn_pressed():
+	new_graph()
+	graph_animator.interupt_tween()
+	
+	#read and load the Info file for this
+	if loaded_path != TNN_info:
+		load_info_from_file(TNN_info)
+	
+	dungeon_gen = DGen2NN.new(area_coord1,area_coord2,_2nn_props[0], _2nn_props[1], _2nn_props[2], _2nn_props[3], graph_animator)
+	add_child(dungeon_gen)
+	dungeon_gen.generate_dungeon()
+
+
+func _on_run_bsp_pressed():
+	new_graph()
+	graph_animator.interupt_tween()
+	
+	#read and load the Info file for this
+	if loaded_path != BSP_info:
+		load_info_from_file(BSP_info)
+	
+	dungeon_gen = DGenBSP.new(area_coord1,area_coord2, 15, 40, 100, graph_animator)
+	add_child(dungeon_gen)
+	dungeon_gen.generate_dungeon()
+

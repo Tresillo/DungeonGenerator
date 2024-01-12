@@ -39,6 +39,8 @@ func  _ready():
 	_2nn_room_gen_atmpt_sld.value_changed.connect(_on_2nn_room_gen_attempt_changed)
 	default_2nn_room_gen_atmpt = _2nn_room_gen_atmpt_sld.value
 	_2nn_room_gen_atmpt = default_2nn_room_gen_atmpt
+	
+	#Setup Node paths for Binary Space Partition
 
 
 func _on_2nn_target_room_num_changed(val: float):
@@ -74,3 +76,7 @@ func _on_default_2nn_pressed():
 	_2nn_min_room_dim_sld.value = default_2nn_min_room_dim
 	_2nn_max_room_dim_sld.value = default_2nn_max_room_dim
 	_2nn_room_gen_atmpt_sld.value = default_2nn_room_gen_atmpt
+
+
+func _on_default_bsp_pressed():
+	pass # Replace with function body.

@@ -342,16 +342,16 @@ text = "Run"
 [node name="Default 2NN" type="Button" parent="CanvasLayer/MarginContainer/Foldaway Controller/Foldaway Container/ScrollContainer/Dropdown/2NNPanel/VBoxContainer"]
 custom_minimum_size = Vector2(300, 50)
 layout_mode = 2
-text = "Set to Default"
+text = "Set to Defaults"
 
 [node name="Panel2" type="Panel" parent="CanvasLayer/MarginContainer/Foldaway Controller/Foldaway Container/ScrollContainer/Dropdown" groups=["part_of_drawer"]]
 clip_contents = true
-custom_minimum_size = Vector2(300, 50)
+custom_minimum_size = Vector2(330, 50)
 layout_mode = 2
 offset_right = 250.0
 offset_bottom = 50.0
 script = ExtResource("3_htufo")
-lerp_to = 100.0
+lerp_to = 160.0
 
 [node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/MarginContainer/Foldaway Controller/Foldaway Container/ScrollContainer/Dropdown/Panel2" groups=["part_of_drawer"]]
 custom_minimum_size = Vector2(300, 0)
@@ -377,15 +377,15 @@ grow_horizontal = 0
 grow_vertical = 2
 texture = ExtResource("10_5qlxq")
 
-[node name="Button2" type="Button" parent="CanvasLayer/MarginContainer/Foldaway Controller/Foldaway Container/ScrollContainer/Dropdown/Panel2/VBoxContainer"]
+[node name="Run BSP" type="Button" parent="CanvasLayer/MarginContainer/Foldaway Controller/Foldaway Container/ScrollContainer/Dropdown/Panel2/VBoxContainer"]
 custom_minimum_size = Vector2(300, 50)
 layout_mode = 2
-text = "Test 5"
+text = "Run"
 
-[node name="Button3" type="Button" parent="CanvasLayer/MarginContainer/Foldaway Controller/Foldaway Container/ScrollContainer/Dropdown/Panel2/VBoxContainer"]
+[node name="Default BSP" type="Button" parent="CanvasLayer/MarginContainer/Foldaway Controller/Foldaway Container/ScrollContainer/Dropdown/Panel2/VBoxContainer"]
 custom_minimum_size = Vector2(300, 50)
 layout_mode = 2
-text = "Test 6"
+text = "Set to Defaults"
 
 [node name="InfoButton" type="TextureButton" parent="CanvasLayer/MarginContainer"]
 unique_name_in_owner = true
@@ -419,5 +419,7 @@ horizontal_alignment = 1
 [connection signal="_2nn_properties_changed" from="CanvasLayer" to="DungeonGenArea" method="_on_canvas_layer__2_nn_properties_changed"]
 [connection signal="pressed" from="CanvasLayer/MarginContainer/Foldaway Controller/Foldaway Container/ScrollContainer/Dropdown/2NNPanel/VBoxContainer/Run 2NN" to="DungeonGenArea" method="_on_run_2nn_pressed"]
 [connection signal="pressed" from="CanvasLayer/MarginContainer/Foldaway Controller/Foldaway Container/ScrollContainer/Dropdown/2NNPanel/VBoxContainer/Default 2NN" to="CanvasLayer" method="_on_default_2nn_pressed"]
+[connection signal="pressed" from="CanvasLayer/MarginContainer/Foldaway Controller/Foldaway Container/ScrollContainer/Dropdown/Panel2/VBoxContainer/Run BSP" to="DungeonGenArea" method="_on_run_bsp_pressed"]
+[connection signal="pressed" from="CanvasLayer/MarginContainer/Foldaway Controller/Foldaway Container/ScrollContainer/Dropdown/Panel2/VBoxContainer/Default BSP" to="CanvasLayer" method="_on_default_bsp_pressed"]
 [connection signal="pressed" from="CanvasLayer/MarginContainer/InfoButton" to="CanvasLayer/MarginContainer/Info Button" method="_on_info_button_pressed"]
 [connection signal="pressed" from="CanvasLayer/MarginContainer/Foldaway Button" to="CanvasLayer/MarginContainer/Foldaway Controller" method="_on_foldaway_button_pressed"]

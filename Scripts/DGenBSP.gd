@@ -94,6 +94,7 @@ func generate_dungeon():
 				var split_position: float = -1.0
 				var child1: DungeonRegion
 				var child2: DungeonRegion
+				
 				#Step 3
 				if split_dir == Vector2.DOWN:
 					#can only choose to split in a way where a room
