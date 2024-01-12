@@ -62,7 +62,6 @@ func generate_dungeon():
 	
 	#Step 4
 	while (partitions_remaining > 0 and not no_new_partitions_made):
-		
 		#refresh available leaf nodes
 		if current_leaf_nodes.size() <= 0:
 			if splits_to_animate_cur_gen.size() > 0:
@@ -73,7 +72,7 @@ func generate_dungeon():
 				no_new_partitions_made = true
 			else:
 				new_partition_this_generation = false
-				current_leaf_nodes = binary_tree.get_leaf_nodes()
+				current_leaf_nodes = binary_tree.get_leaf_nodes() as Array[BinTreeNode]
 		
 		if not no_new_partitions_made:
 			var cur_part_parent = current_leaf_nodes.pop_back()
@@ -162,6 +161,12 @@ func generate_dungeon():
 				cur_part_split.split_line_end = child1.coord2
 				splits_to_animate_cur_gen.append(cur_part_split)
 				
-				
+	
+	var temp_leaf_regions:Array[DungeonRegion] = []
+	for b in binary_tree.get_leaf_nodes():
+		temp_leaf_regions.append(b.dungeon_region as DungeonRegion)
+	
+	if graph_animator != null:
+		graph_animator.animate_in_regions(temp_leaf_regions)
 	
 

@@ -35,4 +35,4 @@ func get_tree_parent() -> BinTreeNode:
 
 
 func is_leaf() -> bool:
-	return (left_tree_child == null and right_tree_child == null)
+	return not (left_tree_child is BinTreeNode or right_tree_child is BinTreeNode)

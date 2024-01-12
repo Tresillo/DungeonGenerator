@@ -10,7 +10,7 @@ func _init(root_node: BinTreeNode):
 
 
 func get_leaf_nodes() -> Array[BinTreeNode]:
-	var leaf_array = []
+	var leaf_array: Array[BinTreeNode] = []
 	for n in nodes:
 		if n.is_leaf():
 			leaf_array.append(n)
