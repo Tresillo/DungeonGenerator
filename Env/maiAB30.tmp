@@ -1,0 +1,425 @@
+[gd_scene load_steps=18 format=3 uid="uid://diead0h2ufjhm"]
+
+[ext_resource type="Script" path="res://Scripts/DungeonGenArea.gd" id="1_jvlp3"]
+[ext_resource type="Script" path="res://Scripts/UI/FoldawayButton.gd" id="2_6k2u2"]
+[ext_resource type="Script" path="res://Scripts/GraphAnimator.gd" id="2_041p4"]
+[ext_resource type="Script" path="res://Scripts/UI/Dropdown.gd" id="2_bq2b5"]
+[ext_resource type="Script" path="res://Scripts/UISettingsManager.gd" id="3_fhyf0"]
+[ext_resource type="Script" path="res://Scripts/UI/Drawer.gd" id="3_htufo"]
+[ext_resource type="LabelSettings" uid="uid://dsfluuiknv1mr" path="res://Assets/UI/heading_label_settings.tres" id="4_bgx4c"]
+[ext_resource type="LabelSettings" uid="uid://o1usjfj4xqu7" path="res://Assets/UI/body_label_settings.tres" id="4_dgsxl"]
+[ext_resource type="Script" path="res://Scripts/UI/InfoButton.gd" id="6_ifkos"]
+[ext_resource type="Texture2D" uid="uid://bfwd4gefg13xj" path="res://Assets/DrawerButton.png" id="10_5qlxq"]
+[ext_resource type="LabelSettings" uid="uid://2behlqo0niv0" path="res://Assets/UI/Dropdown_counter_settings.tres" id="10_rnkda"]
+[ext_resource type="Texture2D" uid="uid://cr0w7ggbai43q" path="res://Assets/InfoButton.png" id="13_qyi6j"]
+[ext_resource type="Texture2D" uid="uid://c6d4pxmxdw86h" path="res://Assets/PanelButton.png" id="14_2vgwr"]
+
+[sub_resource type="Gradient" id="Gradient_gyoh7"]
+colors = PackedColorArray(0.415931, 0.657033, 0.642758, 1, 0.5293, 0.603165, 0.79, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_a3qn3"]
+gradient = SubResource("Gradient_gyoh7")
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_vi6jh"]
+
+[sub_resource type="Theme" id="Theme_nr6ky"]
+Panel/styles/panel = SubResource("StyleBoxEmpty_vi6jh")
+
+[node name="Main" type="Node2D"]
+
+[node name="DungeonGenArea" type="Node2D" parent="."]
+script = ExtResource("1_jvlp3")
+area_coord1 = Vector2(200, 50)
+area_coord2 = Vector2(1000, 550)
+border_color = Color(1, 1, 1, 1)
+
+[node name="GraphAnimator" type="Node" parent="DungeonGenArea"]
+script = ExtResource("2_041p4")
+
+[node name="Backing" type="Sprite2D" parent="."]
+z_index = -1
+position = Vector2(576.5, 323.5)
+scale = Vector2(4.51172, 645)
+texture = SubResource("GradientTexture1D_a3qn3")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+layer = 100
+script = ExtResource("3_fhyf0")
+
+[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="Info Button" type="Control" parent="CanvasLayer/MarginContainer"]
+layout_mode = 2
+script = ExtResource("6_ifkos")
+
+[node name="InfoContainer" type="MarginContainer" parent="CanvasLayer/MarginContainer/Info Button"]
+visible = false
+clip_contents = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme_override_constants/margin_left = 100
+theme_override_constants/margin_top = 20
+theme_override_constants/margin_right = 100
+theme_override_constants/margin_bottom = 20
+
+[node name="Panel" type="Panel" parent="CanvasLayer/MarginContainer/Info Button/InfoContainer"]
+layout_mode = 2
+mouse_filter = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/MarginContainer/Info Button/InfoContainer/Panel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="ScrollContainer" type="ScrollContainer" parent="CanvasLayer/MarginContainer/Info Button/InfoContainer/Panel/MarginContainer"]
+layout_mode = 2
+mouse_filter = 0
+follow_focus = true
+horizontal_scroll_mode = 0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/MarginContainer/Info Button/InfoContainer/Panel/MarginContainer/ScrollContainer"]
+layout_mode = 2
+alignment = 1
+
+[node name="AlgorithmTitle" type="Label" parent="CanvasLayer/MarginContainer/Info Button/InfoContainer/Panel/MarginContainer/ScrollContainer/VBoxContainer"]
+custom_minimum_size = Vector2(912, 0)
+layout_mode = 2
+text = "Default Title"
+label_settings = ExtResource("4_bgx4c")
+horizontal_alignment = 1
+autowrap_mode = 2
+
+[node name="AlgorithmInfo" type="Label" parent="CanvasLayer/MarginContainer/Info Button/InfoContainer/Panel/MarginContainer/ScrollContainer/VBoxContainer"]
+custom_minimum_size = Vector2(912, 0)
+layout_mode = 2
+text = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris sed blandit velit. Donec molestie ipsum eu ante dignissim dictum. Nullam ante sapien, maximus eget tellus vitae, volutpat faucibus dolor. Duis non iaculis ligula. Ut porta lacus sit amet varius porttitor. Donec hendrerit, eros eu finibus faucibus, diam mauris egestas ex, dictum iaculis magna neque nec ipsum. Nulla placerat erat mi, vitae vulputate dui scelerisque ut. Ut ut dictum elit. Sed ac pulvinar metus. Sed et eleifend quam. Curabitur vestibulum ex nec augue scelerisque, malesuada venenatis est eleifend. Nullam sit amet tempor felis. Cras felis nunc, accumsan quis turpis nec, bibendum cursus risus. Nulla viverra lorem augue, sit amet iaculis felis pulvinar sit amet. Sed scelerisque massa vel vestibulum malesuada.
+
+Vivamus blandit, erat non porttitor viverra, risus lectus mattis nisi, ut ullamcorper mi quam sed dolor. Etiam non elit vitae purus venenatis feugiat eu ultricies lacus. Ut feugiat velit eget diam fringilla rutrum. Integer quis magna sed metus pulvinar congue eget scelerisque mauris. Duis dictum nulla sit amet dictum viverra. Proin convallis faucibus ipsum, eu aliquet nulla cursus in. Vestibulum malesuada erat vel augue hendrerit, a efficitur augue molestie.
+
+Sed hendrerit pulvinar bibendum. Donec facilisis sem a dui fringilla, eu tincidunt ex euismod. In aliquet imperdiet lectus, vitae pretium neque commodo a. Proin sed mauris mattis, fermentum sem eu, maximus eros. Morbi congue nunc lacus, in pharetra lacus condimentum ornare. Vivamus elementum quis nisi eu tempus. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Donec ac lobortis purus.
+
+Morbi a mollis nisi. Sed sed malesuada nulla. Integer neque mauris, interdum eget vulputate non, elementum sed ex. Nam lobortis condimentum pulvinar. Vestibulum metus ligula, ullamcorper id arcu scelerisque, rutrum malesuada felis. In velit dui, sodales nec mollis iaculis, sagittis eget tellus. Donec in est id nulla consequat. "
+label_settings = ExtResource("4_dgsxl")
+autowrap_mode = 3
+
+[node name="Foldaway Controller" type="Control" parent="CanvasLayer/MarginContainer"]
+layout_mode = 2
+mouse_filter = 2
+script = ExtResource("2_6k2u2")
+
+[node name="Foldaway Container" type="Panel" parent="CanvasLayer/MarginContainer/Foldaway Controller"]
+clip_contents = true
+custom_minimum_size = Vector2(0, 500)
+layout_mode = 2
+offset_bottom = 300.0
+size_flags_horizontal = 0
+size_flags_vertical = 0
+theme = SubResource("Theme_nr6ky")
+
+[node name="ScrollContainer" type="ScrollContainer" parent="CanvasLayer/MarginContainer/Foldaway Controller/Foldaway Container"]
+custom_minimum_size = Vector2(300, 500)
+layout_mode = 2
+offset_right = 300.0
+offset_bottom = 300.0
+size_flags_horizontal = 0
+size_flags_vertical = 0
+horizontal_scroll_mode = 0
+
+[node name="Dropdown" type="Control" parent="CanvasLayer/MarginContainer/Foldaway Controller/Foldaway Container/ScrollContainer"]
+layout_mode = 2
+script = ExtResource("2_bq2b5")
+
+[node name="2NNPanel" type="Panel" parent="CanvasLayer/MarginContainer/Foldaway Controller/Foldaway Container/ScrollContainer/Dropdown" groups=["part_of_drawer"]]
+clip_contents = true
+custom_minimum_size = Vector2(330, 50)
+layout_mode = 2
+offset_right = 250.0
+offset_bottom = 50.0
+script = ExtResource("3_htufo")
+lerp_to = 375.0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/MarginContainer/Foldaway Controller/Foldaway Container/ScrollContainer/Dropdown/2NNPanel" groups=["part_of_drawer"]]
+custom_minimum_size = Vector2(250, 0)
+layout_mode = 0
+offset_right = 300.0
+offset_bottom = 158.0
+
+[node name="Show2NNSettings" type="Button" parent="CanvasLayer/MarginContainer/Foldaway Controller/Foldaway Container/ScrollContainer/Dropdown/2NNPanel/VBoxContainer"]
+custom_minimum_size = Vector2(250, 50)
+layout_mode = 2
+text = "2 Nearest Algorithm"
+
+[node name="TextureRect" type="TextureRect" parent="CanvasLayer/MarginContainer/Foldaway Controller/Foldaway Container/ScrollContainer/Dropdown/2NNPanel/VBoxContainer/Show2NNSettings"]
+layout_mode = 1
+anchors_preset = 11
+anchor_left = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -32.0
+offset_top = 9.0
+offset_bottom = -9.0
+grow_horizontal = 0
+grow_vertical = 2
+texture = ExtResource("10_5qlxq")
+
+[node name="TargetRoomNumPnl" type="Panel" parent="CanvasLayer/MarginContainer/Foldaway Controller/Foldaway Container/ScrollContainer/Dropdown/2NNPanel/VBoxContainer"]
+clip_contents = true
+custom_minimum_size = Vector2(300, 50)
+layout_mode = 2
+
+[node name="TargetRoomNumCont" type="VBoxContainer" parent="CanvasLayer/MarginContainer/Foldaway Controller/Foldaway Container/ScrollContainer/Dropdown/2NNPanel/VBoxContainer/TargetRoomNumPnl"]
+custom_minimum_size = Vector2(300, 50)
+layout_mode = 2
+offset_top = 4.0
+offset_right = 300.0
+offset_bottom = 50.0
+alignment = 1
+
+[node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/MarginContainer/Foldaway Controller/Foldaway Container/ScrollContainer/Dropdown/2NNPanel/VBoxContainer/TargetRoomNumPnl/TargetRoomNumCont"]
+layout_mode = 2
+
+[node name="TargetRoomNumLbl" type="Label" parent="CanvasLayer/MarginContainer/Foldaway Controller/Foldaway Container/ScrollContainer/Dropdown/2NNPanel/VBoxContainer/TargetRoomNumPnl/TargetRoomNumCont/HBoxContainer"]
+layout_mode = 2
+text = "Target Room Number:"
+label_settings = ExtResource("4_dgsxl")
+
+[node name="2NNTargetRoomNumCounter" type="Label" parent="CanvasLayer/MarginContainer/Foldaway Controller/Foldaway Container/ScrollContainer/Dropdown/2NNPanel/VBoxContainer/TargetRoomNumPnl/TargetRoomNumCont/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "25"
+label_settings = ExtResource("10_rnkda")
+horizontal_alignment = 2
+
+[node name="2NNTargetRoomNumSld" type="HSlider" parent="CanvasLayer/MarginContainer/Foldaway Controller/Foldaway Container/ScrollContainer/Dropdown/2NNPanel/VBoxContainer/TargetRoomNumPnl/TargetRoomNumCont"]
+unique_name_in_owner = true
+layout_mode = 2
+min_value = 5.0
+max_value = 30.0
+value = 25.0
+tick_count = 1
+ticks_on_borders = true
+
+[node name="MinRoomDimPnl" type="Panel" parent="CanvasLayer/MarginContainer/Foldaway Controller/Foldaway Container/ScrollContainer/Dropdown/2NNPanel/VBoxContainer"]
+clip_contents = true
+custom_minimum_size = Vector2(300, 50)
+layout_mode = 2
+
+[node name="MinRoomDimCtn" type="VBoxContainer" parent="CanvasLayer/MarginContainer/Foldaway Controller/Foldaway Container/ScrollContainer/Dropdown/2NNPanel/VBoxContainer/MinRoomDimPnl"]
+custom_minimum_size = Vector2(300, 50)
+layout_mode = 2
+offset_top = 4.0
+offset_right = 300.0
+offset_bottom = 50.0
+alignment = 1
+
+[node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/MarginContainer/Foldaway Controller/Foldaway Container/ScrollContainer/Dropdown/2NNPanel/VBoxContainer/MinRoomDimPnl/MinRoomDimCtn"]
+layout_mode = 2
+
+[node name="MinRoomDimLbl" type="Label" parent="CanvasLayer/MarginContainer/Foldaway Controller/Foldaway Container/ScrollContainer/Dropdown/2NNPanel/VBoxContainer/MinRoomDimPnl/MinRoomDimCtn/HBoxContainer"]
+layout_mode = 2
+text = "Minimum Room Dimensions:"
+label_settings = ExtResource("4_dgsxl")
+
+[node name="2NNMinRoomDimCounter" type="Label" parent="CanvasLayer/MarginContainer/Foldaway Controller/Foldaway Container/ScrollContainer/Dropdown/2NNPanel/VBoxContainer/MinRoomDimPnl/MinRoomDimCtn/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(0.929412, 0.478431, 0.72549, 1)
+text = "50"
+label_settings = ExtResource("10_rnkda")
+horizontal_alignment = 2
+
+[node name="2NNMinRoomDimSld" type="HSlider" parent="CanvasLayer/MarginContainer/Foldaway Controller/Foldaway Container/ScrollContainer/Dropdown/2NNPanel/VBoxContainer/MinRoomDimPnl/MinRoomDimCtn"]
+unique_name_in_owner = true
+layout_mode = 2
+min_value = 10.0
+value = 50.0
+tick_count = 1
+ticks_on_borders = true
+
+[node name="MaxRoomDimPnl" type="Panel" parent="CanvasLayer/MarginContainer/Foldaway Controller/Foldaway Container/ScrollContainer/Dropdown/2NNPanel/VBoxContainer"]
+clip_contents = true
+custom_minimum_size = Vector2(300, 50)
+layout_mode = 2
+
+[node name="MaxRoomDimCtn" type="VBoxContainer" parent="CanvasLayer/MarginContainer/Foldaway Controller/Foldaway Container/ScrollContainer/Dropdown/2NNPanel/VBoxContainer/MaxRoomDimPnl"]
+custom_minimum_size = Vector2(300, 50)
+layout_mode = 2
+offset_top = 4.0
+offset_right = 300.0
+offset_bottom = 50.0
+alignment = 1
+
+[node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/MarginContainer/Foldaway Controller/Foldaway Container/ScrollContainer/Dropdown/2NNPanel/VBoxContainer/MaxRoomDimPnl/MaxRoomDimCtn"]
+layout_mode = 2
+
+[node name="MaxRoomDimLbl" type="Label" parent="CanvasLayer/MarginContainer/Foldaway Controller/Foldaway Container/ScrollContainer/Dropdown/2NNPanel/VBoxContainer/MaxRoomDimPnl/MaxRoomDimCtn/HBoxContainer"]
+layout_mode = 2
+text = "Maximum Room Dimensions:"
+label_settings = ExtResource("4_dgsxl")
+
+[node name="2NNMaxRoomDimCounter" type="Label" parent="CanvasLayer/MarginContainer/Foldaway Controller/Foldaway Container/ScrollContainer/Dropdown/2NNPanel/VBoxContainer/MaxRoomDimPnl/MaxRoomDimCtn/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(0.929412, 0.478431, 0.72549, 1)
+text = "150"
+label_settings = ExtResource("10_rnkda")
+horizontal_alignment = 2
+
+[node name="2NNMaxRoomDimSld" type="HSlider" parent="CanvasLayer/MarginContainer/Foldaway Controller/Foldaway Container/ScrollContainer/Dropdown/2NNPanel/VBoxContainer/MaxRoomDimPnl/MaxRoomDimCtn"]
+unique_name_in_owner = true
+layout_mode = 2
+min_value = 50.0
+max_value = 200.0
+value = 150.0
+tick_count = 1
+ticks_on_borders = true
+
+[node name="RoomGenAtmptPnl" type="Panel" parent="CanvasLayer/MarginContainer/Foldaway Controller/Foldaway Container/ScrollContainer/Dropdown/2NNPanel/VBoxContainer"]
+clip_contents = true
+custom_minimum_size = Vector2(300, 50)
+layout_mode = 2
+
+[node name="RoomGenAtmptCtn" type="VBoxContainer" parent="CanvasLayer/MarginContainer/Foldaway Controller/Foldaway Container/ScrollContainer/Dropdown/2NNPanel/VBoxContainer/RoomGenAtmptPnl"]
+custom_minimum_size = Vector2(300, 50)
+layout_mode = 2
+offset_top = 4.0
+offset_right = 300.0
+offset_bottom = 50.0
+alignment = 1
+
+[node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/MarginContainer/Foldaway Controller/Foldaway Container/ScrollContainer/Dropdown/2NNPanel/VBoxContainer/RoomGenAtmptPnl/RoomGenAtmptCtn"]
+layout_mode = 2
+
+[node name="RoomGenAtmptLbl" type="Label" parent="CanvasLayer/MarginContainer/Foldaway Controller/Foldaway Container/ScrollContainer/Dropdown/2NNPanel/VBoxContainer/RoomGenAtmptPnl/RoomGenAtmptCtn/HBoxContainer"]
+layout_mode = 2
+text = "Room Generation Attempts:"
+label_settings = ExtResource("4_dgsxl")
+
+[node name="2NNRoomGenAttemptCounter" type="Label" parent="CanvasLayer/MarginContainer/Foldaway Controller/Foldaway Container/ScrollContainer/Dropdown/2NNPanel/VBoxContainer/RoomGenAtmptPnl/RoomGenAtmptCtn/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(0.929412, 0.478431, 0.72549, 1)
+text = "10"
+label_settings = ExtResource("10_rnkda")
+horizontal_alignment = 2
+
+[node name="2NNRoomGenAtmptSld" type="HSlider" parent="CanvasLayer/MarginContainer/Foldaway Controller/Foldaway Container/ScrollContainer/Dropdown/2NNPanel/VBoxContainer/RoomGenAtmptPnl/RoomGenAtmptCtn"]
+unique_name_in_owner = true
+layout_mode = 2
+min_value = 1.0
+max_value = 25.0
+value = 15.0
+tick_count = 1
+ticks_on_borders = true
+
+[node name="Run 2NN" type="Button" parent="CanvasLayer/MarginContainer/Foldaway Controller/Foldaway Container/ScrollContainer/Dropdown/2NNPanel/VBoxContainer"]
+custom_minimum_size = Vector2(300, 50)
+layout_mode = 2
+text = "Run"
+
+[node name="Default 2NN" type="Button" parent="CanvasLayer/MarginContainer/Foldaway Controller/Foldaway Container/ScrollContainer/Dropdown/2NNPanel/VBoxContainer"]
+custom_minimum_size = Vector2(300, 50)
+layout_mode = 2
+text = "Set to Defaults"
+
+[node name="Panel2" type="Panel" parent="CanvasLayer/MarginContainer/Foldaway Controller/Foldaway Container/ScrollContainer/Dropdown" groups=["part_of_drawer"]]
+clip_contents = true
+custom_minimum_size = Vector2(330, 50)
+layout_mode = 2
+offset_right = 250.0
+offset_bottom = 50.0
+script = ExtResource("3_htufo")
+lerp_to = 160.0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/MarginContainer/Foldaway Controller/Foldaway Container/ScrollContainer/Dropdown/Panel2" groups=["part_of_drawer"]]
+custom_minimum_size = Vector2(300, 0)
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="Show" type="Button" parent="CanvasLayer/MarginContainer/Foldaway Controller/Foldaway Container/ScrollContainer/Dropdown/Panel2/VBoxContainer"]
+custom_minimum_size = Vector2(300, 50)
+layout_mode = 2
+text = "Binary Partitioning Algorithm"
+
+[node name="TextureRect2" type="TextureRect" parent="CanvasLayer/MarginContainer/Foldaway Controller/Foldaway Container/ScrollContainer/Dropdown/Panel2/VBoxContainer/Show"]
+layout_mode = 1
+anchors_preset = 11
+anchor_left = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -32.0
+offset_top = 9.0
+offset_bottom = -9.0
+grow_horizontal = 0
+grow_vertical = 2
+texture = ExtResource("10_5qlxq")
+
+[node name="Run BSP" type="Button" parent="CanvasLayer/MarginContainer/Foldaway Controller/Foldaway Container/ScrollContainer/Dropdown/Panel2/VBoxContainer"]
+custom_minimum_size = Vector2(300, 50)
+layout_mode = 2
+text = "Run"
+
+[node name="Default BSP" type="Button" parent="CanvasLayer/MarginContainer/Foldaway Controller/Foldaway Container/ScrollContainer/Dropdown/Panel2/VBoxContainer"]
+custom_minimum_size = Vector2(300, 50)
+layout_mode = 2
+text = "Set to Defaults"
+
+[node name="InfoButton" type="TextureButton" parent="CanvasLayer/MarginContainer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 0
+texture_normal = ExtResource("13_qyi6j")
+ignore_texture_size = true
+stretch_mode = 0
+
+[node name="Foldaway Button" type="TextureButton" parent="CanvasLayer/MarginContainer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 0
+texture_normal = ExtResource("14_2vgwr")
+ignore_texture_size = true
+stretch_mode = 0
+
+[node name="InitLabel" type="Label" parent="CanvasLayer/MarginContainer"]
+z_index = -10
+layout_mode = 2
+size_flags_horizontal = 4
+text = "Click RUN on an Algorithm to the left
+to generate a New Dungeon"
+label_settings = ExtResource("4_bgx4c")
+horizontal_alignment = 1
+
+[connection signal="_2nn_properties_changed" from="CanvasLayer" to="DungeonGenArea" method="_on_canvas_layer__2_nn_properties_changed"]
+[connection signal="pressed" from="CanvasLayer/MarginContainer/Foldaway Controller/Foldaway Container/ScrollContainer/Dropdown/2NNPanel/VBoxContainer/Run 2NN" to="DungeonGenArea" method="_on_run_2nn_pressed"]
+[connection signal="pressed" from="CanvasLayer/MarginContainer/Foldaway Controller/Foldaway Container/ScrollContainer/Dropdown/2NNPanel/VBoxContainer/Default 2NN" to="CanvasLayer" method="_on_default_2nn_pressed"]
+[connection signal="pressed" from="CanvasLayer/MarginContainer/Foldaway Controller/Foldaway Container/ScrollContainer/Dropdown/Panel2/VBoxContainer/Run BSP" to="DungeonGenArea" method="_on_run_bsp_pressed"]
+[connection signal="pressed" from="CanvasLayer/MarginContainer/Foldaway Controller/Foldaway Container/ScrollContainer/Dropdown/Panel2/VBoxContainer/Default BSP" to="CanvasLayer" method="_on_default_bsp_pressed"]
+[connection signal="pressed" from="CanvasLayer/MarginContainer/InfoButton" to="CanvasLayer/MarginContainer/Info Button" method="_on_info_button_pressed"]
+[connection signal="pressed" from="CanvasLayer/MarginContainer/Foldaway Button" to="CanvasLayer/MarginContainer/Foldaway Controller" method="_on_foldaway_button_pressed"]

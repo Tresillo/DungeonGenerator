@@ -103,22 +103,25 @@ func generate_dungeon():
 					
 					split_position = randf_range(split_min,split_max)
 					
+					print(str(split_min) + " -> " + str(split_position) + " -> " + str(split_max))
+					
 					#Very messy derivation of children from Vertical split
 					child1 = DungeonRegion.new(Rect2(\
-							cur_parent_region.coord1,\
-							Vector2(split_position,\
+									cur_parent_region.coord1,\
+							Vector2(split_position - cur_parent_region.coord1.x,\
 									cur_parent_region.dim.y)
 							)
 					)
 					
 					child2 = DungeonRegion.new(Rect2(\
-							Vector2(split_position + cur_parent_region.coord1.x,\
+							Vector2(split_position,\
 									cur_parent_region.coord1.y),\
-							Vector2(cur_parent_region.dim.x - split_position,\
+							Vector2(cur_parent_region.coord2.x - split_position,\
 									cur_parent_region.dim.y)
 							)
 					)
 				else:
+					
 					#can only choose to split in a way where a room
 					#could be generated in the resulting partition
 					var split_min = cur_parent_region.coord1.y + min_dim
@@ -126,19 +129,21 @@ func generate_dungeon():
 					
 					split_position = randf_range(split_min,split_max)
 					
+					print(str(split_min) + " -> " + str(split_position) + " -> " + str(split_max))
+					
 					#Very messy derivation of children from Horizontal split
 					child1 = DungeonRegion.new(Rect2(\
-							cur_parent_region.coord1,\
+									cur_parent_region.coord1,\
 							Vector2(cur_parent_region.dim.x,\
-									split_position)
+									split_position - cur_parent_region.coord1.y)
 							)
 					)
 					
 					child2 = DungeonRegion.new(Rect2(\
 							Vector2(cur_parent_region.coord1.x,\
-									split_position + cur_parent_region.coord1.y),\
+									split_position),\
 							Vector2(cur_parent_region.dim.x,\
-									cur_parent_region.dim.y - split_position)
+									cur_parent_region.coord2.y - split_position)
 							)
 					)
 				
