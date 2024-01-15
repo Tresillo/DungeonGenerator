@@ -128,8 +128,69 @@ func emphasize_verticies(verts: Array[DungeonVert], cols: Array[Color]):
 		
 
 
-func animate_split(regions):
-	pass
+func animate_splits(regions):
+	check_tween()
+	
+	var color_tracker: int = 0
+	for gen in regions:
+		#Draw lines
+		#change visibility from parent region + line to children
+		#pull back for children margin
+		var temp_lines = []
+		for s in gen:
+			var new_split_line = Line2D.new()
+			add_child(new_split_line)
+			new_split_line.width = s.parent_partition.dungeon_region.border_width
+			new_split_line.default_color = Color.NAVY_BLUE
+			temp_lines.append(new_split_line)
+			current_tween.tween_callback(func():
+					new_split_line.add_point(s.split_line_start,0)
+					new_split_line.add_point(s.split_line_start,1)
+			)
+			#Animate Line to draw Across
+			current_tween.tween_method((func(val):
+					new_split_line.points[1] = val),
+					s.split_line_start,
+					s.split_line_end,
+					0.8 * animation_speed_mult
+			)
+		
+		#Hide the lines and swap them out with the regions
+		current_tween.chain().tween_callback(func():
+				for l in temp_lines:
+					l.visible = false
+					l.call_deferred("queue_free")
+				
+				temp_lines = []
+				
+				for s in gen:
+					var chld1_region = s.child1_partition.dungeon_region
+					var chld2_region = s.child2_partition.dungeon_region
+					add_child(chld1_region)
+					add_child(chld2_region)
+					s.parent_partition.dungeon_region.visible = false
+					
+					#Hide the seam for a seamless transition and showing margin later
+					if s.split_direction == Vector2.DOWN:
+						chld1_region.draw_coord2.x += chld1_region.get_margin()
+						chld2_region.draw_coord1.x -= chld1_region.get_margin()
+					else:
+						chld1_region.draw_coord2.y += chld1_region.get_margin()
+						chld2_region.draw_coord1.y -= chld1_region.get_margin()
+		)
+		
+		current_tween.chain().tween_interval(0.3)
+		current_tween.chain().tween_interval(0.01)
+		
+		#animate margins away from center of split
+		for s in gen:
+			var chld1_region = s.child1_partition.dungeon_region
+			var chld2_region = s.child2_partition.dungeon_region
+			current_tween.tween_property(chld1_region,"draw_coord2", chld1_region.coord2,0.5 * animation_speed_mult)
+			current_tween.tween_property(chld2_region,"draw_coord1", chld2_region.coord1,0.5 * animation_speed_mult)
+		
+		current_tween.chain().tween_interval(0.3)
+		current_tween.chain().tween_interval(0.01)
 
 
 func check_tween():

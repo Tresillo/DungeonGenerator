@@ -172,6 +172,8 @@ func generate_dungeon():
 		temp_leaf_regions.append(b.dungeon_region as DungeonRegion)
 	
 	if graph_animator != null:
-		graph_animator.animate_in_regions(temp_leaf_regions)
+		#graph_animator.animate_in_regions(temp_leaf_regions)
+		graph_animator.animate_in_regions([binary_tree.root.dungeon_region])
+		graph_animator.animate_splits(splits_to_animate)
 	
 

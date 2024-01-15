@@ -120,7 +120,15 @@ func _on_run_2nn_pressed():
 	if loaded_path != TNN_info:
 		load_info_from_file(TNN_info)
 	
-	dungeon_gen = DGen2NN.new(area_coord1,area_coord2,_2nn_props[0], _2nn_props[1], _2nn_props[2], _2nn_props[3], graph_animator)
+	dungeon_gen = DGen2NN.new(
+			area_coord1,
+			area_coord2,
+			_2nn_props[0],
+			_2nn_props[1],
+			_2nn_props[2],
+			_2nn_props[3],
+			graph_animator
+	)
 	add_child(dungeon_gen)
 	dungeon_gen.generate_dungeon()
 
