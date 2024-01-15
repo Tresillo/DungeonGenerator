@@ -64,6 +64,7 @@ func _ready():
 
 func new_graph():
 	var temp_children = get_children()
+	temp_children.append_array($GraphAnimator.get_children())
 	if temp_children.size() > 0:
 		for tmp_chld in temp_children:
 			if tmp_chld != graph_animator:
