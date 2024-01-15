@@ -84,10 +84,15 @@ func update_dimensions():
 	dim = Vector2(coord2.x - coord1.x, coord2.y - coord1.y)
 
 
+func get_margin() -> float:
+	return margin + border_width * 0.5
+
+
 func _draw():
 	var margin_vector = Vector2(margin, margin)
-	var vis_rect:Rect2 = Rect2(draw_coord1 + margin_vector + Vector2(border_width,border_width) * 0.5,\
-			draw_coord2 - draw_coord1 - 2*margin_vector - Vector2(border_width,border_width))
+	var border_width_vector = Vector2(border_width,border_width)
+	var vis_rect:Rect2 = Rect2(draw_coord1 + margin_vector + border_width_vector * 0.5,\
+			draw_coord2 - draw_coord1 - 2*margin_vector - border_width_vector)
 	
 	draw_rect(vis_rect, border_color, false, border_width)
 	draw_rect(vis_rect, fill_color, true)
