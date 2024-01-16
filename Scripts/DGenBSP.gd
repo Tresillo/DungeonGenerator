@@ -167,13 +167,31 @@ func generate_dungeon():
 				splits_to_animate_cur_gen.append(cur_part_split)
 				
 	
-	var temp_leaf_regions:Array[DungeonRegion] = []
-	for b in binary_tree.get_leaf_nodes():
-		temp_leaf_regions.append(b.dungeon_region as DungeonRegion)
-	
 	if graph_animator != null:
-		#graph_animator.animate_in_regions(temp_leaf_regions)
 		graph_animator.animate_in_regions([binary_tree.root.dungeon_region])
 		graph_animator.animate_splits(splits_to_animate)
 	
-
+	var bsp_leaf_regions:Array[DungeonRegion] = []
+	var bsp_leaf_nodes:Array[BinTreeNode] = binary_tree.get_leaf_nodes()
+	for b in bsp_leaf_nodes:
+		bsp_leaf_regions.append(b.dungeon_region as DungeonRegion)
+	
+	#Step 5
+	var dungeon_rooms = []
+	for reg in bsp_leaf_regions:
+		var reg_x_dim = abs(reg.coord2.x - reg.coord1.x)
+		var reg_y_dim = abs(reg.coord2.y - reg.coord1.y)
+		var new_region_dim = Vector2(rng.randf_range(min_dim, reg_x_dim),\
+				rng.randf_range(min_dim, reg_y_dim))
+		
+		var new_room_x = rng.randf_range(reg.coord1.x + new_region_dim.x * 0.5,\
+				reg.coord2.x - new_region_dim.x * 0.5)
+		var new_room_y = rng.randf_range(reg.coord1.y + new_region_dim.y * 0.5,\
+				reg.coord2.y - new_region_dim.y * 0.5)
+		
+		var new_room = DungeonVert.new(Vector2(new_room_x,new_room_y), new_region_dim)
+		dungeon_rooms.append(new_room)
+		
+	
+	if graph_animator != null:
+		graph_animator.animate_in_verticies(dungeon_rooms)
