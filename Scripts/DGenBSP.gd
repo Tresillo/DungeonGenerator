@@ -177,7 +177,7 @@ func generate_dungeon():
 		#bsp_leaf_regions.append(b.dungeon_region as DungeonRegion)
 	
 	#Step 5
-	var dungeon_rooms = []
+	var dungeon_rooms:Array[DungeonVert] = []
 	for bsp_node in bsp_leaf_nodes:
 		var reg = bsp_node.dungeon_region
 		var reg_x_dim = abs(reg.coord2.x - reg.coord1.x)
@@ -199,7 +199,7 @@ func generate_dungeon():
 	
 	#Step 6
 	var nodes_to_check = bsp_leaf_nodes
-	var new_edges = []
+	var new_edges:Array[DungeonEdge] = []
 	for bsp_node in bsp_leaf_nodes:
 		var cur_reg = bsp_node.dungeon_region
 		#ensures that nodes wont be double checked for neighbours
@@ -215,14 +215,14 @@ func generate_dungeon():
 					#oposite sides share same vertical line
 					#now to check the vertical regions match up
 					#Step 6b
-					if (cur_reg.coord1.y > temp_node.coord2.y and\
-							cur_reg.coord1.y < temp_node.coord1.y) or\
-							(cur_reg.coord2.y > temp_node.coord2.y and\
-							cur_reg.coord2.y < temp_node.coord1.y) or\
-							(temp_node.coord1.y > cur_reg.coord2.y and\
-							temp_node.coord1.y < cur_reg.coord1.y) or\
-							(temp_node.coord2.y > cur_reg.coord2.y and\
-							temp_node.coord2.y < cur_reg.coord1.y):
+					if (cur_reg.coord1.y > temp_reg.coord2.y and\
+							cur_reg.coord1.y < temp_reg.coord1.y) or\
+							(cur_reg.coord2.y > temp_reg.coord2.y and\
+							cur_reg.coord2.y < temp_reg.coord1.y) or\
+							(temp_reg.coord1.y > cur_reg.coord2.y and\
+							temp_reg.coord1.y < cur_reg.coord1.y) or\
+							(temp_reg.coord2.y > cur_reg.coord2.y and\
+							temp_reg.coord2.y < cur_reg.coord1.y):
 						#Step 6c
 						#two regions are neighbours
 						bsp_node.neighbours.append(temp_node)
@@ -238,14 +238,14 @@ func generate_dungeon():
 					#oposite sides share same Horizontal line
 					#now to check the Horizontal regions match up
 					#Step 6b
-					if (cur_reg.coord1.x > temp_node.coord2.x and\
-							cur_reg.coord1.x < temp_node.coord1.x) or\
-							(cur_reg.coord2.x > temp_node.coord2.x and\
-							cur_reg.coord2.x < temp_node.coord1.x) or\
-							(temp_node.coord1.x > cur_reg.coord2.x and\
-							temp_node.coord1.x < cur_reg.coord1.x) or\
-							(temp_node.coord2.x > cur_reg.coord2.x and\
-							temp_node.coord2.x < cur_reg.coord1.x):
+					if (cur_reg.coord1.x > temp_reg.coord2.x and\
+							cur_reg.coord1.x < temp_reg.coord1.x) or\
+							(cur_reg.coord2.x > temp_reg.coord2.x and\
+							cur_reg.coord2.x < temp_reg.coord1.x) or\
+							(temp_reg.coord1.x > cur_reg.coord2.x and\
+							temp_reg.coord1.x < cur_reg.coord1.x) or\
+							(temp_reg.coord2.x > cur_reg.coord2.x and\
+							temp_reg.coord2.x < cur_reg.coord1.x):
 						#Step 6c
 						#two regions are neighbours
 						bsp_node.neighbours.append(temp_node)
