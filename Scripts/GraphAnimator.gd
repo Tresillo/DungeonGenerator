@@ -33,6 +33,8 @@ func animate_in_verticies(rooms:Array[DungeonVert]):
 		add_child(rm)
 		var final_radius = rm.default_circle_radius
 		rm.circle_radius = 0
+		rm.visible = false
+		current_tween.tween_callback(func():rm.visible = true)
 		current_tween.tween_property(rm, "circle_radius", final_radius,1 * animation_speed_mult)\
 				.set_delay(in_delay / animation_speed_mult)
 		if rm.region != null:
@@ -133,6 +135,7 @@ func animate_splits(regions):
 	
 	var color_tracker: int = 0
 	for gen in regions:
+		print(gen)
 		#Draw lines
 		#change visibility from parent region + line to children
 		#pull back for children margin
