@@ -77,6 +77,7 @@ func generate_dungeon():
 		if not no_new_partitions_made:
 			var cur_part_parent = current_leaf_nodes.pop_back()
 			var cur_parent_region = cur_part_parent.dungeon_region
+			var cur_part_split:PartitionSplit = null
 			#Step 2
 			#if current leaf node has a dimension large enough to split
 			if cur_parent_region.dim.x > 2*min_dim or cur_parent_region.dim.y > 2*min_dim:
@@ -103,7 +104,7 @@ func generate_dungeon():
 					
 					split_position = randf_range(split_min,split_max)
 					
-					print(str(split_min) + " -> " + str(split_position) + " -> " + str(split_max))
+					#print(str(split_min) + " -> " + str(split_position) + " -> " + str(split_max))
 					
 					#Very messy derivation of children from Vertical split
 					child1 = DungeonRegion.new(Rect2(\
@@ -129,7 +130,7 @@ func generate_dungeon():
 					
 					split_position = randf_range(split_min,split_max)
 					
-					print(str(split_min) + " -> " + str(split_position) + " -> " + str(split_max))
+					#print(str(split_min) + " -> " + str(split_position) + " -> " + str(split_max))
 					
 					#Very messy derivation of children from Horizontal split
 					child1 = DungeonRegion.new(Rect2(\
@@ -157,15 +158,17 @@ func generate_dungeon():
 				new_partition_this_generation = true
 				
 				#create split container class for keeping track of splits to animate
-				var cur_part_split = PartitionSplit.new()
+				cur_part_split = PartitionSplit.new()
 				cur_part_split.parent_partition = cur_part_parent
 				cur_part_split.child1_partition = child1_node
 				cur_part_split.child2_partition = child2_node
 				cur_part_split.split_direction = split_dir
 				cur_part_split.split_line_start = child2.coord1
 				cur_part_split.split_line_end = child1.coord2
+			
+			if cur_part_split != null:
 				splits_to_animate_cur_gen.append(cur_part_split)
-				
+		
 	
 	if graph_animator != null:
 		graph_animator.animate_in_regions([binary_tree.root.dungeon_region])
@@ -212,19 +215,23 @@ func generate_dungeon():
 				#Step 6a
 				if cur_reg.coord1.x == temp_reg.coord2.x or\
 						cur_reg.coord2.x == temp_reg.coord1.x:
+					print("1")
 					#oposite sides share same vertical line
 					#now to check the vertical regions match up
+					print(str(cur_reg.coord1.y) + ", " + str(cur_reg.coord2.y))
+					print(str(temp_reg.coord1.y) + ", " + str(temp_reg.coord2.y))
 					#Step 6b
-					if (cur_reg.coord1.y > temp_reg.coord2.y and\
-							cur_reg.coord1.y < temp_reg.coord1.y) or\
-							(cur_reg.coord2.y > temp_reg.coord2.y and\
-							cur_reg.coord2.y < temp_reg.coord1.y) or\
-							(temp_reg.coord1.y > cur_reg.coord2.y and\
-							temp_reg.coord1.y < cur_reg.coord1.y) or\
-							(temp_reg.coord2.y > cur_reg.coord2.y and\
-							temp_reg.coord2.y < cur_reg.coord1.y):
+					if (cur_reg.coord2.y >= temp_reg.coord1.y and\
+							cur_reg.coord2.y <= temp_reg.coord2.y) or\
+							(cur_reg.coord1.y >= temp_reg.coord1.y and\
+							cur_reg.coord1.y <= temp_reg.coord2.y) or\
+							(temp_reg.coord2.y >= cur_reg.coord1.y and\
+							temp_reg.coord2.y <= cur_reg.coord2.y) or\
+							(temp_reg.coord1.y >= cur_reg.coord1.y and\
+							temp_reg.coord1.y <= cur_reg.coord2.y):
 						#Step 6c
 						#two regions are neighbours
+						print("3")
 						bsp_node.neighbours.append(temp_node)
 						temp_node.neighbours.append(bsp_node)
 						#create edges between rooms in neighbouring areas
@@ -235,26 +242,31 @@ func generate_dungeon():
 				#Step 6a
 				elif cur_reg.coord1.y == temp_reg.coord2.y or\
 						cur_reg.coord2.y == temp_reg.coord1.y:
+					print("2")
 					#oposite sides share same Horizontal line
 					#now to check the Horizontal regions match up
+					print(str(cur_reg.coord1.y) + ", " + str(cur_reg.coord2.y))
+					print(str(temp_reg.coord1.y) + ", " + str(temp_reg.coord2.y))
 					#Step 6b
-					if (cur_reg.coord1.x > temp_reg.coord2.x and\
-							cur_reg.coord1.x < temp_reg.coord1.x) or\
-							(cur_reg.coord2.x > temp_reg.coord2.x and\
-							cur_reg.coord2.x < temp_reg.coord1.x) or\
-							(temp_reg.coord1.x > cur_reg.coord2.x and\
-							temp_reg.coord1.x < cur_reg.coord1.x) or\
-							(temp_reg.coord2.x > cur_reg.coord2.x and\
-							temp_reg.coord2.x < cur_reg.coord1.x):
+					if (cur_reg.coord2.x >= temp_reg.coord1.x and\
+							cur_reg.coord2.x <= temp_reg.coord2.x) or\
+							(cur_reg.coord1.x >= temp_reg.coord1.x and\
+							cur_reg.coord1.x <= temp_reg.coord2.x) or\
+							(temp_reg.coord2.x >= cur_reg.coord1.x and\
+							temp_reg.coord2.x <= cur_reg.coord2.x) or\
+							(temp_reg.coord1.x >= cur_reg.coord1.x and\
+							temp_reg.coord1.x <= cur_reg.coord2.x):
 						#Step 6c
 						#two regions are neighbours
+						print("4")
 						bsp_node.neighbours.append(temp_node)
 						temp_node.neighbours.append(bsp_node)
-						#create edges between rooms in neighbouring areas
+						#create edges between rooms in areas
 						var new_edge = DungeonEdge.new(bsp_node.rooms[0], temp_node.rooms[0])
 						bsp_node.rooms[0].connected_edges.append(new_edge)
 						temp_node.rooms[0].connected_edges.append(new_edge)
 						new_edges.append(new_edge)
 	
 	if graph_animator != null:
+		print(new_edges)
 		graph_animator.animate_in_edges(new_edges)
