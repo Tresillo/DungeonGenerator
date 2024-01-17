@@ -171,10 +171,10 @@ func generate_dungeon():
 		graph_animator.animate_in_regions([binary_tree.root.dungeon_region])
 		graph_animator.animate_splits(splits_to_animate)
 	
-	var bsp_leaf_regions:Array[DungeonRegion] = []
+	#var bsp_leaf_regions:Array[DungeonRegion] = []
 	var bsp_leaf_nodes:Array[BinTreeNode] = binary_tree.get_leaf_nodes()
-	for b in bsp_leaf_nodes:
-		bsp_leaf_regions.append(b.dungeon_region as DungeonRegion)
+	#for b in bsp_leaf_nodes:
+		#bsp_leaf_regions.append(b.dungeon_region as DungeonRegion)
 	
 	#Step 5
 	var dungeon_rooms = []
@@ -196,3 +196,65 @@ func generate_dungeon():
 	
 	if graph_animator != null:
 		graph_animator.animate_in_verticies(dungeon_rooms)
+	
+	#Step 6
+	var nodes_to_check = bsp_leaf_nodes
+	var new_edges = []
+	for bsp_node in bsp_leaf_nodes:
+		var cur_reg = bsp_node.dungeon_region
+		#ensures that nodes wont be double checked for neighbours
+		#if A is the neighbour of B, then B is the neighbour of A
+		nodes_to_check.remove_at(nodes_to_check.find(bsp_node))
+		if nodes_to_check.size() > 0:
+			for temp_node in nodes_to_check:
+				var temp_reg = temp_node.dungeon_region
+				
+				#Step 6a
+				if cur_reg.coord1.x == temp_reg.coord2.x or\
+						cur_reg.coord2.x == temp_reg.coord1.x:
+					#oposite sides share same vertical line
+					#now to check the vertical regions match up
+					#Step 6b
+					if (cur_reg.coord1.y > temp_node.coord2.y and\
+							cur_reg.coord1.y < temp_node.coord1.y) or\
+							(cur_reg.coord2.y > temp_node.coord2.y and\
+							cur_reg.coord2.y < temp_node.coord1.y) or\
+							(temp_node.coord1.y > cur_reg.coord2.y and\
+							temp_node.coord1.y < cur_reg.coord1.y) or\
+							(temp_node.coord2.y > cur_reg.coord2.y and\
+							temp_node.coord2.y < cur_reg.coord1.y):
+						#Step 6c
+						#two regions are neighbours
+						bsp_node.neighbours.append(temp_node)
+						temp_node.neighbours.append(bsp_node)
+						#create edges between rooms in neighbouring areas
+						var new_edge = DungeonEdge.new(bsp_node.rooms[0], temp_node.rooms[0])
+						bsp_node.rooms[0].connected_edges.append(new_edge)
+						temp_node.rooms[0].connected_edges.append(new_edge)
+						new_edges.append(new_edge)
+				#Step 6a
+				elif cur_reg.coord1.y == temp_reg.coord2.y or\
+						cur_reg.coord2.y == temp_reg.coord1.y:
+					#oposite sides share same Horizontal line
+					#now to check the Horizontal regions match up
+					#Step 6b
+					if (cur_reg.coord1.x > temp_node.coord2.x and\
+							cur_reg.coord1.x < temp_node.coord1.x) or\
+							(cur_reg.coord2.x > temp_node.coord2.x and\
+							cur_reg.coord2.x < temp_node.coord1.x) or\
+							(temp_node.coord1.x > cur_reg.coord2.x and\
+							temp_node.coord1.x < cur_reg.coord1.x) or\
+							(temp_node.coord2.x > cur_reg.coord2.x and\
+							temp_node.coord2.x < cur_reg.coord1.x):
+						#Step 6c
+						#two regions are neighbours
+						bsp_node.neighbours.append(temp_node)
+						temp_node.neighbours.append(bsp_node)
+						#create edges between rooms in neighbouring areas
+						var new_edge = DungeonEdge.new(bsp_node.rooms[0], temp_node.rooms[0])
+						bsp_node.rooms[0].connected_edges.append(new_edge)
+						temp_node.rooms[0].connected_edges.append(new_edge)
+						new_edges.append(new_edge)
+	
+	if graph_animator != null:
+		graph_animator.animate_in_edges(new_edges)
