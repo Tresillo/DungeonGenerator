@@ -178,7 +178,8 @@ func generate_dungeon():
 	
 	#Step 5
 	var dungeon_rooms = []
-	for reg in bsp_leaf_regions:
+	for bsp_node in bsp_leaf_nodes:
+		var reg = bsp_node.dungeon_region
 		var reg_x_dim = abs(reg.coord2.x - reg.coord1.x)
 		var reg_y_dim = abs(reg.coord2.y - reg.coord1.y)
 		var new_region_dim = Vector2(rng.randf_range(min_dim, reg_x_dim),\
@@ -191,7 +192,7 @@ func generate_dungeon():
 		
 		var new_room = DungeonVert.new(Vector2(new_room_x,new_room_y), new_region_dim)
 		dungeon_rooms.append(new_room)
-		
+		bsp_node.rooms = [new_room]
 	
 	if graph_animator != null:
 		graph_animator.animate_in_verticies(dungeon_rooms)

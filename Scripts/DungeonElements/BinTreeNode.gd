@@ -5,6 +5,7 @@ var left_tree_child: BinTreeNode
 var right_tree_child: BinTreeNode
 var tree_parent: BinTreeNode
 var neighbours: Array[BinTreeNode]
+var rooms: Array[DungeonVert]
 
 
 func _init(contained_region: DungeonRegion):
