@@ -165,9 +165,11 @@ func generate_dungeon():
 				cur_part_split.split_direction = split_dir
 				cur_part_split.split_line_start = child2.coord1
 				cur_part_split.split_line_end = child1.coord2
-			
-			if cur_part_split != null:
+				#print(str(partitions_remaining) + " , " + str(split_dir) + " , " + str(splits_to_animate.size()))
 				splits_to_animate_cur_gen.append(cur_part_split)
+				
+				if partitions_remaining <= 0:
+					splits_to_animate.append(splits_to_animate_cur_gen.duplicate())
 		
 	
 	if graph_animator != null:
@@ -215,7 +217,7 @@ func generate_dungeon():
 				#Step 6a
 				if cur_reg.coord1.x == temp_reg.coord2.x or\
 						cur_reg.coord2.x == temp_reg.coord1.x:
-					print("1")
+					print("Horizontal")
 					#oposite sides share same vertical line
 					#now to check the vertical regions match up
 					print(str(cur_reg.coord1.y) + ", " + str(cur_reg.coord2.y))
@@ -242,7 +244,7 @@ func generate_dungeon():
 				#Step 6a
 				elif cur_reg.coord1.y == temp_reg.coord2.y or\
 						cur_reg.coord2.y == temp_reg.coord1.y:
-					print("2")
+					print("Vertical")
 					#oposite sides share same Horizontal line
 					#now to check the Horizontal regions match up
 					print(str(cur_reg.coord1.y) + ", " + str(cur_reg.coord2.y))
@@ -268,5 +270,4 @@ func generate_dungeon():
 						new_edges.append(new_edge)
 	
 	if graph_animator != null:
-		print(new_edges)
 		graph_animator.animate_in_edges(new_edges)
