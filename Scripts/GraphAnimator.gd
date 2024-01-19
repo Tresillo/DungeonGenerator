@@ -132,10 +132,9 @@ func emphasize_verticies(verts: Array[DungeonVert], cols: Array[Color]):
 
 func animate_splits(regions):
 	check_tween()
-	
+	print("ANIMATING SPLITS")
 	var color_tracker: int = 0
 	for gen in regions:
-		print(gen)
 		#Draw lines
 		#change visibility from parent region + line to children
 		#pull back for children margin
@@ -208,6 +207,8 @@ func check_tween():
 	#This chained interval is to allow steps to happen one after another automatically
 	#While still allowing each operation of the step to animate in parallel
 	if not current_tween == null:
+		#small delay between stages of animations
+		current_tween.chain().tween_interval(0.25)
 		current_tween.chain().tween_interval(0.01)
 
 

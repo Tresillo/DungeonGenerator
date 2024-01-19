@@ -103,7 +103,6 @@ func load_info_from_file(path:String):
 	
 	info_title_label.text = title_line
 	info_text_label.text = info_string
-	print(info_string.substr(0,20))
 	
 	loaded_path = path
 	
