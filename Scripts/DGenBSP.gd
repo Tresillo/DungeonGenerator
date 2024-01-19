@@ -207,67 +207,68 @@ func generate_dungeon():
 	var new_edges:Array[DungeonEdge] = []
 	for bsp_node in bsp_leaf_nodes:
 		var cur_reg = bsp_node.dungeon_region
+		
+		for temp_node in bsp_leaf_nodes:
+			var temp_reg = temp_node.dungeon_region
+			var neighboring: bool = false
+			 
+			#Step 6a
+			if is_equal_approx(cur_reg.coord1.x, temp_reg.coord2.x) or\
+					is_equal_approx(cur_reg.coord2.x, temp_reg.coord1.x):
+				print("Horizontal")
+				#oposite sides share same vertical line
+				#now to check the vertical regions match up
+				print(str(cur_reg.coord1.y) + ", " + str(cur_reg.coord2.y))
+				print(str(temp_reg.coord1.y) + ", " + str(temp_reg.coord2.y))
+				#Step 6b
+				if (cur_reg.coord2.y >= temp_reg.coord1.y and\
+						cur_reg.coord2.y <= temp_reg.coord2.y) or\
+						(cur_reg.coord1.y >= temp_reg.coord1.y and\
+						cur_reg.coord1.y <= temp_reg.coord2.y) or\
+						(temp_reg.coord2.y >= cur_reg.coord1.y and\
+						temp_reg.coord2.y <= cur_reg.coord2.y) or\
+						(temp_reg.coord1.y >= cur_reg.coord1.y and\
+						temp_reg.coord1.y <= cur_reg.coord2.y):
+					#two regions are neighbours
+					print("3")
+					neighboring = true
+					
+			#Step 6a
+			if is_equal_approx(cur_reg.coord1.y, temp_reg.coord2.y) or\
+					is_equal_approx(cur_reg.coord2.y, temp_reg.coord1.y):
+				print("Vertical")
+				#oposite sides share same Horizontal line
+				#now to check the Horizontal regions match up
+				print(str(cur_reg.coord1.y) + ", " + str(cur_reg.coord2.y))
+				print(str(temp_reg.coord1.y) + ", " + str(temp_reg.coord2.y))
+				#Step 6b
+				if (cur_reg.coord2.x >= temp_reg.coord1.x and\
+						cur_reg.coord2.x <= temp_reg.coord2.x) or\
+						(cur_reg.coord1.x >= temp_reg.coord1.x and\
+						cur_reg.coord1.x <= temp_reg.coord2.x) or\
+						(temp_reg.coord2.x >= cur_reg.coord1.x and\
+						temp_reg.coord2.x <= cur_reg.coord2.x) or\
+						(temp_reg.coord1.x >= cur_reg.coord1.x and\
+						temp_reg.coord1.x <= cur_reg.coord2.x):
+					#two regions are neighbours
+					print("4")
+					neighboring = true
+			
+			#Step 6c
+			if neighboring and\
+					(not cur_reg.is_equal_to(temp_reg)) and\
+					bsp_node.neighbours.find(temp_node)<0:
+				bsp_node.neighbours.append(temp_node)
+				temp_node.neighbours.append(bsp_node)
+				#create edges between rooms in neighbouring areas
+				var new_edge = DungeonEdge.new(bsp_node.rooms[0], temp_node.rooms[0])
+				bsp_node.rooms[0].connected_edges.append(new_edge)
+				temp_node.rooms[0].connected_edges.append(new_edge)
+				new_edges.append(new_edge)
+		
 		#ensures that nodes wont be double checked for neighbours
 		#if A is the neighbour of B, then B is the neighbour of A
-		nodes_to_check.remove_at(nodes_to_check.find(bsp_node))
-		if nodes_to_check.size() > 0:
-			for temp_node in nodes_to_check:
-				var temp_reg = temp_node.dungeon_region
-				
-				#Step 6a
-				if cur_reg.coord1.x == temp_reg.coord2.x or\
-						cur_reg.coord2.x == temp_reg.coord1.x:
-					print("Horizontal")
-					#oposite sides share same vertical line
-					#now to check the vertical regions match up
-					print(str(cur_reg.coord1.y) + ", " + str(cur_reg.coord2.y))
-					print(str(temp_reg.coord1.y) + ", " + str(temp_reg.coord2.y))
-					#Step 6b
-					if (cur_reg.coord2.y >= temp_reg.coord1.y and\
-							cur_reg.coord2.y <= temp_reg.coord2.y) or\
-							(cur_reg.coord1.y >= temp_reg.coord1.y and\
-							cur_reg.coord1.y <= temp_reg.coord2.y) or\
-							(temp_reg.coord2.y >= cur_reg.coord1.y and\
-							temp_reg.coord2.y <= cur_reg.coord2.y) or\
-							(temp_reg.coord1.y >= cur_reg.coord1.y and\
-							temp_reg.coord1.y <= cur_reg.coord2.y):
-						#Step 6c
-						#two regions are neighbours
-						print("3")
-						bsp_node.neighbours.append(temp_node)
-						temp_node.neighbours.append(bsp_node)
-						#create edges between rooms in neighbouring areas
-						var new_edge = DungeonEdge.new(bsp_node.rooms[0], temp_node.rooms[0])
-						bsp_node.rooms[0].connected_edges.append(new_edge)
-						temp_node.rooms[0].connected_edges.append(new_edge)
-						new_edges.append(new_edge)
-				#Step 6a
-				elif cur_reg.coord1.y == temp_reg.coord2.y or\
-						cur_reg.coord2.y == temp_reg.coord1.y:
-					print("Vertical")
-					#oposite sides share same Horizontal line
-					#now to check the Horizontal regions match up
-					print(str(cur_reg.coord1.y) + ", " + str(cur_reg.coord2.y))
-					print(str(temp_reg.coord1.y) + ", " + str(temp_reg.coord2.y))
-					#Step 6b
-					if (cur_reg.coord2.x >= temp_reg.coord1.x and\
-							cur_reg.coord2.x <= temp_reg.coord2.x) or\
-							(cur_reg.coord1.x >= temp_reg.coord1.x and\
-							cur_reg.coord1.x <= temp_reg.coord2.x) or\
-							(temp_reg.coord2.x >= cur_reg.coord1.x and\
-							temp_reg.coord2.x <= cur_reg.coord2.x) or\
-							(temp_reg.coord1.x >= cur_reg.coord1.x and\
-							temp_reg.coord1.x <= cur_reg.coord2.x):
-						#Step 6c
-						#two regions are neighbours
-						print("4")
-						bsp_node.neighbours.append(temp_node)
-						temp_node.neighbours.append(bsp_node)
-						#create edges between rooms in areas
-						var new_edge = DungeonEdge.new(bsp_node.rooms[0], temp_node.rooms[0])
-						bsp_node.rooms[0].connected_edges.append(new_edge)
-						temp_node.rooms[0].connected_edges.append(new_edge)
-						new_edges.append(new_edge)
-	
+		#nodes_to_check.remove_at(nodes_to_check.find(bsp_node))
+		
 	if graph_animator != null:
 		graph_animator.animate_in_edges(new_edges)

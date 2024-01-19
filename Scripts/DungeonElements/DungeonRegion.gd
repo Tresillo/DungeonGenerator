@@ -88,6 +88,10 @@ func get_margin() -> float:
 	return margin + border_width * 0.5
 
 
+func is_equal_to(other: DungeonRegion) -> bool:
+	return (coord1 == other.coord1 and coord2 == other.coord2)
+
+
 func _draw():
 	var margin_vector = Vector2(margin, margin)
 	var border_width_vector = Vector2(border_width,border_width)
