@@ -259,7 +259,7 @@ func generate_dungeon():
 				#create edges between rooms in neighbouring areas
 				var new_edge = DungeonEdge.new(bsp_node.rooms[0], temp_node.rooms[0])
 				#for animation showing its temporary
-				new_edge.fill_color = Color.FUCHSIA
+				#new_edge.fill_color = Color.FUCHSIA
 				bsp_node.rooms[0].connected_edges.append(new_edge)
 				temp_node.rooms[0].connected_edges.append(new_edge)
 				new_edges.append(new_edge)
@@ -302,3 +302,4 @@ func generate_dungeon():
 	
 	if graph_animator != null:
 		graph_animator.animate_merges(splits_to_animate)
+		graph_animator.animate_out_dungeon_objects([binary_tree.root.dungeon_region])

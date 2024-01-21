@@ -132,7 +132,6 @@ func emphasize_verticies(verts: Array[DungeonVert], cols: Array[Color]):
 
 func animate_splits(regions):
 	check_tween()
-	print("ANIMATING SPLITS")
 	var color_tracker: int = 0
 	for gen in regions:
 		#Draw lines
@@ -206,10 +205,11 @@ func animate_merges(regions):
 			current_tween.tween_callback(func():
 					parent_reg.visible = true
 					parent_reg.opacity = 0.0
+					parent_reg.border_color = Color(parent_reg.border_color, 0.0)
 			)
 			
 			current_tween.tween_property(m.resultant_edge,"fill_color",
-					m.resultant_edge.default_fill_color,1.0 * animation_speed_mult)
+					Color.DARK_ORANGE,1.0 * animation_speed_mult)
 			
 			if m.split_direction == Vector2.RIGHT:
 				var chld1_dest = Vector2(
@@ -236,17 +236,28 @@ func animate_merges(regions):
 				current_tween.tween_property(chld2_region, "draw_coord1",
 						chld2_dest, 0.4 * animation_speed_mult)
 			
-			
 			current_tween.tween_property(chld1_region, "opacity", 0.0, 0.5 * animation_speed_mult)\
+					.set_delay(0.4 * animation_speed_mult)
+			current_tween.tween_property(chld1_region, "border_color",
+					Color(chld1_region.border_color, 0.0), 0.5 * animation_speed_mult)\
 					.set_delay(0.4 * animation_speed_mult)
 			current_tween.tween_property(chld2_region, "opacity", 0.0, 0.5 * animation_speed_mult)\
 					.set_delay(0.4 * animation_speed_mult)
+			current_tween.tween_property(chld2_region, "border_color",
+					Color(chld2_region.border_color, 0.0), 0.5 * animation_speed_mult)\
+					.set_delay(0.4 * animation_speed_mult)
 			current_tween.tween_property(parent_reg, "opacity", 0.5, 0.5 * animation_speed_mult)\
 					.set_delay(0.4 * animation_speed_mult)
-			
-			current_tween.chain().tween_callback(func():
-					chld1_region.visible = false
-					chld2_region.visible = false)
+			current_tween.tween_property(parent_reg, "border_color",
+					Color(parent_reg.border_color, 1.0), 0.5 * animation_speed_mult)\
+					.set_delay(0.4 * animation_speed_mult)
+					
+		
+		current_tween.chain().tween_interval(0.01)
+		for m in gen:
+			current_tween.tween_callback(func():
+					m.child1_partition.dungeon_region.visible = false
+					m.child2_partition.dungeon_region.visible = false)
 		
 		current_tween.chain().tween_interval(0.25)
 		current_tween.chain().tween_interval(0.01)
