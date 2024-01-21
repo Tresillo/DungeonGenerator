@@ -277,8 +277,8 @@ func generate_dungeon():
 	splits_to_animate.reverse()
 	for gen in splits_to_animate:
 		for split in gen:
-			split.parent_partition.rooms.append(split.child1_partition.rooms)
-			split.parent_partition.rooms.append(split.child2_partition.rooms)
+			split.parent_partition.rooms.append_array(split.child1_partition.rooms)
+			split.parent_partition.rooms.append_array(split.child2_partition.rooms)
 			
 			#find an edge connecting the two merging partitions
 			var found:bool = false
@@ -295,8 +295,8 @@ func generate_dungeon():
 				if found: break
 			
 			tree_edges.append(connecting_edge)
-			split.child1_partition.rooms = []
-			split.child2_partition.rooms = []
+			split.child1_partition.rooms.clear()
+			split.child2_partition.rooms.clear()
 			
 			split.resultant_edge = connecting_edge
 	

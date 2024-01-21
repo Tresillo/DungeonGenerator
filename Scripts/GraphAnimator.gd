@@ -196,9 +196,60 @@ func animate_splits(regions):
 
 
 func animate_merges(regions):
+	check_tween()
 	for gen in regions:
 		for m in gen:
-			m.parent_partition.dungeon_region.visible = true
+			var parent_reg = m.parent_partition.dungeon_region
+			var chld1_region = m.child1_partition.dungeon_region
+			var chld2_region = m.child2_partition.dungeon_region
+			
+			current_tween.tween_callback(func():
+					parent_reg.visible = true
+					parent_reg.opacity = 0.0
+			)
+			
+			current_tween.tween_property(m.resultant_edge,"fill_color",
+					m.resultant_edge.default_fill_color,1.0 * animation_speed_mult)
+			
+			if m.split_direction == Vector2.RIGHT:
+				var chld1_dest = Vector2(
+						chld1_region.draw_coord2.x,
+						chld1_region.draw_coord2.y + chld1_region.get_margin())
+				var chld2_dest = Vector2(
+						chld2_region.draw_coord1.x,
+						chld2_region.draw_coord1.y - chld2_region.get_margin())
+				
+				current_tween.tween_property(chld1_region, "draw_coord2",
+						chld1_dest, 0.4 * animation_speed_mult)
+				current_tween.tween_property(chld2_region, "draw_coord1",
+						chld2_dest, 0.4 * animation_speed_mult)
+			else:
+				var chld1_dest = Vector2(
+						chld1_region.draw_coord2.x + chld1_region.get_margin(),
+						chld1_region.draw_coord2.y)
+				var chld2_dest = Vector2(
+						chld2_region.draw_coord1.x - chld2_region.get_margin(),
+						chld2_region.draw_coord1.y)
+				
+				current_tween.tween_property(chld1_region, "draw_coord2",
+						chld1_dest, 0.4 * animation_speed_mult)
+				current_tween.tween_property(chld2_region, "draw_coord1",
+						chld2_dest, 0.4 * animation_speed_mult)
+			
+			
+			current_tween.tween_property(chld1_region, "opacity", 0.0, 0.5 * animation_speed_mult)\
+					.set_delay(0.4 * animation_speed_mult)
+			current_tween.tween_property(chld2_region, "opacity", 0.0, 0.5 * animation_speed_mult)\
+					.set_delay(0.4 * animation_speed_mult)
+			current_tween.tween_property(parent_reg, "opacity", 0.5, 0.5 * animation_speed_mult)\
+					.set_delay(0.4 * animation_speed_mult)
+			
+			current_tween.chain().tween_callback(func():
+					chld1_region.visible = false
+					chld2_region.visible = false)
+		
+		current_tween.chain().tween_interval(0.25)
+		current_tween.chain().tween_interval(0.01)
 
 
 func check_tween():
