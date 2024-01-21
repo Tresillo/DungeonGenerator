@@ -215,11 +215,10 @@ func generate_dungeon():
 			#Step 6a
 			if is_equal_approx(cur_reg.coord1.x, temp_reg.coord2.x) or\
 					is_equal_approx(cur_reg.coord2.x, temp_reg.coord1.x):
-				print("Horizontal")
 				#oposite sides share same vertical line
 				#now to check the vertical regions match up
-				print(str(cur_reg.coord1.y) + ", " + str(cur_reg.coord2.y))
-				print(str(temp_reg.coord1.y) + ", " + str(temp_reg.coord2.y))
+				#print(str(cur_reg.coord1.y) + ", " + str(cur_reg.coord2.y))
+				#print(str(temp_reg.coord1.y) + ", " + str(temp_reg.coord2.y))
 				#Step 6b
 				if (cur_reg.coord2.y >= temp_reg.coord1.y and\
 						cur_reg.coord2.y <= temp_reg.coord2.y) or\
@@ -230,13 +229,11 @@ func generate_dungeon():
 						(temp_reg.coord1.y >= cur_reg.coord1.y and\
 						temp_reg.coord1.y <= cur_reg.coord2.y):
 					#two regions are neighbours
-					print("3")
 					neighboring = true
 					
 			#Step 6a
 			if is_equal_approx(cur_reg.coord1.y, temp_reg.coord2.y) or\
 					is_equal_approx(cur_reg.coord2.y, temp_reg.coord1.y):
-				print("Vertical")
 				#oposite sides share same Horizontal line
 				#now to check the Horizontal regions match up
 				print(str(cur_reg.coord1.y) + ", " + str(cur_reg.coord2.y))
@@ -251,7 +248,6 @@ func generate_dungeon():
 						(temp_reg.coord1.x >= cur_reg.coord1.x and\
 						temp_reg.coord1.x <= cur_reg.coord2.x):
 					#two regions are neighbours
-					print("4")
 					neighboring = true
 			
 			#Step 6c
@@ -262,6 +258,8 @@ func generate_dungeon():
 				temp_node.neighbours.append(bsp_node)
 				#create edges between rooms in neighbouring areas
 				var new_edge = DungeonEdge.new(bsp_node.rooms[0], temp_node.rooms[0])
+				#for animation showing its temporary
+				new_edge.fill_color = Color.FUCHSIA
 				bsp_node.rooms[0].connected_edges.append(new_edge)
 				temp_node.rooms[0].connected_edges.append(new_edge)
 				new_edges.append(new_edge)
@@ -272,3 +270,32 @@ func generate_dungeon():
 		
 	if graph_animator != null:
 		graph_animator.animate_in_edges(new_edges)
+	
+	#Step 7
+	var tree_edges: Array[DungeonEdge] = []
+	#traverse back up the tree
+	splits_to_animate.reverse()
+	for gen in splits_to_animate:
+		for split in gen:
+			split.parent_partition.rooms.append(split.child1_partition.rooms)
+			split.parent_partition.rooms.append(split.child2_partition.rooms)
+			
+			#find an edge connecting the two merging partitions
+			var found:bool = false
+			var connecting_edge: DungeonEdge
+			for rm1 in split.child1_partition.rooms:
+				for e1 in rm1.connected_edges:
+					for rm2 in split.child2_partition.rooms:
+						if e1.get_other_vertex(rm1) == rm2:
+							found = true
+							connecting_edge = e1
+							break
+					#No need to check anything else once an edge is found
+					if found: break
+				if found: break
+			
+			tree_edges.append(connecting_edge)
+			split.child1_partition.rooms = []
+			split.child2_partition.rooms = []
+			
+			split.resultant_edge = connecting_edge
