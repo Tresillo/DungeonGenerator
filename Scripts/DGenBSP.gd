@@ -299,3 +299,6 @@ func generate_dungeon():
 			split.child2_partition.rooms = []
 			
 			split.resultant_edge = connecting_edge
+	
+	if graph_animator != null:
+		graph_animator.animate_merges(splits_to_animate)

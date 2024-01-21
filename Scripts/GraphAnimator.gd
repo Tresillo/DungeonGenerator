@@ -195,6 +195,12 @@ func animate_splits(regions):
 		current_tween.chain().tween_interval(0.01)
 
 
+func animate_merges(regions):
+	for gen in regions:
+		for m in gen:
+			m.parent_partition.dungeon_region.visible = true
+
+
 func check_tween():
 	if current_tween == null:
 		current_tween = get_tree().create_tween().bind_node(self)\

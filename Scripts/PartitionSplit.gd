@@ -8,3 +8,5 @@ var split_direction: Vector2
 
 var split_line_start: Vector2
 var split_line_end: Vector2
+
+var resultant_edge: DungeonEdge
