@@ -318,8 +318,26 @@ func generate_dungeon():
 	var start_room = dungeon_rooms[longest_from_arbitrary_vertex]
 	var end_room = dungeon_rooms[longest_index]
 	
+	#Find rooms not in the tree
+	var optional_edges: Array[DungeonEdge]
+	for e in new_edges:
+		if tree_edges.find(e) < 0:
+			optional_edges.append(e)
+	
+	#choose random edges to remove
+	var removed_edges: Array[DungeonEdge]
+	for e in optional_edges:
+		if rng.randf() > edge_prob:
+			#remove node
+			e.room1.connected_edges.remove_at(e.room1.connected_edges.find(e))
+			e.room2.connected_edges.remove_at(e.room2.connected_edges.find(e))
+			new_edges.remove_at(new_edges.find(e))
+			removed_edges.append(e)
+	
 	if graph_animator != null:
+		graph_animator.animate_out_dungeon_objects(removed_edges)
 		graph_animator.emphasize_verticies([start_room, end_room], [Color.GREEN, Color.RED])
+	
 	
 	#Step 12
 	var room_leaf_count_dict = {}
