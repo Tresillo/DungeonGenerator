@@ -28,10 +28,14 @@ var crd2: Vector2
 var rm_num: int
 var min_dim: float
 var max_dim: float
+var treasure_rm_prob
+var edge_prob
 
 var rng
 var graph_animator: GraphAnimator = null
 var binary_tree: BinTree
+
+var treasure_rooms: Array[DungeonVert]
 
 
 func _init(area_coord1: Vector2, area_coord2: Vector2, number_of_rooms: int, min_room_dim: float, max_room_dim: float, graph_anim: GraphAnimator = null):
@@ -303,3 +307,78 @@ func generate_dungeon():
 	if graph_animator != null:
 		graph_animator.animate_merges(splits_to_animate)
 		graph_animator.animate_out_dungeon_objects([binary_tree.root.dungeon_region])
+	
+	#Step 11
+	var longest_from_arbitrary_vertex: int = BFS_max_length(dungeon_rooms,0)
+	var longest_index: int = BFS_max_length(dungeon_rooms, longest_from_arbitrary_vertex)
+	
+	var start_room = dungeon_rooms[longest_from_arbitrary_vertex]
+	var end_room = dungeon_rooms[longest_index]
+	
+	if graph_animator != null:
+		graph_animator.emphasize_verticies([start_room, end_room], [Color.GREEN, Color.RED])
+	
+	#Step 12
+	var room_leaf_count_dict = {}
+	for rm in dungeon_rooms:
+		room_leaf_count_dict[rm] = 0
+	
+	#for each edge in the mst, count how many times each edge connects to a certain node
+	# Any nodes with a count of exactly 1 is a leaf node
+	for edge in tree_edges:
+		if room_leaf_count_dict.has(edge.room1):
+			room_leaf_count_dict[edge.room1] = room_leaf_count_dict[edge.room1] + 1
+		if room_leaf_count_dict.has(edge.room2):
+			room_leaf_count_dict[edge.room2] = room_leaf_count_dict[edge.room2] + 1
+	
+	treasure_rooms = []
+	for key in room_leaf_count_dict:
+		if room_leaf_count_dict[key] == 1 and\
+				not (start_room.is_equal_to(key) or end_room.is_equal_to(key)):
+			treasure_rooms.append(key)
+	
+	if graph_animator != null:
+		graph_animator.emphasize_verticies(treasure_rooms, [Color.YELLOW])
+
+
+func BFS_max_length(bfs_rooms: Array[DungeonVert], start_room_index: int) -> int:
+	var traversal_queue:Array[DungeonVert] = []
+	var visited_array:Array[DungeonVert] = []
+	var rooms_to_find: Array[DungeonVert] = bfs_rooms.duplicate()
+	
+	var furthest_room_index: int
+	
+	var length_queue: Array[float] = []
+	
+	#start at arbitrary room
+	var current_room = rooms_to_find[start_room_index]
+	var current_room_length = 0
+	rooms_to_find.remove_at(start_room_index)
+	visited_array.append(current_room)
+	traversal_queue.append_array(current_room.get_connected_verticies())
+	length_queue.append_array(current_room.connected_edges.map(func(e): return e.get_length()))
+	#Traverse through queue
+	while rooms_to_find.size() > 0:
+		#Go to next room in traversal queue
+		current_room = traversal_queue.pop_front()
+		current_room_length = length_queue.pop_front()
+		visited_array.append(current_room)
+		#Find the connections to new room
+		var cur_room_connections = current_room.get_connected_verticies()
+		var cur_room_edges = current_room.connected_edges
+		var individual_edge_array_tracker: int = -1
+		#add connected rooms that arent already visited, or in the traversal queue
+		for con in cur_room_connections:
+			individual_edge_array_tracker += 1
+			if rooms_to_find.find(con) > -1:
+				rooms_to_find.remove_at(rooms_to_find.find(con))
+				if visited_array.find(con) == -1 and traversal_queue.find(con) == -1:
+					traversal_queue.append(con)
+					length_queue.append(cur_room_edges[individual_edge_array_tracker]\
+							.get_length() + current_room_length)
+	
+	#return index of maximum 
+	var furthest_length_index = length_queue.find(length_queue.max())
+	furthest_room_index = bfs_rooms.find(traversal_queue[furthest_length_index])
+	
+	return furthest_room_index
