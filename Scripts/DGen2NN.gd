@@ -306,8 +306,8 @@ func generate_dungeon():
 	
 	treasure_rooms = []
 	for key in room_leaf_count_dict:
-		if room_leaf_count_dict[key] == 1 and not\
-				(start_room.is_equal_to(key) or end_room.is_equal_to(key)):
+		if room_leaf_count_dict[key] == 1 and\
+				not (start_room.is_equal_to(key) or end_room.is_equal_to(key)):
 			treasure_rooms.append(key)
 	
 	if graph_animator != null:
