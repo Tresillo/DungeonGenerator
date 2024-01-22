@@ -141,7 +141,7 @@ func _on_run_bsp_pressed():
 	if loaded_path != BSP_info:
 		load_info_from_file(BSP_info)
 	
-	dungeon_gen = DGenBSP.new(area_coord1,area_coord2, 18, 40, 100, graph_animator)
+	dungeon_gen = DGenBSP.new(area_coord1,area_coord2, 18, 40, 100, 0.5, 0.12, graph_animator)
 	add_child(dungeon_gen)
 	dungeon_gen.generate_dungeon()
 

@@ -28,8 +28,8 @@ var crd2: Vector2
 var rm_num: int
 var min_dim: float
 var max_dim: float
-var treasure_rm_prob
-var edge_prob
+var treasure_rm_prob: float
+var edge_prob: float
 
 var rng
 var graph_animator: GraphAnimator = null
@@ -38,12 +38,15 @@ var binary_tree: BinTree
 var treasure_rooms: Array[DungeonVert]
 
 
-func _init(area_coord1: Vector2, area_coord2: Vector2, number_of_rooms: int, min_room_dim: float, max_room_dim: float, graph_anim: GraphAnimator = null):
+func _init(area_coord1: Vector2, area_coord2: Vector2, number_of_rooms: int, min_room_dim: float, max_room_dim: float, treasure_room_probability: float, extra_corridor_probability: float, graph_anim: GraphAnimator = null):
 	crd1 = area_coord1
 	crd2 = area_coord2
 	rm_num = number_of_rooms
 	min_dim = min_room_dim
 	max_dim = max_room_dim
+	
+	treasure_rm_prob = clamp(treasure_room_probability,0.0,1.0)
+	edge_prob = clamp(extra_corridor_probability,0.0,1.0)
 	
 	rng = RandomNumberGenerator.new()
 	binary_tree = null
