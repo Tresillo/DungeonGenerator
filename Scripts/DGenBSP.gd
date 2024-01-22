@@ -36,6 +36,8 @@ var graph_animator: GraphAnimator = null
 var binary_tree: BinTree
 
 var treasure_rooms: Array[DungeonVert]
+var dungeon_edges: Array[DungeonEdge]
+var dungeon_rooms: Array[DungeonVert]
 
 
 func _init(area_coord1: Vector2, area_coord2: Vector2, number_of_rooms: int, min_room_dim: float, max_room_dim: float, treasure_room_probability: float, extra_corridor_probability: float, graph_anim: GraphAnimator = null):
@@ -189,7 +191,6 @@ func generate_dungeon():
 		#bsp_leaf_regions.append(b.dungeon_region as DungeonRegion)
 	
 	#Step 5
-	var dungeon_rooms:Array[DungeonVert] = []
 	for bsp_node in bsp_leaf_nodes:
 		var reg = bsp_node.dungeon_region
 		var reg_x_dim = abs(reg.coord2.x - reg.coord1.x)
@@ -211,7 +212,6 @@ func generate_dungeon():
 	
 	#Step 6
 	var nodes_to_check = bsp_leaf_nodes
-	var new_edges:Array[DungeonEdge] = []
 	for bsp_node in bsp_leaf_nodes:
 		var cur_reg = bsp_node.dungeon_region
 		
@@ -269,14 +269,14 @@ func generate_dungeon():
 				#new_edge.fill_color = Color.FUCHSIA
 				bsp_node.rooms[0].connected_edges.append(new_edge)
 				temp_node.rooms[0].connected_edges.append(new_edge)
-				new_edges.append(new_edge)
+				dungeon_edges.append(new_edge)
 		
 		#ensures that nodes wont be double checked for neighbours
 		#if A is the neighbour of B, then B is the neighbour of A
 		#nodes_to_check.remove_at(nodes_to_check.find(bsp_node))
 		
 	if graph_animator != null:
-		graph_animator.animate_in_edges(new_edges)
+		graph_animator.animate_in_edges(dungeon_edges)
 	
 	#Step 7
 	var tree_edges: Array[DungeonEdge] = []
@@ -320,7 +320,7 @@ func generate_dungeon():
 	
 	#Find rooms not in the tree
 	var optional_edges: Array[DungeonEdge]
-	for e in new_edges:
+	for e in dungeon_edges:
 		if tree_edges.find(e) < 0:
 			optional_edges.append(e)
 	
@@ -331,11 +331,12 @@ func generate_dungeon():
 			#remove node
 			e.room1.connected_edges.remove_at(e.room1.connected_edges.find(e))
 			e.room2.connected_edges.remove_at(e.room2.connected_edges.find(e))
-			new_edges.remove_at(new_edges.find(e))
+			dungeon_edges.remove_at(dungeon_edges.find(e))
 			removed_edges.append(e)
 	
 	if graph_animator != null:
 		graph_animator.animate_out_dungeon_objects(removed_edges)
+		graph_animator.animate_object_colors_arbitrary(dungeon_edges, dungeon_edges[0].default_fill_color)
 		graph_animator.emphasize_verticies([start_room, end_room], [Color.GREEN, Color.RED])
 	
 	
