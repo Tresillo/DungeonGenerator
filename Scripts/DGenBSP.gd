@@ -372,7 +372,7 @@ func BFS_max_length(bfs_rooms: Array[DungeonVert], start_room_index: int) -> int
 	traversal_queue.append_array(current_room.get_connected_verticies())
 	length_queue.append_array(current_room.connected_edges.map(func(e): return e.get_length()))
 	#Traverse through queue
-	while rooms_to_find.size() > 0:
+	while rooms_to_find.size() > 0 and traversal_queue.size() > 0:
 		#Go to next room in traversal queue
 		current_room = traversal_queue.pop_front()
 		current_room_length = length_queue.pop_front()
@@ -391,8 +391,13 @@ func BFS_max_length(bfs_rooms: Array[DungeonVert], start_room_index: int) -> int
 					length_queue.append(cur_room_edges[individual_edge_array_tracker]\
 							.get_length() + current_room_length)
 	
-	#return index of maximum 
-	var furthest_length_index = length_queue.find(length_queue.max())
-	furthest_room_index = bfs_rooms.find(traversal_queue[furthest_length_index])
-	
-	return furthest_room_index
+	if traversal_queue.size() <= 0:
+		#yep, ngl I have no clue why it fails sometimes
+		#It could still fail, but IDK how to stop that
+		return BFS_max_length(bfs_rooms, start_room_index + 1)
+	else:
+		#return index of maximum 
+		var furthest_length_index = length_queue.find(length_queue.max())
+		furthest_room_index = bfs_rooms.find(traversal_queue[furthest_length_index])
+		
+		return furthest_room_index
