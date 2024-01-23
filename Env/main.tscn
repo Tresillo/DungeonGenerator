@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=3 uid="uid://diead0h2ufjhm"]
+[gd_scene load_steps=19 format=3 uid="uid://diead0h2ufjhm"]
 
 [ext_resource type="Script" path="res://Scripts/DungeonGenArea.gd" id="1_jvlp3"]
 [ext_resource type="Script" path="res://Scripts/UI/FoldawayButton.gd" id="2_6k2u2"]
@@ -6,6 +6,7 @@
 [ext_resource type="Script" path="res://Scripts/UI/Dropdown.gd" id="2_bq2b5"]
 [ext_resource type="Script" path="res://Scripts/UISettingsManager.gd" id="3_fhyf0"]
 [ext_resource type="Script" path="res://Scripts/UI/Drawer.gd" id="3_htufo"]
+[ext_resource type="Script" path="res://Scripts/UI/Background.gd" id="3_o81v7"]
 [ext_resource type="LabelSettings" uid="uid://dsfluuiknv1mr" path="res://Assets/UI/heading_label_settings.tres" id="4_bgx4c"]
 [ext_resource type="LabelSettings" uid="uid://o1usjfj4xqu7" path="res://Assets/UI/body_label_settings.tres" id="4_dgsxl"]
 [ext_resource type="Script" path="res://Scripts/UI/InfoButton.gd" id="6_ifkos"]
@@ -14,16 +15,16 @@
 [ext_resource type="Texture2D" uid="uid://cr0w7ggbai43q" path="res://Assets/InfoButton.png" id="13_qyi6j"]
 [ext_resource type="Texture2D" uid="uid://c6d4pxmxdw86h" path="res://Assets/PanelButton.png" id="14_2vgwr"]
 
-[sub_resource type="Gradient" id="Gradient_gyoh7"]
-colors = PackedColorArray(0.415931, 0.657033, 0.642758, 1, 0.5293, 0.603165, 0.79, 1)
-
-[sub_resource type="GradientTexture1D" id="GradientTexture1D_a3qn3"]
-gradient = SubResource("Gradient_gyoh7")
-
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_vi6jh"]
 
 [sub_resource type="Theme" id="Theme_nr6ky"]
 Panel/styles/panel = SubResource("StyleBoxEmpty_vi6jh")
+
+[sub_resource type="Gradient" id="Gradient_gyoh7"]
+colors = PackedColorArray(0.415931, 0.657033, 0.642758, 1, 0.5293, 0.603165, 0.79, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_4remf"]
+gradient = SubResource("Gradient_gyoh7")
 
 [node name="Main" type="Node2D"]
 
@@ -34,12 +35,6 @@ area_coord2 = Vector2(1000, 550)
 
 [node name="GraphAnimator" type="Node" parent="DungeonGenArea"]
 script = ExtResource("2_041p4")
-
-[node name="Backing" type="Sprite2D" parent="."]
-z_index = -1
-position = Vector2(576.5, 323.5)
-scale = Vector2(4.51172, 645)
-texture = SubResource("GradientTexture1D_a3qn3")
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 layer = 100
@@ -61,7 +56,6 @@ layout_mode = 2
 script = ExtResource("6_ifkos")
 
 [node name="InfoContainer" type="MarginContainer" parent="CanvasLayer/MarginContainer/Info Button"]
-visible = false
 clip_contents = true
 layout_mode = 1
 anchors_preset = 15
@@ -100,6 +94,7 @@ horizontal_scroll_mode = 0
 
 [node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/MarginContainer/Info Button/InfoContainer/Panel/MarginContainer/ScrollContainer"]
 layout_mode = 2
+size_flags_horizontal = 3
 alignment = 1
 
 [node name="AlgorithmTitle" type="Label" parent="CanvasLayer/MarginContainer/Info Button/InfoContainer/Panel/MarginContainer/ScrollContainer/VBoxContainer"]
@@ -564,6 +559,16 @@ text = "Click RUN on an Algorithm to the left
 to generate a New Dungeon"
 label_settings = ExtResource("4_bgx4c")
 horizontal_alignment = 1
+
+[node name="Background" type="TextureRect" parent="."]
+show_behind_parent = true
+z_index = -200
+z_as_relative = false
+offset_right = 500.0
+offset_bottom = 171.0
+mouse_filter = 2
+texture = SubResource("GradientTexture1D_4remf")
+script = ExtResource("3_o81v7")
 
 [connection signal="_2nn_properties_changed" from="CanvasLayer" to="DungeonGenArea" method="_on_canvas_layer__2_nn_properties_changed"]
 [connection signal="_bsp_properties_changed" from="CanvasLayer" to="DungeonGenArea" method="_on_canvas_layer__bsp_properties_changed"]
