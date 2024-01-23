@@ -344,27 +344,27 @@ custom_minimum_size = Vector2(300, 50)
 layout_mode = 2
 text = "Set to Defaults"
 
-[node name="Panel2" type="Panel" parent="CanvasLayer/MarginContainer/Foldaway Controller/Foldaway Container/ScrollContainer/Dropdown" groups=["part_of_drawer"]]
+[node name="BSPPanel" type="Panel" parent="CanvasLayer/MarginContainer/Foldaway Controller/Foldaway Container/ScrollContainer/Dropdown" groups=["part_of_drawer"]]
 clip_contents = true
 custom_minimum_size = Vector2(330, 50)
 layout_mode = 2
 offset_right = 250.0
 offset_bottom = 50.0
 script = ExtResource("3_htufo")
-lerp_to = 160.0
+lerp_to = 375.0
 
-[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/MarginContainer/Foldaway Controller/Foldaway Container/ScrollContainer/Dropdown/Panel2" groups=["part_of_drawer"]]
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/MarginContainer/Foldaway Controller/Foldaway Container/ScrollContainer/Dropdown/BSPPanel" groups=["part_of_drawer"]]
 custom_minimum_size = Vector2(300, 0)
 layout_mode = 0
 offset_right = 40.0
 offset_bottom = 40.0
 
-[node name="Show" type="Button" parent="CanvasLayer/MarginContainer/Foldaway Controller/Foldaway Container/ScrollContainer/Dropdown/Panel2/VBoxContainer"]
+[node name="ShowBSPSettings" type="Button" parent="CanvasLayer/MarginContainer/Foldaway Controller/Foldaway Container/ScrollContainer/Dropdown/BSPPanel/VBoxContainer"]
 custom_minimum_size = Vector2(300, 50)
 layout_mode = 2
 text = "Binary Partitioning Algorithm"
 
-[node name="TextureRect2" type="TextureRect" parent="CanvasLayer/MarginContainer/Foldaway Controller/Foldaway Container/ScrollContainer/Dropdown/Panel2/VBoxContainer/Show"]
+[node name="TextureRect2" type="TextureRect" parent="CanvasLayer/MarginContainer/Foldaway Controller/Foldaway Container/ScrollContainer/Dropdown/BSPPanel/VBoxContainer/ShowBSPSettings"]
 layout_mode = 1
 anchors_preset = 11
 anchor_left = 1.0
@@ -377,12 +377,162 @@ grow_horizontal = 0
 grow_vertical = 2
 texture = ExtResource("10_5qlxq")
 
-[node name="Run BSP" type="Button" parent="CanvasLayer/MarginContainer/Foldaway Controller/Foldaway Container/ScrollContainer/Dropdown/Panel2/VBoxContainer"]
+[node name="TargetRoomNumPnl" type="Panel" parent="CanvasLayer/MarginContainer/Foldaway Controller/Foldaway Container/ScrollContainer/Dropdown/BSPPanel/VBoxContainer"]
+clip_contents = true
+custom_minimum_size = Vector2(300, 50)
+layout_mode = 2
+
+[node name="TargetRoomNumCont" type="VBoxContainer" parent="CanvasLayer/MarginContainer/Foldaway Controller/Foldaway Container/ScrollContainer/Dropdown/BSPPanel/VBoxContainer/TargetRoomNumPnl"]
+custom_minimum_size = Vector2(300, 50)
+layout_mode = 2
+offset_top = 4.0
+offset_right = 300.0
+offset_bottom = 50.0
+alignment = 1
+
+[node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/MarginContainer/Foldaway Controller/Foldaway Container/ScrollContainer/Dropdown/BSPPanel/VBoxContainer/TargetRoomNumPnl/TargetRoomNumCont"]
+layout_mode = 2
+
+[node name="TargetRoomNumLbl" type="Label" parent="CanvasLayer/MarginContainer/Foldaway Controller/Foldaway Container/ScrollContainer/Dropdown/BSPPanel/VBoxContainer/TargetRoomNumPnl/TargetRoomNumCont/HBoxContainer"]
+layout_mode = 2
+text = "Target Room Number:"
+label_settings = ExtResource("4_dgsxl")
+
+[node name="BSPTargetRoomNumCounter" type="Label" parent="CanvasLayer/MarginContainer/Foldaway Controller/Foldaway Container/ScrollContainer/Dropdown/BSPPanel/VBoxContainer/TargetRoomNumPnl/TargetRoomNumCont/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "25"
+label_settings = ExtResource("10_rnkda")
+horizontal_alignment = 2
+
+[node name="BSPTargetRoomNumSld" type="HSlider" parent="CanvasLayer/MarginContainer/Foldaway Controller/Foldaway Container/ScrollContainer/Dropdown/BSPPanel/VBoxContainer/TargetRoomNumPnl/TargetRoomNumCont"]
+unique_name_in_owner = true
+layout_mode = 2
+min_value = 5.0
+max_value = 30.0
+value = 25.0
+tick_count = 1
+ticks_on_borders = true
+
+[node name="MinRoomDimPnl" type="Panel" parent="CanvasLayer/MarginContainer/Foldaway Controller/Foldaway Container/ScrollContainer/Dropdown/BSPPanel/VBoxContainer"]
+clip_contents = true
+custom_minimum_size = Vector2(300, 50)
+layout_mode = 2
+
+[node name="MinRoomDimCtn" type="VBoxContainer" parent="CanvasLayer/MarginContainer/Foldaway Controller/Foldaway Container/ScrollContainer/Dropdown/BSPPanel/VBoxContainer/MinRoomDimPnl"]
+custom_minimum_size = Vector2(300, 50)
+layout_mode = 2
+offset_top = 4.0
+offset_right = 300.0
+offset_bottom = 50.0
+alignment = 1
+
+[node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/MarginContainer/Foldaway Controller/Foldaway Container/ScrollContainer/Dropdown/BSPPanel/VBoxContainer/MinRoomDimPnl/MinRoomDimCtn"]
+layout_mode = 2
+
+[node name="MinRoomDimLbl" type="Label" parent="CanvasLayer/MarginContainer/Foldaway Controller/Foldaway Container/ScrollContainer/Dropdown/BSPPanel/VBoxContainer/MinRoomDimPnl/MinRoomDimCtn/HBoxContainer"]
+layout_mode = 2
+text = "Minimum Room Dimensions:"
+label_settings = ExtResource("4_dgsxl")
+
+[node name="BSPMinRoomDimCounter" type="Label" parent="CanvasLayer/MarginContainer/Foldaway Controller/Foldaway Container/ScrollContainer/Dropdown/BSPPanel/VBoxContainer/MinRoomDimPnl/MinRoomDimCtn/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(0.929412, 0.478431, 0.72549, 1)
+text = "50"
+label_settings = ExtResource("10_rnkda")
+horizontal_alignment = 2
+
+[node name="BSPMinRoomDimSld" type="HSlider" parent="CanvasLayer/MarginContainer/Foldaway Controller/Foldaway Container/ScrollContainer/Dropdown/BSPPanel/VBoxContainer/MinRoomDimPnl/MinRoomDimCtn"]
+unique_name_in_owner = true
+layout_mode = 2
+min_value = 10.0
+value = 50.0
+tick_count = 1
+ticks_on_borders = true
+
+[node name="MaxRoomDimPnl" type="Panel" parent="CanvasLayer/MarginContainer/Foldaway Controller/Foldaway Container/ScrollContainer/Dropdown/BSPPanel/VBoxContainer"]
+clip_contents = true
+custom_minimum_size = Vector2(300, 50)
+layout_mode = 2
+
+[node name="MaxRoomDimCtn" type="VBoxContainer" parent="CanvasLayer/MarginContainer/Foldaway Controller/Foldaway Container/ScrollContainer/Dropdown/BSPPanel/VBoxContainer/MaxRoomDimPnl"]
+custom_minimum_size = Vector2(300, 50)
+layout_mode = 2
+offset_top = 4.0
+offset_right = 300.0
+offset_bottom = 50.0
+alignment = 1
+
+[node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/MarginContainer/Foldaway Controller/Foldaway Container/ScrollContainer/Dropdown/BSPPanel/VBoxContainer/MaxRoomDimPnl/MaxRoomDimCtn"]
+layout_mode = 2
+
+[node name="MaxRoomDimLbl" type="Label" parent="CanvasLayer/MarginContainer/Foldaway Controller/Foldaway Container/ScrollContainer/Dropdown/BSPPanel/VBoxContainer/MaxRoomDimPnl/MaxRoomDimCtn/HBoxContainer"]
+layout_mode = 2
+text = "Maximum Room Dimensions:"
+label_settings = ExtResource("4_dgsxl")
+
+[node name="BSPMaxRoomDimCounter" type="Label" parent="CanvasLayer/MarginContainer/Foldaway Controller/Foldaway Container/ScrollContainer/Dropdown/BSPPanel/VBoxContainer/MaxRoomDimPnl/MaxRoomDimCtn/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(0.929412, 0.478431, 0.72549, 1)
+text = "150"
+label_settings = ExtResource("10_rnkda")
+horizontal_alignment = 2
+
+[node name="BSPMaxRoomDimSld" type="HSlider" parent="CanvasLayer/MarginContainer/Foldaway Controller/Foldaway Container/ScrollContainer/Dropdown/BSPPanel/VBoxContainer/MaxRoomDimPnl/MaxRoomDimCtn"]
+unique_name_in_owner = true
+layout_mode = 2
+min_value = 50.0
+max_value = 200.0
+value = 150.0
+tick_count = 1
+ticks_on_borders = true
+
+[node name="EdgeProbPnl" type="Panel" parent="CanvasLayer/MarginContainer/Foldaway Controller/Foldaway Container/ScrollContainer/Dropdown/BSPPanel/VBoxContainer"]
+clip_contents = true
+custom_minimum_size = Vector2(300, 50)
+layout_mode = 2
+
+[node name="EdgeProbCtn" type="VBoxContainer" parent="CanvasLayer/MarginContainer/Foldaway Controller/Foldaway Container/ScrollContainer/Dropdown/BSPPanel/VBoxContainer/EdgeProbPnl"]
+custom_minimum_size = Vector2(300, 50)
+layout_mode = 2
+offset_top = 4.0
+offset_right = 300.0
+offset_bottom = 50.0
+alignment = 1
+
+[node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/MarginContainer/Foldaway Controller/Foldaway Container/ScrollContainer/Dropdown/BSPPanel/VBoxContainer/EdgeProbPnl/EdgeProbCtn"]
+layout_mode = 2
+
+[node name="EdgeProbLbl" type="Label" parent="CanvasLayer/MarginContainer/Foldaway Controller/Foldaway Container/ScrollContainer/Dropdown/BSPPanel/VBoxContainer/EdgeProbPnl/EdgeProbCtn/HBoxContainer"]
+layout_mode = 2
+text = "Extra Corridor Probability:"
+label_settings = ExtResource("4_dgsxl")
+
+[node name="BSPEdgeProbCounter" type="Label" parent="CanvasLayer/MarginContainer/Foldaway Controller/Foldaway Container/ScrollContainer/Dropdown/BSPPanel/VBoxContainer/EdgeProbPnl/EdgeProbCtn/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(0.929412, 0.478431, 0.72549, 1)
+text = "0.25"
+label_settings = ExtResource("10_rnkda")
+horizontal_alignment = 2
+
+[node name="BSPEdgeProbSld" type="HSlider" parent="CanvasLayer/MarginContainer/Foldaway Controller/Foldaway Container/ScrollContainer/Dropdown/BSPPanel/VBoxContainer/EdgeProbPnl/EdgeProbCtn"]
+unique_name_in_owner = true
+layout_mode = 2
+max_value = 1.0
+step = 0.01
+value = 0.25
+tick_count = 1
+ticks_on_borders = true
+
+[node name="Run BSP" type="Button" parent="CanvasLayer/MarginContainer/Foldaway Controller/Foldaway Container/ScrollContainer/Dropdown/BSPPanel/VBoxContainer"]
 custom_minimum_size = Vector2(300, 50)
 layout_mode = 2
 text = "Run"
 
-[node name="Default BSP" type="Button" parent="CanvasLayer/MarginContainer/Foldaway Controller/Foldaway Container/ScrollContainer/Dropdown/Panel2/VBoxContainer"]
+[node name="Default BSP" type="Button" parent="CanvasLayer/MarginContainer/Foldaway Controller/Foldaway Container/ScrollContainer/Dropdown/BSPPanel/VBoxContainer"]
 custom_minimum_size = Vector2(300, 50)
 layout_mode = 2
 text = "Set to Defaults"
@@ -417,9 +567,10 @@ label_settings = ExtResource("4_bgx4c")
 horizontal_alignment = 1
 
 [connection signal="_2nn_properties_changed" from="CanvasLayer" to="DungeonGenArea" method="_on_canvas_layer__2_nn_properties_changed"]
+[connection signal="_bsp_properties_changed" from="CanvasLayer" to="DungeonGenArea" method="_on_canvas_layer__bsp_properties_changed"]
 [connection signal="pressed" from="CanvasLayer/MarginContainer/Foldaway Controller/Foldaway Container/ScrollContainer/Dropdown/2NNPanel/VBoxContainer/Run 2NN" to="DungeonGenArea" method="_on_run_2nn_pressed"]
 [connection signal="pressed" from="CanvasLayer/MarginContainer/Foldaway Controller/Foldaway Container/ScrollContainer/Dropdown/2NNPanel/VBoxContainer/Default 2NN" to="CanvasLayer" method="_on_default_2nn_pressed"]
-[connection signal="pressed" from="CanvasLayer/MarginContainer/Foldaway Controller/Foldaway Container/ScrollContainer/Dropdown/Panel2/VBoxContainer/Run BSP" to="DungeonGenArea" method="_on_run_bsp_pressed"]
-[connection signal="pressed" from="CanvasLayer/MarginContainer/Foldaway Controller/Foldaway Container/ScrollContainer/Dropdown/Panel2/VBoxContainer/Default BSP" to="CanvasLayer" method="_on_default_bsp_pressed"]
+[connection signal="pressed" from="CanvasLayer/MarginContainer/Foldaway Controller/Foldaway Container/ScrollContainer/Dropdown/BSPPanel/VBoxContainer/Run BSP" to="DungeonGenArea" method="_on_run_bsp_pressed"]
+[connection signal="pressed" from="CanvasLayer/MarginContainer/Foldaway Controller/Foldaway Container/ScrollContainer/Dropdown/BSPPanel/VBoxContainer/Default BSP" to="CanvasLayer" method="_on_default_bsp_pressed"]
 [connection signal="pressed" from="CanvasLayer/MarginContainer/InfoButton" to="CanvasLayer/MarginContainer/Info Button" method="_on_info_button_pressed"]
 [connection signal="pressed" from="CanvasLayer/MarginContainer/Foldaway Button" to="CanvasLayer/MarginContainer/Foldaway Controller" method="_on_foldaway_button_pressed"]

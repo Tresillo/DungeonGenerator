@@ -51,6 +51,7 @@ var graph_animator: GraphAnimator = null
 var init_run: bool
 
 var _2nn_props: Array
+var _bsp_probs: Array
 
 func _ready():
 	init_label = get_tree().root.get_node("Main/CanvasLayer/MarginContainer/InitLabel")
@@ -59,6 +60,7 @@ func _ready():
 	graph_animator = $GraphAnimator
 	init_run = false
 	_2nn_props = [25, 50.0, 150.0, 10]
+	_bsp_probs = [18, 40, 100, 0.25]
 	
 
 
@@ -133,6 +135,10 @@ func _on_run_2nn_pressed():
 	dungeon_gen.generate_dungeon()
 
 
+func _on_canvas_layer__bsp_properties_changed(_bsp_target_room, _bsp_min_room, _bsp_max_room, _bsp_edge_prob):
+	_bsp_probs = [_bsp_target_room, _bsp_min_room, _bsp_max_room, _bsp_edge_prob]
+
+
 func _on_run_bsp_pressed():
 	new_graph()
 	graph_animator.interupt_tween()
@@ -141,7 +147,7 @@ func _on_run_bsp_pressed():
 	if loaded_path != BSP_info:
 		load_info_from_file(BSP_info)
 	
-	dungeon_gen = DGenBSP.new(area_coord1,area_coord2, 18, 40, 100, 0.5, 0.25, graph_animator)
+	dungeon_gen = DGenBSP.new(area_coord1,area_coord2, _bsp_probs, graph_animator)
 	add_child(dungeon_gen)
 	dungeon_gen.generate_dungeon()
 

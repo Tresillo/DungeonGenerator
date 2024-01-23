@@ -40,15 +40,14 @@ var dungeon_edges: Array[DungeonEdge]
 var dungeon_rooms: Array[DungeonVert]
 
 
-func _init(area_coord1: Vector2, area_coord2: Vector2, number_of_rooms: int, min_room_dim: float, max_room_dim: float, treasure_room_probability: float, extra_corridor_probability: float, graph_anim: GraphAnimator = null):
+func _init(area_coord1: Vector2, area_coord2: Vector2, bsp_props: Array, graph_anim: GraphAnimator = null):
 	crd1 = area_coord1
 	crd2 = area_coord2
-	rm_num = number_of_rooms
-	min_dim = min_room_dim
-	max_dim = max_room_dim
+	rm_num = bsp_props[0]
+	min_dim = bsp_props[1]
+	max_dim = bsp_props[2]
 	
-	treasure_rm_prob = clamp(treasure_room_probability,0.0,1.0)
-	edge_prob = clamp(extra_corridor_probability,0.0,1.0)
+	edge_prob = clamp(bsp_props[3],0.0,1.0)
 	
 	rng = RandomNumberGenerator.new()
 	binary_tree = null
