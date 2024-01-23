@@ -20,6 +20,7 @@ var loaded_path = ""
 	get:
 		return area_coord2
 
+var default_viewport_size: Vector2
 
 var dungeon_gen
 var init_label: Label
@@ -38,8 +39,12 @@ func _ready():
 	info_title_label = get_tree().root.get_node("Main/CanvasLayer/MarginContainer/Info Button/InfoContainer/Panel/MarginContainer/ScrollContainer/VBoxContainer/AlgorithmTitle")
 	graph_animator = $GraphAnimator
 	init_run = false
-	_2nn_props = [25, 50.0, 150.0, 10]
+	#setting default properties in code
+	_2nn_props = [25, 50.0, 150.0, 15]
 	_bsp_probs = [18, 40, 100, 0.25]
+	
+	default_viewport_size = get_viewport().size
+	get_tree().root.size_changed.connect(_on_viewport_size_change)
 
 
 func new_graph():
@@ -125,3 +130,13 @@ func _on_run_bsp_pressed():
 	add_child(dungeon_gen)
 	dungeon_gen.generate_dungeon()
 
+#change where dungeon is displayed when the viewport size changes
+#keeps dungeon visualisation in center screen
+func _on_viewport_size_change():
+	var cur_vp_size = get_viewport().size
+	
+	if cur_vp_size.x >= default_viewport_size.x:
+		position.x = cur_vp_size.x - default_viewport_size.x
+	
+	if cur_vp_size.y >= default_viewport_size.y:
+		position.y = cur_vp_size.y - default_viewport_size.y
