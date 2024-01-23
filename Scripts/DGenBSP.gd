@@ -1,7 +1,7 @@
 extends Node2D
 class_name DGenBSP
 
-# Binary Space Partitioning Dungeon Generator Algorithm:
+# Modified Binary Space Partition Algorithm Outline:
 # base on https://www.roguebasin.com/index.php/Basic_BSP_Dungeon_generation
 #  1.  Start from a region where the dungeon will be generated
 #  2.  Split the region randomly into 2 partitions, with a random cardinal direction of the slice and a random place to start the slice. The slices should ensure not to leave a partition with less than the minimum size of a room in either dimension
@@ -12,15 +12,13 @@ class_name DGenBSP
 #    6a. For each leaf partition's edge, check through the opposite edges of all other leaf partitions to see if the two line up on the same axis.
 #    6b. If a pair like this is found, make a secondary check to see if the other dimensions of the two leaf partitions are in the same range.
 #    6c. If this is true, add this other leaf partition to the current leaf partition's list pf adjacent regions. These will be used to add additional edges.
-#  7.  Merge the leaf node partitions together into their parent region, creating an edge between the two rooms in the two partitions.
-#  8.  When making edges between rooms:
-#    8a. If a straight line can be made between the rooms, make the corridor straight.
-#    8b. If a straight line cannot be found, separate the edge into 3 components. From the centers of each room, move the greater component of the displacement of the rooms exactly half way using the first and thrid components of the corridor.
-#    8c. With the second component of the corridor between the two rooms, create a perpendicular line between the first and third component of the rooms in order to make a Z shaped corridor.
-#  9.  Also randomly add corridors between adjacent leaf partitions at this stage that were calculated from step 6.
-#  10. Continue merging rooms and creating edges between them until the root of the binary tree is reached.
-#  11. Using the tree from the binary tree earlier, find the longest path through this tree. Place the start room at one end and the end room at the other.
+#  7.  Add all corridors between adjacent rooms to the dungeon.
+#  8.  Merge the leaf node partitions together into their parent region, choosing a random edge connecting the two paritions to be added to the dungeon tree.
+#  9. Continue merging rooms and creating edges between them until the root of the binary tree is reached.
+#  10. Randomly choose corridors not included in the dungeon tree to remove from the dungeon.
+#  11. Using the dungeon tree from the binary tree earlier, find the longest path through this tree. Place the start room at one end and the end room at the other.
 #  12. For leaf rooms in the binary tree that are not designated as the start or end rooms, label these as treasure rooms.
+#endregion
 
 #dungeon properties
 var crd1: Vector2
@@ -40,14 +38,14 @@ var dungeon_edges: Array[DungeonEdge]
 var dungeon_rooms: Array[DungeonVert]
 
 
-func _init(area_coord1: Vector2, area_coord2: Vector2, bsp_props: Array, graph_anim: GraphAnimator = null):
+func _init(area_coord1: Vector2, area_coord2: Vector2, number_of_rooms: int, min_room_dim: float, max_room_dim: float, extra_corridor_probability: float, graph_anim: GraphAnimator = null):
 	crd1 = area_coord1
 	crd2 = area_coord2
-	rm_num = bsp_props[0]
-	min_dim = bsp_props[1]
-	max_dim = bsp_props[2]
+	rm_num = number_of_rooms
+	min_dim = min_room_dim
+	max_dim = max_room_dim
 	
-	edge_prob = clamp(bsp_props[3],0.0,1.0)
+	edge_prob = clamp(extra_corridor_probability,0.0,1.0)
 	
 	rng = RandomNumberGenerator.new()
 	binary_tree = null
@@ -112,8 +110,6 @@ func generate_dungeon():
 					
 					split_position = randf_range(split_min,split_max)
 					
-					#print(str(split_min) + " -> " + str(split_position) + " -> " + str(split_max))
-					
 					#Very messy derivation of children from Vertical split
 					child1 = DungeonRegion.new(Rect2(\
 									cur_parent_region.coord1,\
@@ -137,8 +133,6 @@ func generate_dungeon():
 					var split_max = cur_parent_region.coord2.y - min_dim
 					
 					split_position = randf_range(split_min,split_max)
-					
-					#print(str(split_min) + " -> " + str(split_position) + " -> " + str(split_max))
 					
 					#Very messy derivation of children from Horizontal split
 					child1 = DungeonRegion.new(Rect2(\
@@ -173,7 +167,7 @@ func generate_dungeon():
 				cur_part_split.split_direction = split_dir
 				cur_part_split.split_line_start = child2.coord1
 				cur_part_split.split_line_end = child1.coord2
-				#print(str(partitions_remaining) + " , " + str(split_dir) + " , " + str(splits_to_animate.size()))
+				
 				splits_to_animate_cur_gen.append(cur_part_split)
 				
 				if partitions_remaining <= 0:
@@ -223,8 +217,7 @@ func generate_dungeon():
 					is_equal_approx(cur_reg.coord2.x, temp_reg.coord1.x):
 				#oposite sides share same vertical line
 				#now to check the vertical regions match up
-				#print(str(cur_reg.coord1.y) + ", " + str(cur_reg.coord2.y))
-				#print(str(temp_reg.coord1.y) + ", " + str(temp_reg.coord2.y))
+				
 				#Step 6b
 				if (cur_reg.coord2.y >= temp_reg.coord1.y and\
 						cur_reg.coord2.y <= temp_reg.coord2.y) or\
@@ -242,8 +235,7 @@ func generate_dungeon():
 					is_equal_approx(cur_reg.coord2.y, temp_reg.coord1.y):
 				#oposite sides share same Horizontal line
 				#now to check the Horizontal regions match up
-				print(str(cur_reg.coord1.y) + ", " + str(cur_reg.coord2.y))
-				print(str(temp_reg.coord1.y) + ", " + str(temp_reg.coord2.y))
+				
 				#Step 6b
 				if (cur_reg.coord2.x >= temp_reg.coord1.x and\
 						cur_reg.coord2.x <= temp_reg.coord2.x) or\
@@ -264,8 +256,8 @@ func generate_dungeon():
 				temp_node.neighbours.append(bsp_node)
 				#create edges between rooms in neighbouring areas
 				var new_edge = DungeonEdge.new(bsp_node.rooms[0], temp_node.rooms[0])
-				#for animation showing its temporary
-				#new_edge.fill_color = Color.FUCHSIA
+				
+				#Step 7
 				bsp_node.rooms[0].connected_edges.append(new_edge)
 				temp_node.rooms[0].connected_edges.append(new_edge)
 				dungeon_edges.append(new_edge)
@@ -277,12 +269,13 @@ func generate_dungeon():
 	if graph_animator != null:
 		graph_animator.animate_in_edges(dungeon_edges)
 	
-	#Step 7
+	#Step 8
 	var tree_edges: Array[DungeonEdge] = []
 	#traverse back up the tree
 	splits_to_animate.reverse()
 	for gen in splits_to_animate:
 		for split in gen:
+			#Step 9
 			split.parent_partition.rooms.append_array(split.child1_partition.rooms)
 			split.parent_partition.rooms.append_array(split.child2_partition.rooms)
 			
@@ -310,13 +303,7 @@ func generate_dungeon():
 		graph_animator.animate_merges(splits_to_animate)
 		graph_animator.animate_out_dungeon_objects([binary_tree.root.dungeon_region])
 	
-	#Step 11
-	var longest_from_arbitrary_vertex: int = BFS_max_length(dungeon_rooms,0)
-	var longest_index: int = BFS_max_length(dungeon_rooms, longest_from_arbitrary_vertex)
-	
-	var start_room = dungeon_rooms[longest_from_arbitrary_vertex]
-	var end_room = dungeon_rooms[longest_index]
-	
+	#Step 10
 	#Find rooms not in the tree
 	var optional_edges: Array[DungeonEdge]
 	for e in dungeon_edges:
@@ -333,11 +320,17 @@ func generate_dungeon():
 			dungeon_edges.remove_at(dungeon_edges.find(e))
 			removed_edges.append(e)
 	
+	#Step 11
+	var longest_from_arbitrary_vertex: int = BFS_max_length(dungeon_rooms,0)
+	var longest_index: int = BFS_max_length(dungeon_rooms, longest_from_arbitrary_vertex)
+	
+	var start_room = dungeon_rooms[longest_from_arbitrary_vertex]
+	var end_room = dungeon_rooms[longest_index]
+	
 	if graph_animator != null:
 		graph_animator.animate_out_dungeon_objects(removed_edges)
 		graph_animator.animate_object_colors_arbitrary(dungeon_edges, dungeon_edges[0].default_fill_color)
 		graph_animator.emphasize_verticies([start_room, end_room], [Color.GREEN, Color.RED])
-	
 	
 	#Step 12
 	var room_leaf_count_dict = {}

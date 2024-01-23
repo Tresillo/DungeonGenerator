@@ -1,4 +1,5 @@
 extends Panel
+#https://forum.godotengine.org/t/how-to-make-folding-menu/24416
 
 var is_expanded: bool = false
 

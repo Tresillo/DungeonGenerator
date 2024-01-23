@@ -1,4 +1,6 @@
 class_name PartitionSplit
+#Container class for helping pass information for each split in the BSP algorithm
+#Could be replaced with a dictionary
 
 var parent_partition: BinTreeNode
 var child1_partition: BinTreeNode

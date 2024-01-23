@@ -7,6 +7,7 @@ The properties given for this algorithm do the following:
   Room Number: the number of rooms to be generated in the dungeon.
   Minimum Room Dimensions: The minimum size of a dimension of a room that can generate.
   Maximum Room Dimensions: The maximum size of a dimension of a room that can generate.
+  Extra Corridor Probability: The probability that an extra corridor will be added from a room's neighbouring partitions.
 
 The algorithm is based on this page (https://www.roguebasin.com/index.php/Basic_BSP_Dungeon_generation) and goes as follows as follows:
   1.  Start from a region where the dungeon will be generated
@@ -18,12 +19,9 @@ The algorithm is based on this page (https://www.roguebasin.com/index.php/Basic_
 	6a. For each leaf partition's edge, check through the opposite edges of all other leaf partitions to see if the two line up on the same axis.
 	6b. If a pair like this is found, make a secondary check to see if the other dimensions of the two leaf partitions are in the same range.
 	6c. If this is true, add this other leaf partition to the current leaf partition's list pf adjacent regions. These will be used to add additional edges.
-  7.  Merge the leaf node partitions together into their parent region, creating an edge between the two rooms in the two partitions.
-  8.  When making edges between rooms:
-	8a. If a straight line can be made between the rooms, make the corridor straight.
-	8b. If a straight line cannot be found, separate the edge into 3 components. From the centers of each room, move the greater component of the displacement of the rooms exactly half way using the first and thrid components of the corridor.
-	8c. With the second component of the corridor between the two rooms, create a perpendicular line between the first and third component of the rooms in order to make a Z shaped corridor.
-  9.  Also randomly add corridors between adjacent leaf partitions at this stage that were calculated from step 6.
-  10. Continue merging rooms and creating edges between them until the root of the binary tree is reached.
-  11. Using the tree from the binary tree earlier, find the longest path through this tree. Place the start room at one end and the end room at the other.
+  7.  Add all corridors between adjacent rooms to the dungeon.
+  8.  Merge the leaf node partitions together into their parent region, choosing a random edge connecting the two paritions to be added to the dungeon tree.
+  9. Continue merging rooms and creating edges between them until the root of the binary tree is reached.
+  10. Randomly choose corridors not included in the dungeon tree to remove from the dungeon.
+  11. Using the dungeon tree from the binary tree earlier, find the longest path through this tree. Place the start room at one end and the end room at the other.
   12. For leaf rooms in the binary tree that are not designated as the start or end rooms, label these as treasure rooms.

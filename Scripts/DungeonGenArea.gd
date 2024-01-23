@@ -19,29 +19,7 @@ var loaded_path = ""
 		queue_redraw()
 	get:
 		return area_coord2
-@export var num_of_vertexes: int = 25:
-	set(val):
-		num_of_vertexes = val
-		queue_redraw()
-	get:
-		return num_of_vertexes
-@export var min_dim_room_size: float = 50.0
-@export var max_room_dim_size: float = 150.0
-@export var max_room_gen_tries: int = 10
 
-@export_category("Aesthetic Categories")
-@export_color_no_alpha var border_color: Color:
-	set(val):
-		border_color = val
-		queue_redraw()
-	get:
-		return border_color
-@export var border_width: int = 2:
-	set(val):
-		border_width = val
-		queue_redraw()
-	get:
-		return border_width
 
 var dungeon_gen
 var init_label: Label
@@ -53,6 +31,7 @@ var init_run: bool
 var _2nn_props: Array
 var _bsp_probs: Array
 
+
 func _ready():
 	init_label = get_tree().root.get_node("Main/CanvasLayer/MarginContainer/InitLabel")
 	info_text_label = get_tree().root.get_node("Main/CanvasLayer/MarginContainer/Info Button/InfoContainer/Panel/MarginContainer/ScrollContainer/VBoxContainer/AlgorithmInfo")
@@ -61,7 +40,6 @@ func _ready():
 	init_run = false
 	_2nn_props = [25, 50.0, 150.0, 10]
 	_bsp_probs = [18, 40, 100, 0.25]
-	
 
 
 func new_graph():
@@ -81,21 +59,10 @@ func new_graph():
 		init_label.queue_free()
 
 
-#func _draw():
-	#var rect_points = \
-			#[area_coord1,
-			#Vector2(area_coord1.x, area_coord2.y),
-			#area_coord2,
-			#Vector2(area_coord2.x, area_coord1.y),
-			#area_coord1]
-	#
-	#draw_polyline(rect_points, border_color, border_width)
-
-
 func load_info_from_file(path:String):
 	var f = FileAccess.open(path,FileAccess.READ)
 	var title_line = f.get_line()
-	#get whole file but first line
+	#get first line of file
 	var info_string = f.get_as_text().substr(title_line.length())
 	
 	if info_text_label == null or info_title_label == null:
@@ -107,7 +74,6 @@ func load_info_from_file(path:String):
 	info_text_label.text = info_string
 	
 	loaded_path = path
-	
 
 
 func _on_canvas_layer__2_nn_properties_changed(_2nn_target_room, _2nn_min_room, _2nn_max_room, _2nn_room_gen):
@@ -147,7 +113,15 @@ func _on_run_bsp_pressed():
 	if loaded_path != BSP_info:
 		load_info_from_file(BSP_info)
 	
-	dungeon_gen = DGenBSP.new(area_coord1,area_coord2, _bsp_probs, graph_animator)
+	dungeon_gen = DGenBSP.new(
+			area_coord1,
+			area_coord2,
+			_bsp_probs[0],
+			_bsp_probs[1],
+			_bsp_probs[2],
+			_bsp_probs[3],
+			graph_animator
+	)
 	add_child(dungeon_gen)
 	dungeon_gen.generate_dungeon()
 

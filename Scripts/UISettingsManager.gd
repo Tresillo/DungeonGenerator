@@ -51,12 +51,15 @@ func  _ready():
 	_2nn_target_room_num_sld.value_changed.connect(_on_2nn_target_room_num_changed)
 	default_2nn_target_room = _2nn_target_room_num_sld.value
 	_2nn_target_room_num = default_2nn_target_room
+	
 	_2nn_min_room_dim_sld.value_changed.connect(_on_2nn_min_room_dim_changed)
 	default_2nn_min_room_dim = _2nn_min_room_dim_sld.value
 	_2nn_min_room_dim = default_2nn_min_room_dim
+	
 	_2nn_max_room_dim_sld.value_changed.connect(_on_2nn_max_room_dim_changed)
 	default_2nn_max_room_dim = _2nn_max_room_dim_sld.value
 	_2nn_max_room_dim = default_2nn_max_room_dim
+	
 	_2nn_room_gen_atmpt_sld.value_changed.connect(_on_2nn_room_gen_attempt_changed)
 	default_2nn_room_gen_atmpt = _2nn_room_gen_atmpt_sld.value
 	_2nn_room_gen_atmpt = default_2nn_room_gen_atmpt
@@ -65,12 +68,15 @@ func  _ready():
 	_bsp_target_room_num_sld.value_changed.connect(_on_bsp_target_room_num_changed)
 	default_bsp_target_room = _bsp_target_room_num_sld.value
 	_bsp_target_room_num = default_bsp_target_room
+	
 	_bsp_min_room_dim_sld.value_changed.connect(_on_bsp_min_room_dim_changed)
 	default_bsp_min_room_dim = _bsp_min_room_dim_sld.value
 	_bsp_min_room_dim = default_bsp_min_room_dim
+	
 	_bsp_max_room_dim_sld.value_changed.connect(_on_bsp_max_room_dim_changed)
 	default_bsp_max_room_dim = _bsp_max_room_dim_sld.value
 	_bsp_max_room_dim = default_bsp_max_room_dim
+	
 	_bsp_edge_prob_sld.value_changed.connect(_on_bsp_edge_prob_changed)
 	default_bsp_edge_prob = _bsp_edge_prob_sld.value
 	_bsp_edge_prob = default_bsp_edge_prob

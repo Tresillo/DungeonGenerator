@@ -34,13 +34,18 @@ func animate_in_verticies(rooms:Array[DungeonVert]):
 		var final_radius = rm.default_circle_radius
 		rm.circle_radius = 0
 		rm.visible = false
+		
 		current_tween.tween_callback(func():rm.visible = true)
+		#draw point radius out from center
 		current_tween.tween_property(rm, "circle_radius", final_radius,1 * animation_speed_mult)\
 				.set_delay(in_delay / animation_speed_mult)
+		
 		if rm.region != null:
 			var r_center_point = Vector2((rm.region.coord1.x + rm.region.coord2.x) * 0.5,(rm.region.coord1.y + rm.region.coord2.y) * 0.5)
 			rm.region.draw_coord1 = r_center_point
 			rm.region.draw_coord2 = r_center_point
+			
+			#draw room region out from center
 			current_tween.tween_property(rm.region, "draw_coord1", rm.region.coord1, 1 * animation_speed_mult)\
 					.set_delay(in_delay / animation_speed_mult)
 			current_tween.tween_property(rm.region, "draw_coord2", rm.region.coord2, 1 * animation_speed_mult)\
@@ -202,6 +207,7 @@ func animate_merges(regions):
 			var chld1_region = m.child1_partition.dungeon_region
 			var chld2_region = m.child2_partition.dungeon_region
 			
+			#Setup regions for animating with lambda function
 			current_tween.tween_callback(func():
 					parent_reg.visible = true
 					parent_reg.opacity = 0.0
@@ -211,31 +217,32 @@ func animate_merges(regions):
 			current_tween.tween_property(m.resultant_edge,"fill_color",
 					Color.DARK_ORANGE,1.0 * animation_speed_mult)
 			
+			var chld1_dest
+			var chld2_dest
 			if m.split_direction == Vector2.RIGHT:
-				var chld1_dest = Vector2(
+				chld1_dest = Vector2(
 						chld1_region.draw_coord2.x,
 						chld1_region.draw_coord2.y + chld1_region.get_margin())
-				var chld2_dest = Vector2(
+				chld2_dest = Vector2(
 						chld2_region.draw_coord1.x,
 						chld2_region.draw_coord1.y - chld2_region.get_margin())
 				
-				current_tween.tween_property(chld1_region, "draw_coord2",
-						chld1_dest, 0.4 * animation_speed_mult)
-				current_tween.tween_property(chld2_region, "draw_coord1",
-						chld2_dest, 0.4 * animation_speed_mult)
 			else:
-				var chld1_dest = Vector2(
+				chld1_dest = Vector2(
 						chld1_region.draw_coord2.x + chld1_region.get_margin(),
 						chld1_region.draw_coord2.y)
-				var chld2_dest = Vector2(
+				chld2_dest = Vector2(
 						chld2_region.draw_coord1.x - chld2_region.get_margin(),
 						chld2_region.draw_coord1.y)
-				
-				current_tween.tween_property(chld1_region, "draw_coord2",
-						chld1_dest, 0.4 * animation_speed_mult)
-				current_tween.tween_property(chld2_region, "draw_coord1",
-						chld2_dest, 0.4 * animation_speed_mult)
 			
+			#pulls edges of region towards eachother
+			current_tween.tween_property(chld1_region, "draw_coord2",
+					chld1_dest, 0.4 * animation_speed_mult)
+			current_tween.tween_property(chld2_region, "draw_coord1",
+					chld2_dest, 0.4 * animation_speed_mult)
+			
+			#Starts fading the opacity between children and parent
+			#delay is set to start after the edges move towards eachother
 			current_tween.tween_property(chld1_region, "opacity", 0.0, 0.5 * animation_speed_mult)\
 					.set_delay(0.4 * animation_speed_mult)
 			current_tween.tween_property(chld1_region, "border_color",
@@ -251,9 +258,10 @@ func animate_merges(regions):
 			current_tween.tween_property(parent_reg, "border_color",
 					Color(parent_reg.border_color, 1.0), 0.5 * animation_speed_mult)\
 					.set_delay(0.4 * animation_speed_mult)
-					
 		
+		#adds a small interval which lets the cleanup steps happen after the animation
 		current_tween.chain().tween_interval(0.01)
+		#Once the tweens have been set up for the fading, add a cleanup afterwards
 		for m in gen:
 			current_tween.tween_callback(func():
 					m.child1_partition.dungeon_region.visible = false
@@ -264,11 +272,13 @@ func animate_merges(regions):
 
 
 func check_tween():
+	#If there is no tween currently running, setup a new one
 	if current_tween == null:
 		current_tween = get_tree().create_tween().bind_node(self)\
 				.set_trans(Tween.TRANS_SINE)\
 				.set_parallel(true)
 		
+		#hook up finish animation
 		if current_tween.finished.get_connections().size() <= 0:
 			current_tween.connect("finished", func():print("ANIMATION FINISHED"))
 	
@@ -279,7 +289,8 @@ func check_tween():
 		current_tween.chain().tween_interval(0.25)
 		current_tween.chain().tween_interval(0.01)
 
-
+#Allows for the animation to be stopped half way through,
+# and delets all visible dungeon objects
 func interupt_tween():
 	if current_tween != null:
 		if current_tween.is_running():

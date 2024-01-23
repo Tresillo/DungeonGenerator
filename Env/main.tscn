@@ -31,7 +31,6 @@ Panel/styles/panel = SubResource("StyleBoxEmpty_vi6jh")
 script = ExtResource("1_jvlp3")
 area_coord1 = Vector2(200, 50)
 area_coord2 = Vector2(1000, 550)
-border_color = Color(1, 1, 1, 1)
 
 [node name="GraphAnimator" type="Node" parent="DungeonGenArea"]
 script = ExtResource("2_041p4")
